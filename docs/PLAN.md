@@ -26,10 +26,15 @@
 
 ## Next Task: Admin Shell and Module Registration
 
-1. Define the minimum module registration shape from a real admin navigation slice.
-2. Build the responsive, permission-aware admin shell using existing UI tokens and primitives.
-3. Add one registered resource route without prebuilding generic CRUD infrastructure.
-4. Verify keyboard navigation, responsive behavior, and direct server authorization.
+Reference [`satnaing/shadcn-admin`](https://github.com/satnaing/shadcn-admin) for its MIT-licensed responsive shell interactions, not as a dependency or visual template. Reimplement only useful patterns with NSheth tokens, TanStack Start server boundaries, the existing identity package, and the installed TanStack Table version.
+
+1. Study only the relevant responsive sidebar, grouped navigation, user area, content inset, and skip-link source.
+2. Define the minimum permission-filtered module registration shape from one real admin navigation slice.
+3. Build the responsive, permission-aware admin shell using existing UI tokens and primitives.
+4. Add one registered resource route without prebuilding generic CRUD infrastructure.
+5. Verify keyboard navigation, mobile and desktop behavior, and direct server authorization.
+
+Defer its command menu, theme/layout configurators, charts, mock dashboard pages, generic data-table machinery, Clerk integration, and Tailwind/shadcn component stack until a real feature requires an equivalent.
 
 ## Later Phases
 

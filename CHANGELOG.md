@@ -2,6 +2,10 @@
 
 Newest entries go directly below this note.
 
+## 2026-09-03 - Admin shell reference
+
+- Assessed `satnaing/shadcn-admin` and added it to the admin plan as an MIT-licensed interaction reference, with explicit boundaries against importing its incompatible stack or speculative features.
+
 ## 2026-09-03 - Public repository documentation
 
 - Reworked the README for external users with project goals, current capabilities, quick start, identity setup, package structure, commands, architecture principles, roadmap, and project status.

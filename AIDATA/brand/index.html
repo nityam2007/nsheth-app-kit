@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="The NSheth brand system for purpose, voice, visual foundations, page language and reusable web patterns.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0b0d0c">
+    <link rel="canonical" href="https://nsheth.in/brand/">
+    <title>NSheth Brand System</title>
+    <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+    <style>
+        @font-face {
+            font-family: "Neue Montreal";
+            src: url("../assets/fonts/neue-montreal-font-family/neuemontreal-regular.otf") format("opentype");
+            font-display: swap;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: "Neue Montreal";
+            src: url("../assets/fonts/neue-montreal-font-family/neuemontreal-medium.otf") format("opentype");
+            font-display: swap;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: "Neue Montreal";
+            src: url("../assets/fonts/neue-montreal-font-family/neuemontreal-bold.otf") format("opentype");
+            font-display: swap;
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        @font-face {
+            font-family: "IBM Plex Mono";
+            src: url("../assets/fonts/ibm-plex-mono-regular.woff2") format("woff2");
+            font-display: swap;
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: "IBM Plex Mono";
+            src: url("../assets/fonts/ibm-plex-mono-medium.woff2") format("woff2");
+            font-display: swap;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        :root {
+            color-scheme: dark;
+            --canvas: #0b0d0c;
+            --surface-1: #151817;
+            --surface-2: #202421;
+            --ink: #f2f3ef;
+            --muted: #a8aea9;
+            --hairline: rgb(242 243 239 / 12%);
+            --hairline-strong: rgb(242 243 239 / 22%);
+            --signal: #ff3d81;
+            --signal-hover: #ff679d;
+            --signal-pressed: #d92162;
+            --signal-soft: #ffadc4;
+            --success: #54c67a;
+            --warning: #ffc857;
+            --danger: #ff6464;
+            --font-sans: "Neue Montreal", "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            --gutter: clamp(1.25rem, 4vw, 4rem);
+            --section-space: clamp(6rem, 12vw, 11rem);
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-width: 320px;
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+            background: var(--canvas);
+            font-size: 18px;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: clip;
+            background: var(--canvas);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--signal);
+            outline-offset: 4px;
+        }
+
+        ::selection {
+            background: var(--signal);
+            color: var(--canvas);
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 0.75rem;
+            left: 0.75rem;
+            z-index: 10;
+            padding: 0.65rem 1rem;
+            border-radius: 999rem;
+            background: var(--signal);
+            color: var(--canvas);
+            font-weight: 700;
+            text-decoration: none;
+            transform: translateY(-180%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            min-height: 4rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 0.6rem var(--gutter);
+            border-bottom: 1px solid var(--hairline);
+            background: rgb(11 13 12 / 88%);
+            backdrop-filter: blur(18px);
+        }
+
+        .wordmark {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+        }
+
+        .header-label,
+        .mono-label,
+        .route,
+        .token-value,
+        .specimen-meta,
+        code,
+        pre {
+            font-family: var(--font-mono);
+        }
+
+        .header-label,
+        .mono-label,
+        .route,
+        .specimen-meta {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.065em;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .header-label {
+            color: var(--muted);
+        }
+
+        .guide-layout {
+            width: min(100%, 100rem);
+            margin-inline: auto;
+        }
+
+        .section-nav {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem var(--gutter);
+            overflow-x: auto;
+            border-bottom: 1px solid var(--hairline);
+            scrollbar-width: thin;
+        }
+
+        .section-nav a {
+            min-height: 2.75rem;
+            padding: 0.55rem 0.9rem;
+            border: 1px solid var(--hairline);
+            border-radius: 999rem;
+            color: var(--muted);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+        }
+
+        .section-nav a:hover {
+            border-color: var(--signal);
+            background: var(--surface-1);
+            color: var(--ink);
+        }
+
+        .hero,
+        .guide-section {
+            width: min(100%, 90rem);
+            margin-inline: auto;
+            padding-inline: var(--gutter);
+        }
+
+        .hero {
+            position: relative;
+            display: grid;
+            min-height: min(47rem, calc(100dvh - 8rem));
+            align-items: end;
+            padding-block: clamp(5rem, 11vw, 9rem) clamp(4rem, 8vw, 7rem);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            position: absolute;
+            top: clamp(3rem, 8vw, 7rem);
+            right: var(--gutter);
+            width: clamp(7rem, 16vw, 14rem);
+            aspect-ratio: 1;
+            border: clamp(1rem, 3vw, 2.5rem) solid var(--signal);
+            border-radius: 50%;
+            content: "";
+            opacity: 0.92;
+            transform: translate(28%, -15%);
+        }
+
+        .hero::after {
+            position: absolute;
+            right: 10%;
+            bottom: 13%;
+            width: 26%;
+            height: 1px;
+            background: var(--signal);
+            content: "";
+            transform: rotate(-18deg);
+            transform-origin: right;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 1;
+            max-width: 67rem;
+        }
+
+        .hero .mono-label {
+            margin: 0 0 1.5rem;
+            color: var(--signal);
+        }
+
+        .hero h1 {
+            max-width: 10ch;
+            margin: 0;
+            font-size: clamp(4rem, 11vw, 10rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 0.88;
+        }
+
+        .hero-lead {
+            max-width: 40ch;
+            margin: 2.5rem 0 0;
+            color: var(--muted);
+            font-size: clamp(1.25rem, 2.1vw, 1.7rem);
+            line-height: 1.45;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.5rem;
+            margin: 2.25rem 0 0;
+            color: var(--ink);
+            font-family: var(--font-mono);
+        }
+
+        .hero-meta span::before {
+            margin-right: 0.55rem;
+            color: var(--signal);
+            content: "/";
+        }
+
+        .guide-section {
+            padding-block: var(--section-space);
+            border-top: 1px solid var(--hairline);
+        }
+
+        .section-heading {
+            max-width: 62rem;
+            margin-bottom: clamp(3rem, 7vw, 6rem);
+        }
+
+        .section-heading .mono-label {
+            margin: 0 0 1rem;
+            color: var(--signal);
+        }
+
+        .section-heading h2 {
+            max-width: 13ch;
+            margin: 0;
+            font-size: clamp(2.8rem, 7vw, 6.5rem);
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 0.98;
+        }
+
+        .section-heading p {
+            max-width: 52ch;
+            margin: 1.75rem 0 0;
+            color: var(--muted);
+            font-size: clamp(1.125rem, 1.7vw, 1.45rem);
+            line-height: 1.5;
+        }
+
+        .manifesto {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+            gap: clamp(2rem, 8vw, 8rem);
+            align-items: start;
+        }
+
+        .manifesto-callout {
+            position: sticky;
+            top: 7rem;
+            margin: 0;
+            font-size: clamp(2rem, 4.6vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1.04;
+        }
+
+        .manifesto-callout span {
+            color: var(--signal);
+        }
+
+        .ruled-list,
+        .truth-list,
+        .page-list,
+        .check-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ruled-list li,
+        .truth-list li,
+        .check-list li {
+            position: relative;
+            padding-block: 1.35rem;
+            border-top: 1px solid var(--hairline);
+        }
+
+        .ruled-list li:last-child,
+        .truth-list li:last-child,
+        .check-list li:last-child {
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .ruled-list strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 1.35rem;
+        }
+
+        .ruled-list p,
+        .truth-list p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .truth-grid,
+        .voice-grid,
+        .component-grid,
+        .checks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: clamp(1.5rem, 4vw, 4rem);
+        }
+
+        .subheading {
+            margin: 0 0 1.5rem;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            line-height: 1.12;
+        }
+
+        .subheading.good::before,
+        .subheading.caution::before {
+            display: inline-block;
+            width: 0.75rem;
+            height: 0.75rem;
+            margin-right: 0.65rem;
+            border-radius: 50%;
+            content: "";
+        }
+
+        .subheading.good::before {
+            background: var(--signal);
+        }
+
+        .subheading.caution::before {
+            background: var(--muted);
+        }
+
+        .truth-list li {
+            padding-left: 1.75rem;
+        }
+
+        .truth-list li::before {
+            position: absolute;
+            top: 1.7rem;
+            left: 0;
+            width: 0.55rem;
+            height: 0.55rem;
+            border: 2px solid var(--signal);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .visual-proof {
+            margin: 5rem 0 0;
+        }
+
+        .visual-proof img {
+            width: 100%;
+            aspect-ratio: 1200 / 630;
+            border-radius: 2rem;
+            object-fit: cover;
+        }
+
+        figcaption {
+            margin-top: 1rem;
+            color: var(--muted);
+            font-family: var(--font-mono);
+        }
+
+        .swatches {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border-top: 1px solid var(--hairline);
+            border-left: 1px solid var(--hairline);
+        }
+
+        .swatch {
+            min-height: 13rem;
+            padding: 1.25rem;
+            border-right: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
+            background: var(--swatch);
+            color: var(--swatch-ink, var(--ink));
+        }
+
+        .swatch strong,
+        .swatch span {
+            display: block;
+        }
+
+        .swatch strong {
+            font-size: 1.2rem;
+        }
+
+        .swatch span {
+            margin-top: 0.25rem;
+            font-family: var(--font-mono);
+        }
+
+        .foundation-block + .foundation-block {
+            margin-top: clamp(5rem, 10vw, 9rem);
+        }
+
+        .foundation-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .foundation-title h3 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1;
+        }
+
+        .foundation-title p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .type-specimens {
+            border-top: 1px solid var(--hairline);
+        }
+
+        .type-specimen {
+            display: grid;
+            grid-template-columns: 13rem 1fr;
+            gap: 2rem;
+            align-items: baseline;
+            padding-block: 2rem;
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .specimen-meta {
+            color: var(--muted);
+        }
+
+        .specimen-display {
+            margin: 0;
+            font-size: clamp(3.5rem, 8vw, 8rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 0.98;
+        }
+
+        .specimen-heading {
+            margin: 0;
+            font-size: clamp(2.25rem, 4.5vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.06;
+        }
+
+        .specimen-body {
+            max-width: 56ch;
+            margin: 0;
+            color: var(--muted);
+            font-size: 1.125rem;
+        }
+
+        .specimen-mono {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            letter-spacing: 0.065em;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .token-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--hairline);
+        }
+
+        .token-table {
+            width: 100%;
+            min-width: 48rem;
+            border-collapse: collapse;
+        }
+
+        .token-table th,
+        .token-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--hairline);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .token-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .token-table th {
+            color: var(--muted);
+            font-family: var(--font-mono);
+            font-weight: 500;
+            letter-spacing: 0.065em;
+            text-transform: uppercase;
+        }
+
+        .token-value {
+            color: var(--signal-soft);
+        }
+
+        .voice-samples {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .voice-samples li {
+            min-height: 8rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--hairline);
+        }
+
+        .voice-samples li:last-child {
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .voice-samples q {
+            display: block;
+            font-size: clamp(1.35rem, 2.5vw, 2.25rem);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .voice-samples span {
+            display: block;
+            margin-top: 0.6rem;
+            color: var(--muted);
+            font-family: var(--font-mono);
+        }
+
+        .avoid-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .avoid-words span {
+            padding: 0.55rem 0.8rem;
+            border: 1px solid var(--hairline-strong);
+            border-radius: 999rem;
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
+        .page-list {
+            counter-reset: page;
+        }
+
+        .page-item {
+            display: grid;
+            grid-template-columns: minmax(11rem, 0.6fr) minmax(0, 1.4fr);
+            gap: clamp(2rem, 8vw, 8rem);
+            padding-block: clamp(3rem, 7vw, 6rem);
+            border-top: 1px solid var(--hairline);
+            counter-increment: page;
+        }
+
+        .page-item:last-child {
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .page-name::before {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--signal);
+            font-family: var(--font-mono);
+            content: "0" counter(page);
+        }
+
+        .page-name h3 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 4rem);
+            line-height: 1;
+        }
+
+        .route {
+            display: block;
+            margin-top: 1rem;
+            color: var(--muted);
+            text-transform: none;
+        }
+
+        .page-premise {
+            max-width: 52rem;
+        }
+
+        .page-premise > p:first-child {
+            margin: 0 0 1.5rem;
+            font-size: clamp(1.5rem, 3vw, 2.65rem);
+            font-weight: 500;
+            line-height: 1.15;
+        }
+
+        .page-premise dl {
+            display: grid;
+            grid-template-columns: 8rem 1fr;
+            gap: 0.8rem 1.25rem;
+            margin: 0;
+        }
+
+        .page-premise dt {
+            color: var(--signal-soft);
+            font-family: var(--font-mono);
+        }
+
+        .page-premise dd {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .work-strip {
+            display: grid;
+            grid-template-columns: 1.3fr 0.85fr 0.85fr;
+            gap: 0.75rem;
+            margin: 5rem 0 0;
+        }
+
+        .work-strip figure {
+            margin: 0;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            background: var(--surface-1);
+        }
+
+        .work-strip img {
+            width: 100%;
+            height: 100%;
+            min-height: 22rem;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .component-panel {
+            min-width: 0;
+            padding: clamp(1.5rem, 4vw, 3rem);
+            border: 1px solid var(--hairline);
+            border-radius: 1.5rem;
+            background: var(--surface-1);
+        }
+
+        .component-panel h3 {
+            margin: 0 0 1.5rem;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            line-height: 1.12;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 3.5rem;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.4rem;
+            border: 1px solid transparent;
+            border-radius: 999rem;
+            font-weight: 500;
+            line-height: 1;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 140ms var(--ease), background 140ms ease, border-color 140ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .button-primary {
+            background: var(--signal);
+            color: var(--canvas);
+        }
+
+        .button-primary:hover {
+            background: var(--signal-hover);
+        }
+
+        .button-secondary {
+            border-color: var(--hairline-strong);
+            background: var(--surface-2);
+            color: var(--ink);
+        }
+
+        .button-quiet {
+            min-height: 2.75rem;
+            padding-inline: 0;
+            border-radius: 0;
+            color: var(--ink);
+            text-decoration: underline;
+            text-decoration-color: var(--signal);
+            text-underline-offset: 0.35rem;
+        }
+
+        .arrow {
+            color: currentColor;
+            font-family: var(--font-mono);
+        }
+
+        .example-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .field span {
+            font-weight: 500;
+        }
+
+        .field input {
+            width: 100%;
+            min-height: 3.5rem;
+            padding: 0.8rem 0;
+            border: 0;
+            border-bottom: 1px solid var(--hairline-strong);
+            border-radius: 0;
+            background: transparent;
+            color: var(--ink);
+        }
+
+        .field input::placeholder {
+            color: var(--muted);
+            opacity: 1;
+        }
+
+        .field input:focus-visible {
+            border-color: var(--signal);
+            outline: 0;
+            box-shadow: 0 2px 0 var(--signal);
+        }
+
+        .field small {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .section-pattern {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .section-pattern .mono-label {
+            margin: 0;
+            color: var(--signal);
+        }
+
+        .section-pattern h4 {
+            max-width: 10ch;
+            margin: 0;
+            font-size: clamp(2.5rem, 5.5vw, 5rem);
+            line-height: 0.98;
+        }
+
+        .section-pattern p {
+            max-width: 35ch;
+            margin: 0;
+            color: var(--muted);
+            font-size: 1.2rem;
+        }
+
+        .rule-note {
+            margin: 1.5rem 0 0;
+            color: var(--muted);
+        }
+
+        .code-stack {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .code-block {
+            min-width: 0;
+        }
+
+        .code-block h3 {
+            margin: 0 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        pre {
+            max-width: 100%;
+            margin: 0;
+            padding: clamp(1.25rem, 3vw, 2rem);
+            overflow: auto;
+            border: 1px solid var(--hairline);
+            border-radius: 1rem;
+            background: #080a09;
+            color: var(--ink);
+            font-size: 1rem;
+            line-height: 1.7;
+            tab-size: 4;
+        }
+
+        .code-accent {
+            color: var(--signal-soft);
+        }
+
+        .check-list li {
+            padding-left: 2rem;
+        }
+
+        .check-list li::before {
+            position: absolute;
+            top: 1.35rem;
+            left: 0;
+            color: var(--signal);
+            font-family: var(--font-mono);
+            content: "OK";
+        }
+
+        .source-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem 2rem;
+            margin: 4rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .source-list li {
+            min-width: 0;
+            padding-block: 0.75rem;
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .source-list code {
+            overflow-wrap: anywhere;
+            color: var(--muted);
+        }
+
+        .closing {
+            display: grid;
+            min-height: min(42rem, 80dvh);
+            place-items: center;
+            padding-block: 7rem;
+            text-align: center;
+        }
+
+        .closing p {
+            max-width: 11ch;
+            margin: 0;
+            font-size: clamp(3.5rem, 9vw, 9rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 0.92;
+        }
+
+        .closing span {
+            color: var(--signal);
+        }
+
+        @media (max-width: 64rem) {
+            .swatches {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .type-specimen {
+                grid-template-columns: 10rem 1fr;
+            }
+
+            .work-strip {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .work-strip figure:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 48rem) {
+            html {
+                scroll-padding-top: 5rem;
+            }
+
+            .site-header {
+                min-height: 3.75rem;
+            }
+
+            .header-label {
+                display: none;
+            }
+
+            .hero {
+                min-height: calc(100svh - 8rem);
+            }
+
+            .hero::before {
+                opacity: 0.45;
+            }
+
+            .hero::after {
+                display: none;
+            }
+
+            .manifesto,
+            .truth-grid,
+            .voice-grid,
+            .component-grid,
+            .checks-grid,
+            .page-item,
+            .source-list {
+                grid-template-columns: 1fr;
+            }
+
+            .manifesto-callout {
+                position: static;
+            }
+
+            .foundation-title {
+                display: block;
+            }
+
+            .foundation-title p {
+                margin-top: 0.75rem;
+            }
+
+            .type-specimen {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .page-premise dl {
+                grid-template-columns: 1fr;
+                gap: 0.2rem;
+            }
+
+            .page-premise dd + dt {
+                margin-top: 0.8rem;
+            }
+
+            .work-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .work-strip figure:first-child {
+                grid-column: auto;
+            }
+
+            .work-strip img {
+                min-height: 16rem;
+                aspect-ratio: 16 / 10;
+            }
+        }
+
+        @media (max-width: 30rem) {
+            .swatches {
+                grid-template-columns: 1fr;
+            }
+
+            .swatch {
+                min-height: 9rem;
+            }
+
+            .button-row {
+                display: grid;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (forced-colors: active) {
+            .hero::before,
+            .subheading::before,
+            .truth-list li::before {
+                forced-color-adjust: none;
+            }
+        }
+
+        @supports not (backdrop-filter: blur(1px)) {
+            .site-header {
+                background: var(--canvas);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to brand guide</a>
+
+    <header class="site-header">
+        <a class="wordmark" href="../" aria-label="NSheth home">NSheth</a>
+        <span class="header-label">Brand system / living reference</span>
+    </header>
+
+    <div class="guide-layout">
+        <nav class="section-nav" aria-label="Brand guide sections">
+            <a href="#purpose">Purpose</a>
+            <a href="#foundations">Foundations</a>
+            <a href="#voice">Voice</a>
+            <a href="#pages">Pages</a>
+            <a href="#components">Components</a>
+            <a href="#html-recipe">HTML recipe</a>
+            <a href="#release-check">Release check</a>
+        </nav>
+
+        <main id="main-content">
+            <section class="hero" aria-labelledby="brand-title">
+                <div class="hero-copy">
+                    <p class="mono-label">NSheth / v1.0 / 2026</p>
+                    <h1 id="brand-title">Brand system.</h1>
+                    <p class="hero-lead">A repeatable system for digital work that feels precise, capable and alive.</p>
+                    <p class="hero-meta">
+                        <span>Digital products</span>
+                        <span>Web solutions</span>
+                        <span>India</span>
+                    </p>
+                </div>
+            </section>
+
+            <section class="guide-section" id="purpose" aria-labelledby="purpose-title">
+                <div class="section-heading">
+                    <p class="mono-label">01 / Purpose</p>
+                    <h2 id="purpose-title">Useful things, made clearly.</h2>
+                    <p>NSheth is a small collaborative digital agency for websites, commerce, booking, web applications, automation and practical business tools.</p>
+                </div>
+
+                <div class="manifesto">
+                    <p class="manifesto-callout">Clarity first.<br><span>Motion as proof of craft.</span></p>
+                    <ol class="ruled-list">
+                        <li>
+                            <strong>Start with the friction.</strong>
+                            <p>Understand how the business really works before selecting a tool or shaping a screen.</p>
+                        </li>
+                        <li>
+                            <strong>Design for real use.</strong>
+                            <p>Make the path obvious, the interface calm and the underlying system dependable.</p>
+                        </li>
+                        <li>
+                            <strong>Choose for fit.</strong>
+                            <p>No default stack. Use the smallest maintainable system that serves the actual work.</p>
+                        </li>
+                        <li>
+                            <strong>Stay close.</strong>
+                            <p>Remain connected to the problem, the people and the decisions from start to finish.</p>
+                        </li>
+                        <li>
+                            <strong>Build for ownership.</strong>
+                            <p>The finished work should be understandable, maintainable, recoverable and genuinely useful after launch.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <figure class="visual-proof">
+                    <img src="../assets/seo/og-home.jpg" width="1200" height="630" alt="NSheth homepage hero with a graphite canvas, cool-white headline and Hot Rose actions">
+                    <figcaption>Current homepage reference / protect the message, let the authored visual system frame it.</figcaption>
+                </figure>
+
+                <div class="truth-grid" style="margin-top: clamp(5rem, 10vw, 9rem);">
+                    <div>
+                        <h3 class="subheading good">What we can say</h3>
+                        <ul class="truth-list">
+                            <li><p>NSheth is a small collaborative digital agency.</p></li>
+                            <li><p>We build websites, commerce, booking, web apps and automation.</p></li>
+                            <li><p>The right people can join when the work needs them.</p></li>
+                            <li><p>Nityam keeps the thinking connected through delivery.</p></li>
+                            <li><p>Working this way since 2021, based in India.</p></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="subheading caution">What needs proof</h3>
+                        <ul class="truth-list">
+                            <li><p>Client status, role, scope and permission to publish.</p></li>
+                            <li><p>Results, metrics, traffic, conversion or revenue.</p></li>
+                            <li><p>Testimonials, budgets, timelines or guarantees.</p></li>
+                            <li><p>Permanent team size or industry specialization.</p></li>
+                            <li><p>A specific city until the current location conflict is resolved.</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="guide-section" id="foundations" aria-labelledby="foundations-title">
+                <div class="section-heading">
+                    <p class="mono-label">02 / Foundations</p>
+                    <h2 id="foundations-title">Graphite. Ink. One signal.</h2>
+                    <p>The system is dark-first and restrained. Hot Rose directs attention; it does not become the whole atmosphere.</p>
+                </div>
+
+                <div class="foundation-block">
+                    <div class="foundation-title">
+                        <h3>Core palette</h3>
+                        <p>Semantic colors are reserved for feedback.</p>
+                    </div>
+                    <div class="swatches" aria-label="NSheth color palette">
+                        <div class="swatch" style="--swatch:#0b0d0c">
+                            <strong>Canvas</strong>
+                            <span>#0B0D0C</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#151817">
+                            <strong>Surface 1</strong>
+                            <span>#151817</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#202421">
+                            <strong>Surface 2</strong>
+                            <span>#202421</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#f2f3ef;--swatch-ink:#0b0d0c">
+                            <strong>Ink</strong>
+                            <span>#F2F3EF</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#a8aea9;--swatch-ink:#0b0d0c">
+                            <strong>Muted</strong>
+                            <span>#A8AEA9</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#ff3d81;--swatch-ink:#0b0d0c">
+                            <strong>Signal</strong>
+                            <span>#FF3D81</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#ff679d;--swatch-ink:#0b0d0c">
+                            <strong>Signal hover</strong>
+                            <span>#FF679D</span>
+                        </div>
+                        <div class="swatch" style="--swatch:#d92162">
+                            <strong>Signal pressed</strong>
+                            <span>#D92162</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="foundation-block">
+                    <div class="foundation-title">
+                        <h3>Typography</h3>
+                        <p>Natural spacing, real weights only.</p>
+                    </div>
+                    <div class="type-specimens">
+                        <div class="type-specimen">
+                            <p class="specimen-meta">Display XL<br>700 / 0.98</p>
+                            <p class="specimen-display">Make it useful.</p>
+                        </div>
+                        <div class="type-specimen">
+                            <p class="specimen-meta">Display M<br>700 / 1.06</p>
+                            <p class="specimen-heading">Built around how the work really works.</p>
+                        </div>
+                        <div class="type-specimen">
+                            <p class="specimen-meta">Body<br>400 / 1.6</p>
+                            <p class="specimen-body">Neue Montreal carries display, headings, body, navigation, buttons and forms. Keep the writing short enough to breathe.</p>
+                        </div>
+                        <div class="type-specimen">
+                            <p class="specimen-meta">Mono label<br>500 / 1.3</p>
+                            <p class="specimen-mono">The path / Since 2021 / Foundations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="foundation-block">
+                    <div class="foundation-title">
+                        <h3>Layout and motion</h3>
+                        <p>Wide, asymmetric and low-density.</p>
+                    </div>
+                    <div class="token-table-wrap">
+                        <table class="token-table">
+                            <thead>
+                                <tr><th>System</th><th>Values</th><th>Rule</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Containers</td><td class="token-value">77.5rem / 90rem</td><td>Standard copy width and wide interactive width.</td></tr>
+                                <tr><td>Gutter</td><td class="token-value">clamp(1.25rem, 4vw, 4rem)</td><td>Protect the edge without shrinking the composition.</td></tr>
+                                <tr><td>Grid</td><td class="token-value">12 / 8 / 4 columns</td><td>Desktop, tablet and phone. The grid stays invisible.</td></tr>
+                                <tr><td>Copy measure</td><td class="token-value">56ch max</td><td>Leads are shorter; display copy is normally 12ch or less.</td></tr>
+                                <tr><td>Section space</td><td class="token-value">80px to 256px</td><td>Use contrast and empty space instead of extra explanation.</td></tr>
+                                <tr><td>Radii</td><td class="token-value">8 / 14 / 24 / 32 / 48 / 56px</td><td>Radius follows the scale and behavior of the surface.</td></tr>
+                                <tr><td>Timing</td><td class="token-value">140 / 240 / 480 / 850ms</td><td>Feedback, state, reveal and signature transition.</td></tr>
+                                <tr><td>Easing</td><td class="token-value">cubic-bezier(.16,1,.3,1)</td><td>Use for authored entrances and major state changes.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="guide-section" id="voice" aria-labelledby="voice-title">
+                <div class="section-heading">
+                    <p class="mono-label">03 / Voice</p>
+                    <h2 id="voice-title">Clear, human, slightly poetic.</h2>
+                    <p>Use "we" for the agency. Name Nityam when personal accountability or provenance helps. Make the heading and lead do most of the work.</p>
+                </div>
+
+                <div class="voice-grid">
+                    <div>
+                        <h3 class="subheading">How it sounds</h3>
+                        <ul class="voice-samples">
+                            <li><q>We build websites and digital tools.</q><span>Plain promise</span></li>
+                            <li><q>From stuck. To moving.</q><span>Transformation</span></li>
+                            <li><q>Clear on the screen. Reliable behind it.</q><span>Paired contrast</span></li>
+                            <li><q>Something worth making?</q><span>Human invitation</span></li>
+                            <li><q>No default stack. Only the right fit.</q><span>Point of view</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="subheading">Writing rules</h3>
+                        <ul class="ruled-list">
+                            <li><strong>Concrete first.</strong><p>Name the problem, action or system. Avoid abstract agency language.</p></li>
+                            <li><strong>One thought at a time.</strong><p>Headlines use 4 to 12 words and no more than two visual lines.</p></li>
+                            <li><strong>Use active verbs.</strong><p>Listen. Distil. Design. Build. Release. Clear. Choose. Fit. Move.</p></li>
+                            <li><strong>Do not inflate.</strong><p>Call concepts, experiments and archives exactly what they are.</p></li>
+                            <li><strong>Stop early.</strong><p>If the visual and lead already explain the scene, do not add another paragraph.</p></li>
+                        </ul>
+                        <div class="avoid-words" aria-label="Words to avoid">
+                            <span>cutting-edge</span><span>world-class</span><span>game-changing</span><span>innovative solutions</span><span>bringing ideas to life</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="guide-section" id="pages" aria-labelledby="pages-title">
+                <div class="section-heading">
+                    <p class="mono-label">04 / Page language</p>
+                    <h2 id="pages-title">One system. Different ideas.</h2>
+                    <p>Every route shares the brand foundation but earns its own visual premise. Do not copy one page's interaction onto the next.</p>
+                </div>
+
+                <ol class="page-list">
+                    <li class="page-item">
+                        <div class="page-name"><h3>Home</h3><span class="route">/</span></div>
+                        <div class="page-premise">
+                            <p>Promise -> capability -> craft -> process -> model -> conversation.</p>
+                            <dl>
+                                <dt>Focal idea</dt><dd>Objects settle around a protected conversion panel.</dd>
+                                <dt>Signature</dt><dd>Pulse service scene, Dino craft moment and contained morphing menu.</dd>
+                                <dt>Keep</dt><dd>One-viewport hero, two actions, five services, five steps and direct contact.</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-name"><h3>Services</h3><span class="route">/services/</span></div>
+                        <div class="page-premise">
+                            <p>Friction -> route -> intervention -> connected system -> action.</p>
+                            <dl>
+                                <dt>Focal idea</dt><dd>A project film with real screens and five oversized action words.</dd>
+                                <dt>Signature</dt><dd>Two-image service scenes for Websites, Commerce, Booking, Web apps and Automation.</dd>
+                                <dt>Keep</dt><dd>Client-facing problems and connections, never five generic equal cards.</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-name"><h3>Technology</h3><span class="route">/technology/</span></div>
+                        <div class="page-premise">
+                            <p>Changing tools -> deliberate fit -> purpose-led vocabulary -> ownership.</p>
+                            <dl>
+                                <dt>Focal idea</dt><dd>A working Stackroom instrument organized by purpose, not prestige.</dd>
+                                <dt>Signature</dt><dd>Optical type, a restrained word magnet and a pale ownership close.</dd>
+                                <dt>Keep</dt><dd>Fit, maintainability and handover. Never add proficiency scores or a logo wall.</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-name"><h3>Work</h3><span class="route">/work/</span></div>
+                        <div class="page-premise">
+                            <p>Useful evidence -> orbit -> archive -> inspection -> conversation.</p>
+                            <dl>
+                                <dt>Focal idea</dt><dd>Real project screens orbit, flatten into a contact sheet and open for inspection.</dd>
+                                <dt>Signature</dt><dd>Truthful labels, top-anchored crops and a native-scroll screenshot dialog.</dd>
+                                <dt>Keep</dt><dd>JSON as the source of truth. Publish links, roles and outcomes only when verified.</dd>
+                            </dl>
+                        </div>
+                    </li>
+                </ol>
+
+                <div class="work-strip" aria-label="Current work imagery examples">
+                    <figure><img src="../assets/work/np-coaches.webp" alt="NP Coaches website screen" loading="lazy"></figure>
+                    <figure><img src="../assets/work/urbantap.webp" alt="Urbantap digital-card platform screen" loading="lazy"></figure>
+                    <figure><img src="../assets/work/nityam-portfolio-2026.webp" alt="Nityam portfolio website screen" loading="lazy"></figure>
+                </div>
+            </section>
+
+            <section class="guide-section" id="components" aria-labelledby="components-title">
+                <div class="section-heading">
+                    <p class="mono-label">05 / Components</p>
+                    <h2 id="components-title">Repeat the rules, not the layout.</h2>
+                    <p>Reuse tokens, semantics, control states and accessibility. Let each new page find one visual idea of its own.</p>
+                </div>
+
+                <div class="component-grid">
+                    <div class="component-panel">
+                        <h3>Actions</h3>
+                        <div class="button-row">
+                            <a class="button button-primary" href="#html-recipe">Start something <span class="arrow" aria-hidden="true">-&gt;</span></a>
+                            <a class="button button-secondary" href="#pages">See the pages <span class="arrow" aria-hidden="true">-&gt;</span></a>
+                            <a class="button button-quiet" href="#release-check">Quiet action <span class="arrow" aria-hidden="true">-&gt;</span></a>
+                        </div>
+                        <p class="rule-note">Primary is Hot Rose with graphite text. Secondary uses Surface 2. Keep one label for each action intent.</p>
+                    </div>
+
+                    <div class="component-panel">
+                        <h3>Form fields</h3>
+                        <form class="example-form" action="#components">
+                            <label class="field">
+                                <span>WhatsApp</span>
+                                <input type="tel" placeholder="+91 96648 33459" autocomplete="tel">
+                                <small>Visible label, useful input type and clear focus.</small>
+                            </label>
+                            <label class="field">
+                                <span>Email</span>
+                                <input type="email" placeholder="you@company.com" autocomplete="email">
+                            </label>
+                        </form>
+                    </div>
+
+                    <div class="component-panel">
+                        <div class="section-pattern">
+                            <p class="mono-label">The path</p>
+                            <h4>From a thought to something real.</h4>
+                            <p>Five clear steps. No mystery.</p>
+                        </div>
+                        <p class="rule-note">An eyebrow is optional and must add metadata. It never repeats the heading.</p>
+                    </div>
+
+                    <div class="component-panel">
+                        <h3>Scene formula</h3>
+                        <ol class="ruled-list">
+                            <li><strong>Enter.</strong><p>Make the focal element available without a blank band.</p></li>
+                            <li><strong>Settle.</strong><p>Give the scene a complete, readable resting state.</p></li>
+                            <li><strong>Interact.</strong><p>Use motion for focus, feedback, sequence or state.</p></li>
+                            <li><strong>Exit.</strong><p>Hand off cleanly without competing with the next section.</p></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section class="guide-section" id="html-recipe" aria-labelledby="recipe-title">
+                <div class="section-heading">
+                    <p class="mono-label">06 / HTML recipe</p>
+                    <h2 id="recipe-title">Start semantic. Enhance locally.</h2>
+                    <p>This is the repeatable baseline for a new NSheth page. In production, use the shared PHP header and footer rather than duplicating them.</p>
+                </div>
+
+                <div class="code-stack">
+                    <div class="code-block">
+                        <h3>Page skeleton</h3>
+                        <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en" class="no-js"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"&gt;
+    &lt;meta name="theme-color" content="#0b0d0c"&gt;
+    &lt;title&gt;Useful page title | NSheth&lt;/title&gt;
+    &lt;link rel="stylesheet" href="/assets/css/app.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;a class="skip-link" href="#main-content"&gt;Skip to content&lt;/a&gt;
+
+    &lt;header class="site-header"&gt;
+        &lt;a class="wordmark" href="/" aria-label="NSheth home"&gt;NSheth&lt;/a&gt;
+        &lt;button type="button" aria-expanded="false"
+                aria-controls="site-menu"&gt;Menu&lt;/button&gt;
+    &lt;/header&gt;
+
+    &lt;main id="main-content"&gt;
+        &lt;section aria-labelledby="page-title"&gt;
+            &lt;div class="u-container-wide"&gt;
+                &lt;p class="u-mono-label"&gt;Useful metadata&lt;/p&gt;
+                &lt;h1 id="page-title"&gt;One clear promise.&lt;/h1&gt;
+                &lt;p class="u-measure"&gt;One short lead that changes understanding.&lt;/p&gt;
+                &lt;a class="button button--primary" href="/#contact"&gt;
+                    Start something
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer class="site-footer"&gt;...&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <h3>Token baseline</h3>
+                        <pre><code>:root {
+    color-scheme: dark;
+    --color-canvas: #0b0d0c;
+    --color-surface-1: #151817;
+    --color-surface-2: #202421;
+    --color-ink: #f2f3ef;
+    --color-ink-muted: #a8aea9;
+    --color-hairline: rgb(242 243 239 / 12%);
+    --color-signal: #ff3d81;
+    --color-signal-hover: #ff679d;
+    --color-signal-pressed: #d92162;
+
+    --font-sans: "Neue Montreal", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --gutter: clamp(1.25rem, 4vw, 4rem);
+    --container-wide: 90rem;
+    --measure-copy: 56ch;
+    --ease-signature: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.u-container-wide {
+    width: min(var(--container-wide), calc(100% - 2 * var(--gutter)));
+    margin-inline: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}</code></pre>
+                    </div>
+
+                    <div class="code-block">
+                        <h3>Implementation order</h3>
+                        <pre><code>1. Give the route one useful content job.
+2. Write a factual headline and short lead.
+3. Choose one focal visual idea.
+4. Build complete semantic HTML first.
+5. Apply shared tokens, type, spacing and controls.
+6. Add one dominant motion layer only if it communicates meaning.
+7. Create mobile, keyboard, reduced-motion and no-JS states.
+8. Verify metadata, assets, overflow, focus and truthful claims.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="guide-section" id="release-check" aria-labelledby="release-title">
+                <div class="section-heading">
+                    <p class="mono-label">07 / Release check</p>
+                    <h2 id="release-title">Complete without excess.</h2>
+                    <p>A page is on-brand when its purpose, language, interaction and fallback states all tell the same story.</p>
+                </div>
+
+                <div class="checks-grid">
+                    <div>
+                        <h3 class="subheading">Must keep</h3>
+                        <ul class="check-list">
+                            <li>One clear page job and one focal idea.</li>
+                            <li>Graphite canvas, cool-white hierarchy and restrained Hot Rose signals.</li>
+                            <li>Semantic headings, landmarks, labels and native controls.</li>
+                            <li>At least 44px touch targets and visible keyboard focus.</li>
+                            <li>Complete mobile, reduced-motion, coarse-pointer and no-JS content.</li>
+                            <li>Local assets, reserved image dimensions and no build requirement.</li>
+                            <li>Unique metadata, canonical URL and factual structured data.</li>
+                            <li>Verified claims, links, roles and project labels only.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="subheading">Must avoid</h3>
+                        <ul class="check-list">
+                            <li>Generic templates, equal card rows and copied page structures.</li>
+                            <li>Visible graph paper, blueprint, grid-line or lined textures.</li>
+                            <li>Large pink washes, diffuse pink fog and decorative gradients.</li>
+                            <li>Multiple dominant effects in one viewport.</li>
+                            <li>Hover-only controls, dead interactions or touch scroll hijacking.</li>
+                            <li>Technology logo walls and unsupported proficiency claims.</li>
+                            <li>Remote fonts, icons, Framer, React or CDN production runtime.</li>
+                            <li>Fake clients, metrics, outcomes, testimonials or case studies.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="source-list" aria-label="Active source files">
+                    <li><code>assets/css/tokens.css</code></li>
+                    <li><code>assets/css/fonts.css</code></li>
+                    <li><code>assets/css/utilities.css</code></li>
+                    <li><code>includes/header.php</code></li>
+                    <li><code>includes/footer.php</code></li>
+                    <li><code>docs/site-direction.md</code></li>
+                    <li><code>docs/design-system.md</code></li>
+                    <li><code>work/projects.json</code></li>
+                </ul>
+            </section>
+
+            <section class="closing" aria-label="Brand closing statement">
+                <p>Made with thought. <span>Built for real use.</span></p>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

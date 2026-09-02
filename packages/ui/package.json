@@ -1,0 +1,27 @@
+{
+  "name": "@nsheth/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "prettier --check .",
+    "format": "prettier --write . && eslint --fix"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-config": "latest",
+    "@types/react": "^19.2.0",
+    "eslint": "^9.20.0",
+    "prettier": "^3.8.1",
+    "react": "^19.2.0",
+    "typescript": "^6.0.2"
+  }
+}

@@ -120,13 +120,17 @@ function ProductDetail() {
                 label="Email"
                 maxLength={254}
                 name="email"
+                spellCheck="false"
                 type="email"
               />
               <Input
                 defaultValue="1"
                 isRequired
                 label="Quantity"
+                max={1000000}
+                min={1}
                 name="quantity"
+                step={1}
                 type="number"
               />
               <TextArea
@@ -150,7 +154,7 @@ function ProductDetail() {
                 ) : null}
               </div>
               <Button
-                className="justify-self-start"
+                className="w-full sm:w-auto sm:justify-self-start"
                 isDisabled={isSaving}
                 isLoading={isSaving}
                 showTextWhileLoading

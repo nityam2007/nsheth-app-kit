@@ -17,7 +17,10 @@ interface InputProps extends AriaTextFieldProps {
   hint?: ReactNode
   inputClassName?: string
   label?: string
+  max?: AriaInputProps['max']
+  min?: AriaInputProps['min']
   placeholder?: string
+  step?: AriaInputProps['step']
   type?: AriaInputProps['type']
 }
 
@@ -26,7 +29,10 @@ export function Input({
   hint,
   inputClassName,
   label,
+  max,
+  min,
   placeholder,
+  step,
   type = 'text',
   ...props
 }: InputProps) {
@@ -49,7 +55,10 @@ export function Input({
             </Label>
           ) : null}
           <AriaInput
+            max={max}
+            min={min}
             placeholder={placeholder}
+            step={step}
             type={type}
             className={cx(
               'm-0 w-full rounded-lg bg-primary px-3.5 py-2.5 text-md text-primary shadow-xs ring-1 ring-primary ring-inset outline-hidden transition duration-100 ease-linear placeholder:text-placeholder focus:ring-2 focus:ring-brand disabled:cursor-not-allowed disabled:opacity-50 group-invalid:ring-error_subtle group-invalid:focus:ring-2 group-invalid:focus:ring-error',

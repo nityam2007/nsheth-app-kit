@@ -20,7 +20,7 @@
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
-    "test": "node --import tsx --test src/publication.test.ts"
+    "test": "node --import tsx --test src/publication.test.ts src/slug.test.ts"
   },
   "dependencies": {
     "@nsheth/admin": "*",
@@ -81,5 +81,5 @@
       "prisma"
     ]
   },
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

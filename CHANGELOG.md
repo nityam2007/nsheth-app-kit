@@ -2,6 +2,25 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.2.1] - 2026-09-03
+
+### Added
+
+- Added responsive post and product list controls with search, status filters, live result counts, and direct edit actions.
+- Added tested slug generation for new posts and products while retaining manual URL control.
+- Added unsaved-change protection and focused server-error feedback to admin forms.
+
+### Changed
+
+- Collapsed admin module navigation by default on mobile and surfaced the active resource in the shell header.
+- Reduced resource tables to useful columns at each breakpoint instead of forcing horizontal scrolling.
+- Matched RFQ quantity input constraints to server validation and improved mobile submit behavior.
+- Aligned workspace versions at `0.2.1`.
+
+### Verified
+
+- Formatting, ESLint, TypeScript, workspace tests, database migration status, and fresh runtime route responses.
+
 ## [0.2.0] - 2026-09-03
 
 ### Added

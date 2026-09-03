@@ -1,12 +1,13 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/base/buttons/button'
 import { Input } from '@/components/base/input/input'
 import { TextArea } from '@/components/base/textarea/textarea'
 
 import { createAdminPost, updateAdminPost } from '../../content.functions'
+import { slugify } from '../../slug'
 
 import type { PostInput } from '@nsheth/content'
 
@@ -21,6 +22,24 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
   const navigate = useNavigate()
   const [error, setError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [title, setTitle] = useState(initial?.title ?? '')
+  const [slug, setSlug] = useState(initial?.slug ?? '')
+  const [slugEdited, setSlugEdited] = useState(Boolean(initial))
+  const [isDirty, setIsDirty] = useState(false)
+  const bypassBlocker = useRef(false)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useBlocker({
+    enableBeforeUnload: isDirty,
+    shouldBlockFn: () =>
+      isDirty &&
+      !bypassBlocker.current &&
+      !window.confirm('Discard your unsaved post changes?'),
+  })
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -40,8 +59,10 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
       const post = currentSlug
         ? await updatePost({ data: { ...data, currentSlug } })
         : await createPost({ data })
+      bypassBlocker.current = true
       await navigate({ to: '/admin/posts/$slug', params: { slug: post.slug } })
     } catch {
+      bypassBlocker.current = false
       setError('Could not save this post. Check the fields and slug.')
     } finally {
       setIsSaving(false)
@@ -51,25 +72,34 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
   return (
     <form
       className="grid max-w-3xl gap-6 rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-8"
+      onChange={() => setIsDirty(true)}
       onSubmit={handleSubmit}
     >
       <Input
-        defaultValue={initial?.title}
         isRequired
         label="Title"
         maxLength={160}
         minLength={3}
         name="title"
+        value={title}
+        onChange={(value) => {
+          setTitle(value)
+          if (!slugEdited) setSlug(slugify(value))
+        }}
       />
       <Input
-        defaultValue={initial?.slug}
-        hint="Lowercase letters, numbers, and single hyphens."
+        hint="Generated from the title. Edit it only when the URL needs to differ."
         isRequired
         label="URL slug"
         maxLength={160}
         minLength={3}
         name="slug"
         pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+        value={slug}
+        onChange={(value) => {
+          setSlug(value)
+          setSlugEdited(true)
+        }}
       />
       <TextArea
         defaultValue={initial?.excerpt}
@@ -103,7 +133,12 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
         </select>
       </label>
       {error ? (
-        <p className="m-0 text-sm text-error-primary" role="alert">
+        <p
+          className="m-0 text-sm text-error-primary"
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+        >
           {error}
         </p>
       ) : null}

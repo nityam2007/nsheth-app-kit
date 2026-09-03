@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.2.0`
+**Current version:** `0.2.1`
 
 > **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, CMS/blog, and product catalogue/RFQ foundations are working. Booking is next.
 
@@ -25,6 +25,7 @@ The playground currently demonstrates:
 - A responsive public blog under `/blog` that never returns drafts
 - Complete product list/new/detail/edit/guarded-delete management under `/admin/products`
 - A public catalogue under `/catalogue` with product-specific RFQ submissions
+- Responsive admin resource tables with search, status filters, direct edit actions, and generated slugs
 
 ## Quick Start
 

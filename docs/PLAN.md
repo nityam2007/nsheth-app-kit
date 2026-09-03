@@ -82,6 +82,12 @@ Defer categories, variants, media, attributes, search, inventory, pricing, and c
 
 Working resource modules use `/admin/<resource>` for the list, `/new` for creation, `/<slug>` for record details, and `/<slug>/edit` for editing. Destructive actions live on the detail page, navigation remains active for descendant routes, and every private read or write independently enforces its permission at the server-function boundary.
 
+- [x] Keep mobile module navigation collapsed until requested and label it with the active resource.
+- [x] Provide responsive resource tables, search, publication-state filters, result counts, and direct edit actions.
+- [x] Generate valid slugs from new record names while allowing deliberate overrides.
+- [x] Warn before leaving dirty create/edit forms and move focus to server errors.
+- [x] Match native RFQ quantity constraints to server validation.
+
 ## Next Task: Booking Core and Service Booking
 
 1. Define the minimum service, availability, and booking-request models without payment or hospitality abstractions.

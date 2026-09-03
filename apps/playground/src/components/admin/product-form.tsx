@@ -1,12 +1,13 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/base/buttons/button'
 import { Input } from '@/components/base/input/input'
 import { TextArea } from '@/components/base/textarea/textarea'
 
 import { createAdminProduct, updateAdminProduct } from '../../product.functions'
+import { slugify } from '../../slug'
 
 import type { ProductInput } from '@nsheth/product'
 
@@ -21,6 +22,24 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
   const navigate = useNavigate()
   const [error, setError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [name, setName] = useState(initial?.name ?? '')
+  const [slug, setSlug] = useState(initial?.slug ?? '')
+  const [slugEdited, setSlugEdited] = useState(Boolean(initial))
+  const [isDirty, setIsDirty] = useState(false)
+  const bypassBlocker = useRef(false)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useBlocker({
+    enableBeforeUnload: isDirty,
+    shouldBlockFn: () =>
+      isDirty &&
+      !bypassBlocker.current &&
+      !window.confirm('Discard your unsaved product changes?'),
+  })
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -40,11 +59,13 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
       const product = currentSlug
         ? await updateProduct({ data: { ...data, currentSlug } })
         : await createProduct({ data })
+      bypassBlocker.current = true
       await navigate({
         to: '/admin/products/$slug',
         params: { slug: product.slug },
       })
     } catch {
+      bypassBlocker.current = false
       setError('Could not save this product. Check the fields and slug.')
     } finally {
       setIsSaving(false)
@@ -54,25 +75,34 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
   return (
     <form
       className="grid max-w-3xl gap-6 rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-8"
+      onChange={() => setIsDirty(true)}
       onSubmit={handleSubmit}
     >
       <Input
-        defaultValue={initial?.name}
         isRequired
         label="Name"
         maxLength={160}
         minLength={3}
         name="name"
+        value={name}
+        onChange={(value) => {
+          setName(value)
+          if (!slugEdited) setSlug(slugify(value))
+        }}
       />
       <Input
-        defaultValue={initial?.slug}
-        hint="Lowercase letters, numbers, and single hyphens."
+        hint="Generated from the name. Edit it only when the URL needs to differ."
         isRequired
         label="URL slug"
         maxLength={160}
         minLength={3}
         name="slug"
         pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+        value={slug}
+        onChange={(value) => {
+          setSlug(value)
+          setSlugEdited(true)
+        }}
       />
       <TextArea
         defaultValue={initial?.summary}
@@ -106,7 +136,12 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
         </select>
       </label>
       {error ? (
-        <p className="m-0 text-sm text-error-primary" role="alert">
+        <p
+          className="m-0 text-sm text-error-primary"
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+        >
           {error}
         </p>
       ) : null}

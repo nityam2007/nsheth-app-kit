@@ -22,6 +22,10 @@ export const Route = createFileRoute('/admin')({
 function AdminLayout() {
   const { modules, principal } = Route.useRouteContext()
   const pathname = useLocation({ select: (location) => location.pathname })
+  const activeModule = modules.find(
+    (module) =>
+      pathname === module.href || pathname.startsWith(`${module.href}/`),
+  )
 
   return (
     <div className="min-h-svh bg-secondary lg:grid lg:grid-cols-[17.5rem_minmax(0,1fr)]">
@@ -42,12 +46,9 @@ function AdminLayout() {
           </span>
         </div>
 
-        <details
-          className="group lg:flex lg:h-[calc(100svh-4.5rem)] lg:flex-col"
-          open
-        >
+        <details className="group lg:flex lg:h-[calc(100svh-4.5rem)] lg:flex-col">
           <summary className="flex min-h-13 cursor-pointer items-center justify-between px-4 text-sm font-semibold text-secondary lg:hidden">
-            <span>Menu</span>
+            <span>{activeModule?.label ?? 'Menu'}</span>
             <span aria-hidden="true" className="group-open:rotate-45">
               +
             </span>
@@ -72,6 +73,11 @@ function AdminLayout() {
                         }
                         href={module.href}
                         aria-current={active ? 'page' : undefined}
+                        onClick={(event) =>
+                          event.currentTarget
+                            .closest('details')
+                            ?.removeAttribute('open')
+                        }
                       >
                         {module.label}
                       </a>
@@ -97,13 +103,13 @@ function AdminLayout() {
       <div className="min-w-0">
         <header className="flex min-h-18 items-center justify-between gap-4 border-b border-secondary bg-primary px-4 sm:px-6 lg:px-8">
           <span className="text-sm font-semibold text-secondary">
-            Admin workspace
+            {activeModule?.label ?? 'Admin workspace'}
           </span>
           <Link
             className="text-sm font-semibold text-brand-secondary hover:text-brand-secondary_hover"
             to="/"
           >
-            View foundation
+            View site
           </Link>
         </header>
         <main

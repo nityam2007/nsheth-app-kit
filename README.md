@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.2.1`
+**Current version:** `0.2.2`
 
 > **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, CMS/blog, and product catalogue/RFQ foundations are working. Booking is next.
 
@@ -20,7 +20,7 @@ The playground currently demonstrates:
 - Provider-neutral users, sessions, roles, and permissions
 - Opaque HTTP-only sessions with server-side role and permission checks
 - A development-only RBAC proof requiring `admin` and `identity.read`
-- A responsive admin shell with permission-filtered modules and a protected identity resource
+- A responsive admin shell with grouped permission-filtered modules, a persistent desktop sidebar, an accessible mobile drawer, and a protected identity resource
 - Complete post list/new/detail/edit/delete management under `/admin/posts`
 - A responsive public blog under `/blog` that never returns drafts
 - Complete product list/new/detail/edit/guarded-delete management under `/admin/products`

@@ -67,6 +67,7 @@
   --background-color-brand-solid: var(--color-brand-600);
   --background-color-brand-solid_hover: var(--color-brand-700);
   --background-color-success-primary: var(--color-green-50);
+  --background-color-overlay: rgb(10 13 18 / 60%);
 
   --border-color-primary: var(--color-neutral-300);
   --border-color-secondary: var(--color-neutral-200);

@@ -2,6 +2,18 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.2.2] - 2026-09-03
+
+### Changed
+
+- Replaced the compact mobile admin menu with an accessible native-dialog drawer that closes on navigation, backdrop click, close button, or Escape.
+- Grouped permission-filtered admin modules in a persistent desktop sidebar with resource icons, descendant active states, and a clearer signed-in user area.
+- Aligned workspace versions at `0.2.2`.
+
+### Verified
+
+- Formatting, ESLint, TypeScript, workspace tests, production build, and authenticated runtime route responses.
+
 ## [0.2.1] - 2026-09-03
 
 ### Added

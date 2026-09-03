@@ -44,6 +44,8 @@ The playground owns the small set of Untitled UI React primitives used by its ro
 
 `packages/content` owns publication states and provider-neutral post validation. Apps own content persistence, admin authorization, public visibility queries, routes, and rendering.
 
+`packages/product` owns product publication and RFQ enquiry validation. Apps own catalogue persistence, admin authorization, public visibility queries, enquiry acceptance policy, routes, and rendering.
+
 The root npm workspace scripts remain the task facade. Add Turborepo incrementally only when multiple runnable apps or measured CI cost make dependency-aware scheduling and caching valuable.
 
 ## Shared Mechanics

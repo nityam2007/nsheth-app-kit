@@ -2,6 +2,26 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.2.0] - 2026-09-03
+
+### Added
+
+- Added provider-neutral product and enquiry validation in `@nsheth/product`.
+- Added publishable products, RFQ enquiries, and their PostgreSQL migration.
+- Added permission-protected post and product list, new, slug-detail, edit, and delete routes.
+- Added a public catalogue index, product details, metadata, and validated request-for-quote submission.
+
+### Changed
+
+- Granted the development admin product read/write permissions and registered the product admin module.
+- Replaced combined form/list admin pages with systematic resource screens and preserved first-publication dates through edits.
+- Extended the privacy inventory for catalogue content and RFQ contact data.
+- Aligned workspace versions at `0.2.0`.
+
+### Verified
+
+- Prisma and route generation, formatting, ESLint, TypeScript, package tests, database migration, unpublished-product isolation, RFQ validation, and clean Vite startup.
+
 ## [0.1.1] - 2026-09-03
 
 ### Added

@@ -14,3 +14,4 @@
 12. Prefer direct local tools and targeted searches. Avoid browser research and subagents unless the task cannot be handled efficiently without them.
 13. Keep code, docs, and reports concise. Record decisions, requirements, setup, gotchas, and next steps; omit filler.
 14. Use pre-1.0 semantic versions. Keep workspace package versions aligned, use versioned changelog headings, and prefix release commit subjects with the version, for example `0.1.0 - Add catalogue foundation`.
+15. After a completed task passes required verification, commit the intended changes and push the tracked branch. Inspect status, diff, and recent commits first; never stage secrets or unrelated work.

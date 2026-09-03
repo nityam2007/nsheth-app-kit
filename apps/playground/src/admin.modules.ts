@@ -16,4 +16,16 @@ export const contentPostsModule = {
   permission: 'content.read',
 } as const satisfies AdminModule
 
-export const adminModules = [contentPostsModule, identityUsersModule] as const
+export const productCatalogueModule = {
+  id: 'product-catalogue',
+  group: 'Catalogue',
+  label: 'Products',
+  href: '/admin/products',
+  permission: 'product.read',
+} as const satisfies AdminModule
+
+export const adminModules = [
+  productCatalogueModule,
+  contentPostsModule,
+  identityUsersModule,
+] as const

@@ -22,6 +22,8 @@ The repository currently implements a development playground, not a production s
 | Users            | UUID, email address, optional name, creation/update dates, roles, and permissions | Stored in PostgreSQL and visible only through a permission-protected admin server function.                                                         |
 | Sessions         | User ID, SHA-256 token hash, creation/expiry dates, and optional revocation date  | The raw token is held in an HTTP-only cookie; sessions expire after eight hours. Expired and revoked database records are not automatically erased. |
 | Content          | Post title, slug, excerpt, body, state, and dates                                 | Not inherently personal data, but operators can enter personal data in free text. Drafts remain behind server authorization.                        |
+| Products         | Product name, slug, summary, description, state, and dates                        | Not inherently personal data. Drafts remain behind server authorization and cannot receive public enquiries.                                        |
+| RFQ enquiries    | Product, name, email address, quantity, message, and submission date              | Stored in PostgreSQL to respond to the request. No automated retention or admin enquiry interface is implemented.                                   |
 | Request metadata | Potential IP addresses, user agents, and request logs                             | Not deliberately persisted by application code. Hosting, proxy, database, observability, and backup services may process them.                      |
 
 The code sets one necessary authentication cookie after the development-only identity bootstrap. No advertising, analytics, fingerprinting, or other non-essential tracking is implemented. A production authentication provider is not included.
@@ -33,6 +35,7 @@ The code sets one necessary authentication cookie after the development-only ide
 - Session middleware verifies expiry and revocation before loading the minimum principal fields needed for authorization.
 - Roles and permissions are enforced again inside protected server functions; route visibility is not treated as security.
 - State-changing server functions use input validation and same-origin checks.
+- Public RFQs accept only published product IDs and do not deliberately store IP addresses or user agents.
 - User deletion cascades to sessions and role assignments at the database relationship level.
 - Local PostgreSQL exposes its development port only on loopback.
 - No optional tracker is present that would justify adding a consent banner to the current demo.
@@ -48,7 +51,7 @@ Complete these items before processing real personal data in a jurisdiction wher
 3. Publish a deployment-specific notice at or before collection. Include the GDPR Article 13/14 information and the DPDP itemized data, specific purposes, rights, withdrawal, grievance, and Board-complaint information in clear, accessible language.
 4. Where consent is used, make it specific and affirmative, retain evidence, separate purposes, and make withdrawal as easy as consent. Add a consent interface only if optional processing exists. If using a DPDP Consent Manager, verify its registration and Rule 4 obligations.
 5. Implement authenticated workflows for access, correction, completion, erasure, consent withdrawal, objection, restriction, portability, grievances, and DPDP nomination where applicable. Track GDPR deadlines, generally one month, and publish a DPDP grievance period no longer than 90 days.
-6. Adopt and enforce a retention schedule. Erase or anonymize users, expired/revoked sessions, content, logs, and backups when no longer needed, subject to documented legal holds and applicable DPDP pre-erasure notice rules.
+6. Adopt and enforce a retention schedule. Erase or anonymize users, expired/revoked sessions, content, products, enquiries, logs, and backups when no longer needed, subject to documented legal holds and applicable DPDP pre-erasure notice rules.
 7. Complete production security controls: real authentication and logout, session rotation, rate limiting, least-privilege administration, transport and storage encryption, secret management, access monitoring, audit records, tested backups, dependency maintenance, and incident detection. Retain relevant security logs for at least one year where DPDP Rule 6 applies.
 8. Inventory every host and vendor. Sign required processor contracts, restrict their instructions and access, document sub-processors, and assess international transfers. Use a valid GDPR transfer mechanism where required and monitor any Indian transfer restrictions.
 9. Maintain a tested breach process. GDPR supervisory-authority notification may be due within 72 hours after awareness. Once operational, DPDP requires notice to affected Data Principals and the Board without delay, followed by prescribed Board details within 72 hours unless extended.

@@ -56,7 +56,9 @@ function AdminLayout() {
             <nav aria-label="Admin modules">
               <ul className="grid gap-1">
                 {modules.map((module) => {
-                  const active = pathname === module.href
+                  const active =
+                    pathname === module.href ||
+                    pathname.startsWith(`${module.href}/`)
                   return (
                     <li key={module.id}>
                       <span className="mb-1 block px-3 pt-3 text-xs font-semibold text-quaternary">

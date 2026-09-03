@@ -2,9 +2,9 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.1.1`
+**Current version:** `0.2.0`
 
-> **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, and CMS/blog foundations are working. Product/catalogue is next.
+> **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, CMS/blog, and product catalogue/RFQ foundations are working. Booking is next.
 
 ![NSheth App Kit social preview](<./Social Preview.png>)
 
@@ -21,8 +21,10 @@ The playground currently demonstrates:
 - Opaque HTTP-only sessions with server-side role and permission checks
 - A development-only RBAC proof requiring `admin` and `identity.read`
 - A responsive admin shell with permission-filtered modules and a protected identity resource
-- Validated post creation with draft and published states under `/admin/posts`
+- Complete post list/new/detail/edit/delete management under `/admin/posts`
 - A responsive public blog under `/blog` that never returns drafts
+- Complete product list/new/detail/edit/guarded-delete management under `/admin/products`
+- A public catalogue under `/catalogue` with product-specific RFQ submissions
 
 ## Quick Start
 
@@ -51,7 +53,7 @@ npm run db:migrate --workspace playground
 npm run dev
 ```
 
-Use **Run identity check** in the playground. In development, it creates a demo admin with identity and content permissions, stores only a hash of the opaque session token, sets an HTTP-only cookie, and calls a protected server function. The server function independently verifies both the role and permission before returning identity data. That session also grants access to `/admin/posts`.
+Use **Run identity check** in the playground. In development, it creates a demo admin with identity, content, and product permissions, stores only a hash of the opaque session token, sets an HTTP-only cookie, and calls a protected server function. The server function independently verifies both the role and permission before returning identity data. That session also grants access to `/admin/posts` and `/admin/products`.
 
 The bootstrap endpoint is unavailable in production. A real OAuth or password provider is intentionally not selected until an application requires one.
 
@@ -64,6 +66,7 @@ The bootstrap endpoint is unavailable in production. A real OAuth or password pr
 | `packages/identity`              | Principal checks and opaque session-token mechanics       |
 | `packages/admin`                 | Admin module registration and permission filtering        |
 | `packages/content`               | Publication states and post validation                    |
+| `packages/product`               | Product publication and RFQ enquiry validation            |
 | `packages/*`                     | Reserved ownership boundaries for optional domain modules |
 | `addons`                         | Future installable TanStack add-ons                       |
 | `templates`                      | Future composed application templates                     |
@@ -111,11 +114,10 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction, [`d
 
 ## Roadmap
 
-1. Product core and catalogue/RFQ
-2. Booking core, service booking, and hospitality
-3. Commerce, payments, and integrations
-4. Cloudflare, Vercel, and Node/VPS adapters
-5. Reusable add-ons and seven composed templates
+1. Booking core, service booking, and hospitality
+2. Commerce, payments, and integrations
+3. Cloudflare, Vercel, and Node/VPS adapters
+4. Reusable add-ons and seven composed templates
 
 The project ships one working vertical slice per phase rather than scaffolding unused abstractions.
 

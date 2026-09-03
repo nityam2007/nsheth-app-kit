@@ -72,6 +72,12 @@ function Home() {
             </a>
             <Link
               className="text-sm font-semibold text-tertiary hover:text-tertiary_hover"
+              to="/catalogue"
+            >
+              Catalogue
+            </Link>
+            <Link
+              className="text-sm font-semibold text-tertiary hover:text-tertiary_hover"
               to="/blog"
             >
               Notes

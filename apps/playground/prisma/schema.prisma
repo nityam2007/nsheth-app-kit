@@ -12,6 +12,39 @@ enum PostStatus {
   PUBLISHED
 }
 
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Product {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String        @unique
+  summary     String
+  description String        @db.Text
+  status      ProductStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  enquiries   Enquiry[]
+
+  @@index([status, publishedAt])
+}
+
+model Enquiry {
+  id        String   @id @default(uuid()) @db.Uuid
+  productId String   @db.Uuid
+  name      String
+  email     String
+  quantity  Int
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([productId, createdAt])
+}
+
 model Post {
   id          String     @id @default(uuid()) @db.Uuid
   title       String

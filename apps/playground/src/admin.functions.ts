@@ -1,22 +1,17 @@
 import { visibleAdminModules } from '@nsheth/admin'
 import { hasPermission, hasRole } from '@nsheth/identity'
 import { createServerFn } from '@tanstack/react-start'
-import { setResponseStatus } from '@tanstack/react-start/server'
 
 import { adminModules, identityUsersModule } from './admin.modules'
 import { getPrisma } from './db'
 import { identityMiddleware } from './identity.functions'
-
-function reject(status: number, message: string): never {
-  setResponseStatus(status)
-  throw new Error(message)
-}
+import { rejectRequest } from './server-utils'
 
 export const getAdminContext = createServerFn({ method: 'GET' })
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasRole(context.principal, 'admin')) {
-      reject(403, 'Forbidden')
+      rejectRequest(403, 'Forbidden')
     }
 
     return {
@@ -29,7 +24,7 @@ export const getAdminUsers = createServerFn({ method: 'GET' })
   .middleware([identityMiddleware])
   .handler(async ({ context }) => {
     if (!hasPermission(context.principal, identityUsersModule.permission)) {
-      reject(403, 'Forbidden')
+      rejectRequest(403, 'Forbidden')
     }
 
     const users = await getPrisma().user.findMany({

@@ -1,0 +1,86 @@
+NSHETH PERSONAL USE LICENSE
+Version 1.0, September 2026
+
+Copyright (c) 2026 NSheth
+
+1. Acceptance
+
+By using, copying, modifying, or distributing this software and its associated
+documentation (the "Software"), you agree to this license.
+
+2. Free Personal and Non-Commercial Use
+
+Permission is granted, without charge, to an individual to use, copy, modify,
+and distribute the Software for personal, educational, experimental, or other
+non-commercial purposes, provided that:
+
+a. the use is not performed for or on behalf of a business, organization,
+   client, or other legal entity;
+b. the use does not directly or indirectly generate revenue, compensation, or
+   commercial advantage; and
+c. this license and the copyright notice remain with every copy or substantial
+   portion of the Software.
+
+Publicly sharing a non-commercial project or fork is permitted when these terms
+and notices are retained.
+
+3. Commercial Use Requires a Paid License
+
+You must obtain a separate paid commercial license from the copyright holder
+before any commercial use of the Software. Commercial use includes, without
+limitation:
+
+a. use by a company, agency, consultancy, nonprofit organization, government
+   body, or other legal entity;
+b. client work, contract work, consulting, freelancing, or work performed by an
+   employee or representative of an organization;
+c. use in a product, service, website, application, subscription, advertisement,
+   or offering that generates or supports revenue;
+d. use for internal business operations or commercial advantage; and
+e. resale, sublicensing, paid hosting, white-labeling, or incorporation into a
+   commercial product or service.
+
+A commercial license may include different rights, restrictions, support, and
+fees. Contact hello@nsheth.in before commercial use.
+
+4. Restrictions
+
+Except under a separate written commercial license, you may not:
+
+a. sell, rent, sublicense, or charge for the Software or a substantial portion
+   of it;
+b. remove or alter copyright, attribution, or license notices;
+c. represent that the Software is licensed under an open-source license; or
+d. use the NSheth name, trademarks, or branding to imply endorsement.
+
+5. Ownership
+
+The Software is licensed, not sold. The copyright holder retains all rights not
+expressly granted by this license. Modifications do not grant ownership of the
+original Software.
+
+6. Termination
+
+Your rights under this license terminate automatically if you breach its terms.
+After termination, you must stop using and distributing the Software and delete
+all copies in your possession or control. Rights may be restored only with
+written permission from the copyright holder.
+
+7. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+8. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE
+FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM OR RELATED TO THE
+SOFTWARE OR ITS USE.
+
+9. Third-Party Software
+
+Portions of the Software may be provided under separate third-party licenses,
+as identified in THIRD_PARTY_NOTICES.md or accompanying source files. Those
+third-party terms control the applicable portions. This license applies only to
+material for which NSheth owns the copyright.

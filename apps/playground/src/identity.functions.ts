@@ -5,14 +5,10 @@ import {
   hashSessionToken,
 } from '@nsheth/identity'
 import { createMiddleware, createServerFn } from '@tanstack/react-start'
-import {
-  getCookie,
-  getRequest,
-  setCookie,
-  setResponseStatus,
-} from '@tanstack/react-start/server'
+import { getCookie, setCookie } from '@tanstack/react-start/server'
 
 import { getPrisma } from './db'
+import { rejectRequest, requireSameOrigin } from './server-utils'
 
 import type { Principal } from '@nsheth/identity'
 
@@ -30,25 +26,11 @@ function sessionCookieName() {
   return process.env.NODE_ENV === 'production' ? '__Host-session' : 'session'
 }
 
-function reject(status: number, message: string): never {
-  setResponseStatus(status)
-  throw new Error(message)
-}
-
-export function requireSameOrigin() {
-  const request = getRequest()
-  const origin = request.headers.get('origin')
-
-  if (!origin || origin !== new URL(request.url).origin) {
-    reject(403, 'Origin check failed')
-  }
-}
-
 export const identityMiddleware = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
     const token = getCookie(sessionCookieName())
 
-    if (!token) reject(401, 'Unauthorized')
+    if (!token) rejectRequest(401, 'Unauthorized')
 
     const session = await getPrisma().session.findFirst({
       where: {
@@ -78,7 +60,7 @@ export const identityMiddleware = createMiddleware({ type: 'function' }).server(
       },
     })
 
-    if (!session) reject(401, 'Unauthorized')
+    if (!session) rejectRequest(401, 'Unauthorized')
 
     const principal: Principal = {
       userId: session.user.id,
@@ -101,7 +83,7 @@ export const createDemoIdentitySession = createServerFn({
   method: 'POST',
 }).handler(async () => {
   if (process.env.NODE_ENV === 'production') {
-    reject(404, 'Not found')
+    rejectRequest(404, 'Not found')
   }
 
   requireSameOrigin()
@@ -173,7 +155,7 @@ export const getIdentityRbacProof = createServerFn({ method: 'GET' })
       !hasRole(context.principal, DEMO_ROLE) ||
       !hasPermission(context.principal, DEMO_PERMISSION)
     ) {
-      reject(403, 'Forbidden')
+      rejectRequest(403, 'Forbidden')
     }
 
     return context.principal

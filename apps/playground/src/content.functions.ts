@@ -1,22 +1,17 @@
 import { postInputSchema, postSlugSchema } from '@nsheth/content'
 import { hasPermission } from '@nsheth/identity'
 import { createServerFn } from '@tanstack/react-start'
-import { setResponseStatus } from '@tanstack/react-start/server'
 import { z } from 'zod'
 
 import { getPrisma } from './db'
-import { identityMiddleware, requireSameOrigin } from './identity.functions'
-
-function reject(status: number, message: string): never {
-  setResponseStatus(status)
-  throw new Error(message)
-}
+import { identityMiddleware } from './identity.functions'
+import { rejectRequest, requireSameOrigin } from './server-utils'
 
 export const getAdminPosts = createServerFn({ method: 'GET' })
   .middleware([identityMiddleware])
   .handler(async ({ context }) => {
     if (!hasPermission(context.principal, 'content.read')) {
-      reject(403, 'Forbidden')
+      rejectRequest(403, 'Forbidden')
     }
 
     const posts = await getPrisma().post.findMany({
@@ -43,7 +38,7 @@ export const createAdminPost = createServerFn({ method: 'POST' })
   .validator(postInputSchema)
   .handler(async ({ context, data }) => {
     if (!hasPermission(context.principal, 'content.write')) {
-      reject(403, 'Forbidden')
+      rejectRequest(403, 'Forbidden')
     }
 
     requireSameOrigin()

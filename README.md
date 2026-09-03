@@ -2,9 +2,11 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.1.0`
+**Current version:** `0.1.1`
 
 > **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, and CMS/blog foundations are working. Product/catalogue is next.
+
+![NSheth App Kit social preview](<./Social Preview.png>)
 
 ## Why This Exists
 
@@ -105,7 +107,7 @@ Hotkeys, Pacer, Turborepo, and optional domain packages remain unused until a re
 - Domain code does not assume a persistent filesystem or long-lived server process.
 - Accessibility includes semantic HTML, keyboard operation, visible focus, practical touch targets, and reduced-motion support.
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction and [`docs/PLAN.md`](docs/PLAN.md) for current progress.
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction, [`docs/PRIVACY.md`](docs/PRIVACY.md) for the GDPR and India DPDP readiness guide, and [`docs/PLAN.md`](docs/PLAN.md) for current progress.
 
 ## Roadmap
 
@@ -117,14 +119,26 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction and 
 
 The project ships one working vertical slice per phase rather than scaffolding unused abstractions.
 
+## License
+
+NSheth App Kit is source-available under the [NSheth Personal Use License](LICENSE):
+
+- Personal projects, including personal educational and experimental work, are free when they are non-commercial.
+- Company, agency, consultancy, client, internal-business, and revenue-generating use requires a separate paid commercial license.
+- Commercial licensing enquiries: [hello@nsheth.in](mailto:hello@nsheth.in).
+
+This is a custom source-available license, not an OSI-approved open-source license. See [`LICENSE`](LICENSE) for the complete terms. Copied Untitled UI portions retain their MIT license as documented in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
 ## Documentation
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): ownership and dependency direction
 - [`docs/PLAN.md`](docs/PLAN.md): completed phases and next work
 - [`docs/UI.md`](docs/UI.md): Untitled UI source and implementation rules
 - [`docs/SCAFFOLD.md`](docs/SCAFFOLD.md): generated setup and known tooling caveats
+- [`docs/PRIVACY.md`](docs/PRIVACY.md): GDPR and India DPDP implementation and deployment gate
 - [`docs/CONTEXT.md`](docs/CONTEXT.md): concise continuation handoff
 - [`RULES.md`](RULES.md): contribution and verification expectations
 - [`CHANGELOG.md`](CHANGELOG.md): versioned release history
-
-No license has been declared yet.
+- [`SECURITY.md`](SECURITY.md): private vulnerability reporting policy
+- [`LICENSE`](LICENSE): personal-use and commercial licensing terms
+- [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md): licenses for adapted upstream source

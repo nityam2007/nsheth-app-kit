@@ -51,6 +51,20 @@ Defer its command menu, theme/layout configurators, charts, mock dashboard pages
 - [x] Add one public blog index/detail vertical slice with useful metadata.
 - [x] Verify draft isolation, validation, accessibility, and responsive behavior.
 
+## Privacy and Data Protection Compliance Gate
+
+Target: GDPR and India DPDP readiness before any deployment processes real personal data. The current code is a privacy-aware technical baseline, not a compliance certification; see [`PRIVACY.md`](PRIVACY.md).
+
+- [x] Inventory the personal data, cookie, storage, and authorization behavior in the current playground.
+- [x] Document the GDPR scope and the phased DPDP Rules commencing 13 November 2025, 13 November 2026, and 13 May 2027.
+- [ ] Record each deployment's operator roles, purposes, data categories, lawful bases or legitimate uses, recipients, transfers, and retention periods.
+- [ ] Publish deployment-specific GDPR and DPDP notices and implement consent evidence and withdrawal where consent is used.
+- [ ] Implement and test access, correction, erasure, objection/restriction/portability, grievance, and nomination workflows where applicable.
+- [ ] Automate approved retention and erasure rules for users, sessions, content, logs, and backups.
+- [ ] Complete production authentication, security monitoring, vendor contracts, transfer safeguards, and tested breach procedures.
+- [ ] Add child-data controls before child-directed processing and assess DPO, representative, DPIA, and Significant Data Fiduciary duties.
+- [ ] Obtain deployment-specific legal review and retain verification evidence before marking the gate complete.
+
 ## Next Task: Product Core and Catalogue/RFQ
 
 1. Define the minimum product and enquiry models without inventory or checkout abstractions.

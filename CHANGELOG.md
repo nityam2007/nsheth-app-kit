@@ -2,6 +2,22 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.1.1] - 2026-09-03
+
+### Added
+
+- Added the custom NSheth Personal Use License, paid commercial-use terms, and Untitled UI third-party notices.
+- Added a private vulnerability reporting policy and repository social preview.
+- Added an audited GDPR and India DPDP readiness guide and a production compliance gate.
+
+### Changed
+
+- Declared the custom license in each package manifest and aligned workspace versions at `0.1.1`.
+
+### Fixed
+
+- Kept shared request rejection and same-origin checks behind TanStack Start's server-only boundary so production builds cannot import server APIs into the client bundle.
+
 ## [0.1.0] - 2026-09-03
 
 ### Added

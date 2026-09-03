@@ -1,6 +1,7 @@
 {
   "name": "playground",
   "private": true,
+  "license": "SEE LICENSE IN ../../LICENSE",
   "type": "module",
   "imports": {
     "#/*": "./src/*"
@@ -78,5 +79,5 @@
       "prisma"
     ]
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

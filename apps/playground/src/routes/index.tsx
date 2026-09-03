@@ -1,7 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {
+  ArrowRight,
+  File06,
+  LayersThree01,
+  ShieldTick,
+} from '@untitledui/icons'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { Button, Container, Field } from '@nsheth/ui'
 import { useState } from 'react'
+
+import { Button } from '@/components/base/buttons/button'
+import { Input } from '@/components/base/input/input'
+import { Container } from '@/components/container'
 
 import {
   createDemoIdentitySession,
@@ -12,159 +21,236 @@ import type { Principal } from '@nsheth/identity'
 
 export const Route = createFileRoute('/')({ component: Home })
 
+const capabilities = [
+  {
+    icon: LayersThree01,
+    title: 'Composable foundations',
+    description:
+      'Start with routing, data, identity, admin, and content boundaries that already work together.',
+  },
+  {
+    icon: ShieldTick,
+    title: 'Server-enforced access',
+    description:
+      'Keep sessions, roles, permissions, and private data checks at the server boundary.',
+  },
+  {
+    icon: File06,
+    title: 'Working vertical slices',
+    description:
+      'Build from real product flows instead of maintaining speculative framework layers.',
+  },
+]
+
 function Home() {
   return (
-    <>
-      <a className="skip-link" href="#main-content">
+    <div className="min-h-svh bg-primary">
+      <a
+        className="fixed top-3 left-3 z-50 -translate-y-24 rounded-lg bg-brand-solid px-4 py-2.5 text-sm font-semibold text-white shadow-xs focus:translate-y-0 focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+        href="#main-content"
+      >
         Skip to content
       </a>
 
-      <header className="site-header">
-        <Container className="site-header__inner" wide>
-          <a className="wordmark" href="/" aria-label="NSheth UI home">
-            NSheth
-          </a>
-          <span className="site-header__label">UI foundation / 01</span>
+      <header className="border-b border-secondary bg-primary">
+        <Container className="flex min-h-18 items-center justify-between gap-6">
+          <Link
+            className="text-lg font-semibold text-primary no-underline outline-brand focus-visible:outline-2 focus-visible:outline-offset-4"
+            to="/"
+          >
+            NSheth App Kit
+          </Link>
+          <nav
+            className="flex items-center gap-5"
+            aria-label="Primary navigation"
+          >
+            <a
+              className="text-sm font-semibold text-tertiary hover:text-tertiary_hover"
+              href="#capabilities"
+            >
+              Foundations
+            </a>
+            <Link
+              className="text-sm font-semibold text-tertiary hover:text-tertiary_hover"
+              to="/blog"
+            >
+              Notes
+            </Link>
+          </nav>
         </Container>
       </header>
 
       <main id="main-content">
-        <section className="hero" aria-labelledby="page-title">
-          <Container className="hero__layout" wide>
-            <div className="hero__copy">
-              <p className="mono-label">NSheth UI / Foundation 01</p>
-              <h1 id="page-title">A system for useful interfaces.</h1>
-              <p className="hero__lead">
-                Shared UI, identity, and authorization foundations for the
-                templates we build next.
-              </p>
-              <div className="hero__actions">
-                <a className="ns-button ns-button--primary" href="#controls">
-                  Inspect controls
-                </a>
-                <a className="text-link" href="#foundations">
-                  Read principles
-                </a>
-              </div>
-            </div>
-
-            <div className="hero__mark" aria-hidden="true">
-              <span className="hero__orbit" />
-              <span className="hero__axis" />
-              <span className="hero__caption">Clear / capable / alive</span>
-            </div>
-          </Container>
-        </section>
-
         <section
-          className="showcase-section"
-          id="foundations"
-          aria-labelledby="foundations-title"
+          className="py-20 sm:py-24 lg:py-32"
+          aria-labelledby="page-title"
         >
-          <Container wide>
-            <header className="section-heading">
-              <h2 id="foundations-title">Graphite. Ink. One signal.</h2>
-              <p>
-                The foundation stays quiet so hierarchy, content, and action
-                remain obvious.
+          <Container className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_28rem]">
+            <div>
+              <p className="mb-4 text-sm font-semibold text-brand-secondary">
+                TanStack Start application foundation
               </p>
-            </header>
-
-            <ul className="palette" aria-label="Core color tokens">
-              <li className="palette__item palette__item--canvas">
-                <strong>Canvas</strong>
-                <code>#0B0D0C</code>
-              </li>
-              <li className="palette__item palette__item--surface">
-                <strong>Surface</strong>
-                <code>#202421</code>
-              </li>
-              <li className="palette__item palette__item--ink">
-                <strong>Ink</strong>
-                <code>#F2F3EF</code>
-              </li>
-              <li className="palette__item palette__item--signal">
-                <strong>Signal</strong>
-                <code>#FF3D81</code>
-              </li>
-            </ul>
-
-            <div className="type-specimen">
-              <p className="type-specimen__meta">Display / 700 / 0.98</p>
-              <p className="type-specimen__display">Make it useful.</p>
-              <p className="type-specimen__body">
-                Neue Montreal carries the interface. IBM Plex Mono marks system
-                details and useful metadata.
-              </p>
-            </div>
-          </Container>
-        </section>
-
-        <section
-          className="showcase-section"
-          id="controls"
-          aria-labelledby="controls-title"
-        >
-          <Container className="controls-layout" wide>
-            <header className="section-heading controls-layout__heading">
-              <h2 id="controls-title">Controls that explain themselves.</h2>
-              <p>
-                Visible labels, native behavior, clear states, and enough room
-                to use them comfortably.
-              </p>
-            </header>
-
-            <div className="control-specimen">
-              <form className="example-form" action="#controls">
-                <Field
-                  autoComplete="name"
-                  hint="Use the person’s real name when it helps the task."
-                  label="Name"
-                  name="name"
-                  placeholder="Your name"
-                />
-                <Field
-                  autoComplete="email"
-                  defaultValue="name@"
-                  error="Enter a complete email address."
-                  label="Email"
-                  name="email"
-                  required
-                  type="email"
-                />
-                <div className="control-specimen__actions">
-                  <Button type="submit">Check fields</Button>
-                  <Button popoverTarget="state-note" variant="secondary">
-                    State notes
-                  </Button>
-                </div>
-              </form>
-
-              <div
-                className="foundation-popover"
-                id="state-note"
-                popover="auto"
+              <h1
+                className="max-w-4xl text-display-lg font-semibold tracking-tight text-primary sm:text-display-xl"
+                id="page-title"
               >
-                <strong>Native first.</strong>
-                <p>
-                  Buttons keep keyboard behavior; fields connect labels,
-                  descriptions, and errors.
-                </p>
+                Build the product, not the plumbing.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg text-tertiary sm:text-xl">
+                A source-first kit for composing focused applications with
+                working identity, admin, content, and data boundaries.
+              </p>
+              <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row">
+                <Button
+                  color="secondary"
+                  size="lg"
+                  onPress={() =>
+                    document.querySelector('#controls')?.scrollIntoView()
+                  }
+                >
+                  Inspect controls
+                </Button>
+                <Button
+                  iconTrailing={ArrowRight}
+                  size="lg"
+                  onPress={() =>
+                    document.querySelector('#identity')?.scrollIntoView()
+                  }
+                >
+                  Run the proof
+                </Button>
               </div>
             </div>
+
+            <div className="rounded-2xl bg-secondary p-6 ring-1 ring-secondary sm:p-8">
+              <div className="rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary">
+                <div className="flex items-center justify-between gap-4 border-b border-secondary pb-4">
+                  <span className="text-sm font-semibold text-primary">
+                    Current foundation
+                  </span>
+                  <span className="rounded-full bg-success-primary px-2.5 py-1 text-xs font-medium text-success-primary">
+                    Working
+                  </span>
+                </div>
+                <dl className="mt-2 divide-y divide-secondary">
+                  {[
+                    ['Runtime', 'TanStack Start'],
+                    ['Persistence', 'PostgreSQL + Prisma'],
+                    ['UI', 'Untitled UI React'],
+                    ['Access', 'RBAC at server boundary'],
+                  ].map(([term, value]) => (
+                    <div
+                      className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-3"
+                      key={term}
+                    >
+                      <dt className="text-sm text-tertiary">{term}</dt>
+                      <dd className="text-sm font-medium text-primary">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        <section
+          className="border-y border-secondary bg-secondary py-16 sm:py-20"
+          id="capabilities"
+          aria-labelledby="capabilities-title"
+        >
+          <Container>
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold text-brand-secondary">
+                Foundations
+              </p>
+              <h2
+                className="mt-3 text-display-sm font-semibold text-primary sm:text-display-md"
+                id="capabilities-title"
+              >
+                The essentials are connected.
+              </h2>
+              <p className="mt-4 text-lg text-tertiary">
+                Each boundary exists because a working route uses it today.
+              </p>
+            </div>
+            <ul className="mt-12 divide-y divide-secondary border-y border-secondary">
+              {capabilities.map(({ description, icon: Icon, title }) => (
+                <li
+                  className="grid gap-5 py-7 sm:grid-cols-[3rem_14rem_minmax(0,1fr)] sm:items-center"
+                  key={title}
+                >
+                  <span className="flex size-10 items-center justify-center rounded-lg bg-brand-primary text-brand-secondary ring-1 ring-brand">
+                    <Icon aria-hidden="true" className="size-5" />
+                  </span>
+                  <strong className="text-md font-semibold text-primary">
+                    {title}
+                  </strong>
+                  <span className="max-w-2xl text-md text-tertiary">
+                    {description}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+
+        <section className="py-16 sm:py-24" id="controls">
+          <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(24rem,1.2fr)] lg:gap-20">
+            <div className="max-w-xl">
+              <p className="text-sm font-semibold text-brand-secondary">
+                Controls
+              </p>
+              <h2 className="mt-3 text-display-sm font-semibold text-primary sm:text-display-md">
+                Accessible by default.
+              </h2>
+              <p className="mt-4 text-lg text-tertiary">
+                Copied Untitled UI primitives provide labels, validation states,
+                keyboard behavior, and consistent focus treatment.
+              </p>
+            </div>
+
+            <form
+              className="grid gap-5 rounded-xl bg-secondary p-6 ring-1 ring-secondary sm:p-8"
+              action="#controls"
+            >
+              <Input
+                autoComplete="name"
+                hint="Use the person's real name when it helps the task."
+                label="Name"
+                name="name"
+                placeholder="Your name"
+              />
+              <Input
+                autoComplete="email"
+                defaultValue="name@"
+                hint="Enter a complete email address."
+                isInvalid
+                isRequired
+                label="Email"
+                name="email"
+                type="email"
+              />
+              <Button className="mt-1 justify-self-start" type="submit">
+                Check fields
+              </Button>
+            </form>
           </Container>
         </section>
 
         <IdentityProof />
       </main>
 
-      <footer className="site-footer">
-        <Container className="site-footer__inner" wide>
+      <footer className="border-t border-secondary py-8">
+        <Container className="flex flex-col gap-3 text-sm text-tertiary sm:flex-row sm:items-center sm:justify-between">
           <span>NSheth App Kit</span>
-          <a href="/blog">Read notes</a>
+          <Link className="font-semibold text-secondary" to="/blog">
+            Read implementation notes
+          </Link>
         </Container>
       </footer>
-    </>
+    </div>
   )
 }
 
@@ -190,54 +276,85 @@ function IdentityProof() {
   }
 
   return (
-    <section className="showcase-section" aria-labelledby="identity-title">
-      <Container className="identity-layout" wide>
-        <header className="section-heading identity-layout__heading">
-          <p className="mono-label">Identity / Foundation 02</p>
-          <h2 id="identity-title">Permission checked at the boundary.</h2>
-          <p>
-            A development-only session proves both the admin role and the
-            identity.read permission inside a protected server function.
+    <section
+      className="border-t border-secondary bg-secondary py-16 sm:py-24"
+      id="identity"
+      aria-labelledby="identity-title"
+    >
+      <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(24rem,1.2fr)] lg:gap-20">
+        <div className="max-w-xl">
+          <p className="text-sm font-semibold text-brand-secondary">
+            Identity and RBAC
           </p>
-        </header>
+          <h2
+            className="mt-3 text-display-sm font-semibold text-primary sm:text-display-md"
+            id="identity-title"
+          >
+            Permission checked at the boundary.
+          </h2>
+          <p className="mt-4 text-lg text-tertiary">
+            A development-only session proves the admin role and identity.read
+            permission inside a protected server function.
+          </p>
+        </div>
 
-        <div className="identity-proof" aria-live="polite">
-          <p className="identity-proof__eyebrow">Server-enforced RBAC</p>
+        <div
+          className="rounded-xl bg-primary p-6 shadow-xs ring-1 ring-secondary sm:p-8"
+          aria-live="polite"
+        >
           {principal ? (
-            <dl className="identity-proof__result">
-              <div>
-                <dt>User</dt>
-                <dd>{principal.email}</dd>
-              </div>
-              <div>
-                <dt>Role</dt>
-                <dd>{principal.roles.join(', ')}</dd>
-              </div>
-              <div>
-                <dt>Permission</dt>
-                <dd>{principal.permissions.join(', ')}</dd>
-              </div>
-              <div>
-                <dt>Decision</dt>
-                <dd className="identity-proof__allowed">Allowed</dd>
-              </div>
+            <dl className="divide-y divide-secondary">
+              {[
+                ['User', principal.email],
+                ['Role', principal.roles.join(', ')],
+                ['Permission', principal.permissions.join(', ')],
+                ['Decision', 'Allowed'],
+              ].map(([term, value]) => (
+                <div
+                  className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 py-3 first:pt-0"
+                  key={term}
+                >
+                  <dt className="text-sm text-tertiary">{term}</dt>
+                  <dd
+                    className={
+                      term === 'Decision'
+                        ? 'text-sm font-medium text-success-primary'
+                        : 'text-sm font-medium text-primary'
+                    }
+                  >
+                    {value}
+                  </dd>
+                </div>
+              ))}
             </dl>
           ) : (
-            <p className="identity-proof__empty">
+            <p className="mt-0 text-md text-tertiary">
               No session yet. Run the check to create the local demo identity.
             </p>
           )}
-          <div className="identity-proof__actions">
-            <Button disabled={pending} onClick={runProof}>
-              {pending ? 'Checking...' : 'Run identity check'}
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Button
+              isDisabled={pending}
+              isLoading={pending}
+              showTextWhileLoading
+              onPress={runProof}
+            >
+              Run identity check
             </Button>
             {principal ? (
-              <a className="ns-button ns-button--secondary" href="/admin/users">
+              <Link
+                className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-3.5 py-2.5 text-sm font-semibold text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover"
+                to="/admin/users"
+              >
                 Open admin
-              </a>
+              </Link>
             ) : null}
           </div>
-          {error ? <p className="identity-proof__error">{error}</p> : null}
+          {error ? (
+            <p className="mt-4 text-sm text-error-primary" role="alert">
+              {error}
+            </p>
+          ) : null}
         </div>
       </Container>
     </section>

@@ -9,12 +9,20 @@
 - [x] Add a local TanStack CLI source reference.
 - [x] Verify formatting, ESLint, TypeScript, and the Vite dev server without a production build.
 
-## Completed: UI Foundation
+## Completed: Initial UI Foundation
 
 - [x] Convert brand guidance into CSS tokens, bundled fonts, layout utilities, and reduced-motion defaults.
 - [x] Add source-first `Container`, `Button`, and `Field` primitives under `packages/ui`.
 - [x] Replace the blank route with a responsive foundation showcase.
 - [x] Verify workspace formatting, ESLint, TypeScript, and clean Vite startup.
+
+## Completed: Untitled UI Migration
+
+- [x] Replace the custom NSheth visual system with Tailwind CSS and semantic Untitled UI tokens.
+- [x] Copy only the Button, Input, TextArea, label, and hint primitives required by current routes.
+- [x] Migrate the foundation, admin, and blog interfaces and remove the obsolete `@nsheth/ui` workspace and bundled fonts.
+- [x] Add discoverable source-context guidance and current upstream TanStack and Untitled UI checkouts.
+- [x] Verify formatting, ESLint, TypeScript, route generation, tests, and clean Vite startup.
 
 ## Completed: Identity and RBAC
 
@@ -26,11 +34,11 @@
 
 ## Completed: Admin Shell and Module Registration
 
-Reference [`satnaing/shadcn-admin`](https://github.com/satnaing/shadcn-admin) for its MIT-licensed responsive shell interactions, not as a dependency or visual template. Reimplement only useful patterns with NSheth tokens, TanStack Start server boundaries, the existing identity package, and the installed TanStack Table version.
+Reference [`satnaing/shadcn-admin`](https://github.com/satnaing/shadcn-admin) for its MIT-licensed responsive shell interactions, not as a dependency or visual template. Reimplement only useful patterns with TanStack Start server boundaries, the existing identity package, and the installed TanStack Table version.
 
 - [x] Study only the relevant responsive sidebar, grouped navigation, user area, content inset, and skip-link source.
 - [x] Define the minimum permission-filtered module registration shape from one real admin navigation slice.
-- [x] Build the responsive, permission-aware admin shell using existing UI tokens and primitives.
+- [x] Build the responsive, permission-aware admin shell using shared UI tokens and primitives.
 - [x] Add one registered resource route without prebuilding generic CRUD infrastructure.
 - [x] Verify keyboard navigation, mobile and desktop structure, and direct server authorization.
 

@@ -6,7 +6,7 @@
 apps/
   playground/
 packages/
-  core/ identity/ ui/ admin/ content/ product/
+  core/ identity/ admin/ content/ product/
   commerce/ booking/ hospitality/ communication/
   payments/ growth/ operations/ integrations/
 addons/
@@ -23,7 +23,7 @@ Directories reserve ownership boundaries; they are not permission to prebuild un
 
 ```text
 templates/apps -> domain modules -> core boundaries
-                              \-> UI foundations
+              \-> copied Untitled UI primitives
 integrations and deployments implement core boundaries
 ```
 
@@ -36,11 +36,11 @@ integrations and deployments implement core boundaries
 - Store supports temporary client workflows such as cart state.
 - Hotkeys and Pacer are added when real admin interactions require them.
 
-`packages/ui` exports uncompiled TypeScript/TSX and CSS directly to workspace apps, keeping development on Vite's fast source path. Apps must deduplicate `react` and `react-dom` in Vite when consuming linked React packages.
+The playground owns the small set of Untitled UI React primitives used by its routes under `src/components`. Components are copied from upstream source instead of consumed through the private `@untitledui/react` package; add another primitive only when a working route requires it.
 
 `packages/identity` owns provider-neutral principals, role/permission checks, and opaque session-token mechanics. Apps own session persistence, cookie policy, authentication providers, and authorization decisions at their server boundaries.
 
-`packages/admin` owns the small module registration shape and permission filtering. Apps own route definitions, resource policy, data loading, and the branded shell composition.
+`packages/admin` owns the small module registration shape and permission filtering. Apps own route definitions, resource policy, data loading, and shell composition.
 
 `packages/content` owns publication states and provider-neutral post validation. Apps own content persistence, admin authorization, public visibility queries, routes, and rendering.
 

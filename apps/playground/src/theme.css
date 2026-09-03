@@ -1,0 +1,85 @@
+@theme {
+  --font-body:
+    var(--font-inter, 'Inter'), -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+  --font-display:
+    var(--font-inter, 'Inter'), -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-md: 1rem;
+  --text-md--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.875rem;
+  --text-display-xs: 1.5rem;
+  --text-display-xs--line-height: 2rem;
+  --text-display-sm: 1.875rem;
+  --text-display-sm--line-height: 2.375rem;
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 2.75rem;
+  --text-display-md--letter-spacing: -0.045rem;
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 3.75rem;
+  --text-display-lg--letter-spacing: -0.06rem;
+  --text-display-xl: 3.75rem;
+  --text-display-xl--line-height: 4.5rem;
+  --text-display-xl--letter-spacing: -0.075rem;
+
+  --max-width-container: 80rem;
+
+  --color-brand-50: rgb(249 245 255);
+  --color-brand-100: rgb(244 235 255);
+  --color-brand-500: rgb(158 119 237);
+  --color-brand-600: rgb(127 86 217);
+  --color-brand-700: rgb(105 65 198);
+  --color-brand-900: rgb(66 48 125);
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 5%);
+  --shadow-skeuomorphic:
+    0 0 0 1px rgb(0 0 0 / 18%) inset, 0 -2px 0 0 rgb(0 0 0 / 5%) inset;
+  --shadow-xs-skeuomorphic: var(--shadow-skeuomorphic), var(--shadow-xs);
+
+  --text-color-primary: var(--color-neutral-900);
+  --text-color-secondary: var(--color-neutral-700);
+  --text-color-secondary_hover: var(--color-neutral-800);
+  --text-color-tertiary: var(--color-neutral-600);
+  --text-color-tertiary_hover: var(--color-neutral-700);
+  --text-color-quaternary: var(--color-neutral-500);
+  --text-color-placeholder: var(--color-neutral-500);
+  --text-color-brand-primary: var(--color-brand-900);
+  --text-color-brand-secondary: var(--color-brand-700);
+  --text-color-brand-secondary_hover: var(--color-brand-900);
+  --text-color-brand-tertiary: var(--color-brand-600);
+  --text-color-error-primary: var(--color-red-600);
+  --text-color-success-primary: var(--color-green-600);
+
+  --background-color-primary: var(--color-white);
+  --background-color-primary_hover: var(--color-neutral-50);
+  --background-color-secondary: var(--color-neutral-50);
+  --background-color-secondary_hover: var(--color-neutral-100);
+  --background-color-brand-primary: var(--color-brand-50);
+  --background-color-brand-secondary: var(--color-brand-100);
+  --background-color-brand-solid: var(--color-brand-600);
+  --background-color-brand-solid_hover: var(--color-brand-700);
+  --background-color-success-primary: var(--color-green-50);
+
+  --border-color-primary: var(--color-neutral-300);
+  --border-color-secondary: var(--color-neutral-200);
+  --border-color-tertiary: var(--color-neutral-100);
+  --border-color-brand: var(--color-brand-500);
+  --border-color-error: var(--color-red-500);
+  --border-color-error_subtle: var(--color-red-300);
+
+  --ring-color-primary: var(--color-neutral-300);
+  --ring-color-secondary: var(--color-neutral-200);
+  --ring-color-brand: var(--color-brand-500);
+  --ring-color-error: var(--color-red-500);
+  --ring-color-error_subtle: var(--color-red-300);
+
+  --outline-color-brand: var(--color-brand-500);
+}

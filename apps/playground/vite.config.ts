@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
+import tailwindcss from '@tailwindcss/vite'
 
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
@@ -10,7 +11,7 @@ const config = defineConfig({
     dedupe: ['react', 'react-dom'],
     tsconfigPaths: true,
   },
-  plugins: [devtools(), tanstackStart(), viteReact()],
+  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
 })
 
 export default config

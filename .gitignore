@@ -5,3 +5,4 @@ dist/
 .env*
 !.env.example
 reference/repos/github.com/TanStack/*/
+reference/repos/github.com/untitleduico/*/

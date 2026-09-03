@@ -28,14 +28,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: 'description',
-        content: 'NSheth UI foundations for clear, useful digital products.',
+        content: 'A TanStack Start foundation for focused digital products.',
       },
       {
         name: 'theme-color',
-        content: '#0b0d0c',
+        content: '#ffffff',
       },
       {
-        title: 'NSheth UI Foundation',
+        title: 'NSheth App Kit',
       },
     ],
     links: [

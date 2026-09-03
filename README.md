@@ -2,7 +2,9 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-> **Project status:** Active, early-stage development. The application, UI, identity, RBAC, admin, and CMS/blog foundations are working. Product/catalogue is next.
+**Current version:** `0.1.0`
+
+> **Project status:** Active, early-stage development. The application, Untitled UI, identity, RBAC, admin, and CMS/blog foundations are working. Product/catalogue is next.
 
 ## Why This Exists
 
@@ -11,7 +13,7 @@ NSheth App Kit is a source-first monorepo for composing focused applications fro
 The playground currently demonstrates:
 
 - TanStack Start routing, SSR, Query integration, and development tooling
-- NSheth design tokens, locally bundled fonts, responsive layout, and accessible controls
+- Copied Untitled UI React controls, semantic Tailwind tokens, and responsive layouts
 - PostgreSQL persistence through Prisma
 - Provider-neutral users, sessions, roles, and permissions
 - Opaque HTTP-only sessions with server-side role and permission checks
@@ -53,18 +55,18 @@ The bootstrap endpoint is unavailable in production. A real OAuth or password pr
 
 ## Repository
 
-| Path                | Purpose                                                   |
-| ------------------- | --------------------------------------------------------- |
-| `apps/playground`   | Runnable integration showcase and server boundary         |
-| `packages/ui`       | Source-first tokens, CSS, and React primitives            |
-| `packages/identity` | Principal checks and opaque session-token mechanics       |
-| `packages/admin`    | Admin module registration and permission filtering        |
-| `packages/content`  | Publication states and post validation                    |
-| `packages/*`        | Reserved ownership boundaries for optional domain modules |
-| `addons`            | Future installable TanStack add-ons                       |
-| `templates`         | Future composed application templates                     |
-| `deployments`       | Cloudflare, Vercel, and Node/VPS targets                  |
-| `docs`              | Architecture, plan, brand, scaffold, and handoff context  |
+| Path                             | Purpose                                                   |
+| -------------------------------- | --------------------------------------------------------- |
+| `apps/playground`                | Runnable integration showcase and server boundary         |
+| `apps/playground/src/components` | Copied Untitled UI primitives used by current routes      |
+| `packages/identity`              | Principal checks and opaque session-token mechanics       |
+| `packages/admin`                 | Admin module registration and permission filtering        |
+| `packages/content`               | Publication states and post validation                    |
+| `packages/*`                     | Reserved ownership boundaries for optional domain modules |
+| `addons`                         | Future installable TanStack add-ons                       |
+| `templates`                      | Future composed application templates                     |
+| `deployments`                    | Cloudflare, Vercel, and Node/VPS targets                  |
+| `docs`                           | Architecture, plan, UI, scaffold, and handoff context     |
 
 Reserved directories are not prebuilt modules. Functionality is added only when a working vertical slice needs it.
 
@@ -87,6 +89,7 @@ Reserved directories are not prebuilt modules. Functionality is added only when 
 - React 19 and TypeScript
 - TanStack Start and Router
 - TanStack Query, DB, Table, Form, Store, Hotkeys, and Pacer
+- Untitled UI React patterns, React Aria Components, and Tailwind CSS
 - Prisma and PostgreSQL
 - npm workspaces
 - ESLint and Prettier
@@ -114,9 +117,14 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction and 
 
 The project ships one working vertical slice per phase rather than scaffolding unused abstractions.
 
-## Project Notes
+## Documentation
 
-- [`CHANGELOG.md`](CHANGELOG.md) records completed work.
-- [`RULES.md`](RULES.md) defines contribution and verification expectations.
-- [`docs/CONTEXT.md`](docs/CONTEXT.md) is the concise handoff for continuing development with an AI coding agent.
-- No license has been declared yet.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): ownership and dependency direction
+- [`docs/PLAN.md`](docs/PLAN.md): completed phases and next work
+- [`docs/UI.md`](docs/UI.md): Untitled UI source and implementation rules
+- [`docs/SCAFFOLD.md`](docs/SCAFFOLD.md): generated setup and known tooling caveats
+- [`docs/CONTEXT.md`](docs/CONTEXT.md): concise continuation handoff
+- [`RULES.md`](RULES.md): contribution and verification expectations
+- [`CHANGELOG.md`](CHANGELOG.md): versioned release history
+
+No license has been declared yet.

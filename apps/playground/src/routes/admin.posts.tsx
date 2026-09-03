@@ -1,7 +1,10 @@
-import { Button, Field } from '@nsheth/ui'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+
+import { Button } from '@/components/base/buttons/button'
+import { Input } from '@/components/base/input/input'
+import { TextArea } from '@/components/base/textarea/textarea'
 
 import { createAdminPost, getAdminPosts } from '../content.functions'
 
@@ -46,89 +49,133 @@ function PostsResource() {
   }
 
   return (
-    <section className="admin-resource" aria-labelledby="posts-title">
-      <header className="admin-resource__header">
+    <section aria-labelledby="posts-title">
+      <header className="flex flex-col gap-5 border-b border-secondary pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p>Content / Posts</p>
-          <h1 id="posts-title">Write once. Publish clearly.</h1>
+          <p className="text-sm font-semibold text-brand-secondary">Content</p>
+          <h1
+            className="mt-2 text-display-sm font-semibold text-primary"
+            id="posts-title"
+          >
+            Posts
+          </h1>
         </div>
-        <span>{posts.length} records</span>
+        <span className="text-sm text-tertiary">{posts.length} records</span>
       </header>
 
-      <p className="admin-resource__intro">
+      <p className="mt-6 max-w-3xl text-md text-tertiary">
         Create a plain-text article as a draft or publish it immediately. Drafts
         remain private to this workspace.
       </p>
 
-      <div className="admin-posts-layout">
-        <form className="admin-post-form" onSubmit={handleSubmit}>
-          <h2>New post</h2>
-          <Field
+      <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(22rem,0.8fr)_minmax(28rem,1.2fr)]">
+        <form
+          className="grid gap-5 rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-6"
+          onSubmit={handleSubmit}
+        >
+          <h2 className="text-lg font-semibold text-primary">New post</h2>
+          <Input
+            isRequired
             label="Title"
+            maxLength={160}
+            minLength={3}
             name="title"
-            minLength={3}
-            maxLength={160}
-            required
           />
-          <Field
+          <Input
             hint="Lowercase letters, numbers, and single hyphens."
+            isRequired
             label="URL slug"
-            name="slug"
-            minLength={3}
             maxLength={160}
+            minLength={3}
+            name="slug"
             pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-            required
           />
-          <div className="admin-form-field">
-            <label htmlFor="post-excerpt">Excerpt</label>
-            <textarea
-              id="post-excerpt"
-              name="excerpt"
-              maxLength={300}
-              rows={3}
-              required
-            />
-          </div>
-          <div className="admin-form-field">
-            <label htmlFor="post-body">Body</label>
-            <textarea
-              id="post-body"
-              name="body"
-              maxLength={100000}
-              rows={12}
-              required
-            />
-          </div>
-          <div className="admin-form-field">
-            <label htmlFor="post-status">Publication state</label>
-            <select id="post-status" name="status" defaultValue="DRAFT">
+          <TextArea
+            isRequired
+            label="Excerpt"
+            maxLength={300}
+            name="excerpt"
+            rows={3}
+          />
+          <TextArea
+            isRequired
+            label="Body"
+            maxLength={100000}
+            name="body"
+            rows={12}
+          />
+          <label
+            className="grid gap-1.5 text-sm font-medium text-secondary"
+            htmlFor="post-status"
+          >
+            Publication state
+            <select
+              className="min-h-11 w-full rounded-lg bg-primary px-3.5 py-2.5 text-md text-primary shadow-xs ring-1 ring-primary ring-inset outline-hidden focus:ring-2 focus:ring-brand"
+              defaultValue="DRAFT"
+              id="post-status"
+              name="status"
+            >
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
             </select>
-          </div>
+          </label>
           {error ? (
-            <p className="admin-form-error" role="alert">
+            <p className="m-0 text-sm text-error-primary" role="alert">
               {error}
             </p>
           ) : null}
-          <Button disabled={isSaving} type="submit">
-            {isSaving ? 'Saving...' : 'Create post'}
+          <Button
+            className="justify-self-start"
+            isDisabled={isSaving}
+            isLoading={isSaving}
+            showTextWhileLoading
+            type="submit"
+          >
+            Create post
           </Button>
         </form>
 
-        <section className="admin-post-list" aria-labelledby="all-posts-title">
-          <h2 id="all-posts-title">All posts</h2>
+        <section
+          className="min-w-0 rounded-xl bg-primary shadow-xs ring-1 ring-secondary"
+          aria-labelledby="all-posts-title"
+        >
+          <div className="border-b border-secondary px-5 py-4 sm:px-6">
+            <h2
+              className="text-lg font-semibold text-primary"
+              id="all-posts-title"
+            >
+              All posts
+            </h2>
+          </div>
           {posts.length ? (
-            <ol>
+            <ol className="divide-y divide-secondary">
               {posts.map((post) => (
-                <li key={post.id}>
-                  <div>
-                    <strong>{post.title}</strong>
-                    <span>/{post.slug}</span>
+                <li
+                  className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:px-6"
+                  key={post.id}
+                >
+                  <div className="min-w-0">
+                    <strong className="block truncate text-sm font-medium text-primary">
+                      {post.title}
+                    </strong>
+                    <span className="mt-1 block truncate text-sm text-tertiary">
+                      /{post.slug}
+                    </span>
                   </div>
-                  <div>
-                    <span className="admin-post-status">{post.status}</span>
-                    <time dateTime={post.publishedAt ?? post.createdAt}>
+                  <div className="sm:text-right">
+                    <span
+                      className={
+                        post.status === 'PUBLISHED'
+                          ? 'inline-flex rounded-full bg-success-primary px-2.5 py-0.5 text-xs font-medium text-success-primary'
+                          : 'inline-flex rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary'
+                      }
+                    >
+                      {post.status === 'PUBLISHED' ? 'Published' : 'Draft'}
+                    </span>
+                    <time
+                      className="mt-1 block text-xs text-tertiary"
+                      dateTime={post.publishedAt ?? post.createdAt}
+                    >
                       {post.publishedAt ?? post.createdAt}
                     </time>
                   </div>
@@ -136,7 +183,9 @@ function PostsResource() {
               ))}
             </ol>
           ) : (
-            <p>No posts yet. Create the first one here.</p>
+            <p className="px-6 py-12 text-center text-sm text-tertiary">
+              No posts yet. Create the first one here.
+            </p>
           )}
         </section>
       </div>

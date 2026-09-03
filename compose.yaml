@@ -1,0 +1,22 @@
+name: nsheth-app-kit
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nsheth_app_kit
+      POSTGRES_USER: nsheth
+      POSTGRES_PASSWORD: nsheth_local
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U nsheth -d nsheth_app_kit']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:

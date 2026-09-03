@@ -2,6 +2,22 @@
 
 Newest entries go directly below this note.
 
+## 2026-09-03 - CMS and blog vertical slice
+
+- Added Docker Compose PostgreSQL with a persistent volume, health check, loopback-only port, and matching local environment example.
+- Added the source-first `@nsheth/content` package with publication states, post validation, and a runnable test.
+- Added the Prisma post model and migration, protected admin post create/list flow, and `content.read` plus `content.write` demo permissions.
+- Added responsive public blog index/detail routes with published-only queries, draft isolation, missing-post handling, and per-post metadata.
+- Verified formatting, ESLint, TypeScript, package tests, route generation, migration application, clean Vite startup, and published-versus-draft HTTP behavior.
+
+## 2026-09-03 - Admin shell and tooling decision
+
+- Added the source-first `@nsheth/admin` module registration and permission-filtering package with a runnable test.
+- Added a responsive, permission-aware admin shell and read-only identity users resource protected by both route UX and direct server authorization.
+- Adapted only the sidebar, grouped navigation, user area, content inset, and skip-link interaction ideas from the MIT-licensed `satnaing/shadcn-admin` reference.
+- Evaluated Turborepo and deferred installation until multiple runnable apps or measured CI cost make task orchestration and caching reduce more maintenance than they add.
+- Regenerated routes and verified formatting, ESLint, TypeScript, package tests, and clean Vite startup without a production build.
+
 ## 2026-09-03 - Admin shell reference
 
 - Assessed `satnaing/shadcn-admin` and added it to the admin plan as an MIT-licensed interaction reference, with explicit boundaries against importing its incompatible stack or speculative features.

@@ -161,7 +161,7 @@ function Home() {
       <footer className="site-footer">
         <Container className="site-footer__inner" wide>
           <span>NSheth App Kit</span>
-          <span>Made for real use.</span>
+          <a href="/blog">Read notes</a>
         </Container>
       </footer>
     </>
@@ -227,9 +227,16 @@ function IdentityProof() {
               No session yet. Run the check to create the local demo identity.
             </p>
           )}
-          <Button disabled={pending} onClick={runProof}>
-            {pending ? 'Checking...' : 'Run identity check'}
-          </Button>
+          <div className="identity-proof__actions">
+            <Button disabled={pending} onClick={runProof}>
+              {pending ? 'Checking...' : 'Run identity check'}
+            </Button>
+            {principal ? (
+              <a className="ns-button ns-button--secondary" href="/admin/users">
+                Open admin
+              </a>
+            ) : null}
+          </div>
           {error ? <p className="identity-proof__error">{error}</p> : null}
         </div>
       </Container>

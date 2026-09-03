@@ -19,6 +19,11 @@ import type { Principal } from '@nsheth/identity'
 const DEMO_EMAIL = 'admin@demo.local'
 const DEMO_ROLE = 'admin'
 const DEMO_PERMISSION = 'identity.read'
+const DEMO_PERMISSIONS = [
+  { key: DEMO_PERMISSION, name: 'Read identity' },
+  { key: 'content.read', name: 'Read content' },
+  { key: 'content.write', name: 'Write content' },
+] as const
 const SESSION_SECONDS = 60 * 60 * 8
 
 function sessionCookieName() {
@@ -30,7 +35,16 @@ function reject(status: number, message: string): never {
   throw new Error(message)
 }
 
-const identityMiddleware = createMiddleware({ type: 'function' }).server(
+export function requireSameOrigin() {
+  const request = getRequest()
+  const origin = request.headers.get('origin')
+
+  if (!origin || origin !== new URL(request.url).origin) {
+    reject(403, 'Origin check failed')
+  }
+}
+
+export const identityMiddleware = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
     const token = getCookie(sessionCookieName())
 
@@ -90,22 +104,21 @@ export const createDemoIdentitySession = createServerFn({
     reject(404, 'Not found')
   }
 
-  const request = getRequest()
-  const origin = request.headers.get('origin')
-
-  if (!origin || origin !== new URL(request.url).origin) {
-    reject(403, 'Origin check failed')
-  }
+  requireSameOrigin()
 
   const token = createSessionToken()
   const expiresAt = new Date(Date.now() + SESSION_SECONDS * 1000)
 
   await getPrisma().$transaction(async (transaction) => {
-    const permission = await transaction.permission.upsert({
-      where: { key: DEMO_PERMISSION },
-      update: {},
-      create: { key: DEMO_PERMISSION, name: 'Read identity' },
-    })
+    const permissions = await Promise.all(
+      DEMO_PERMISSIONS.map((permission) =>
+        transaction.permission.upsert({
+          where: { key: permission.key },
+          update: {},
+          create: permission,
+        }),
+      ),
+    )
     const role = await transaction.role.upsert({
       where: { key: DEMO_ROLE },
       update: {},
@@ -117,15 +130,12 @@ export const createDemoIdentitySession = createServerFn({
       create: { email: DEMO_EMAIL, name: 'Demo Admin' },
     })
 
-    await transaction.rolePermission.upsert({
-      where: {
-        roleId_permissionId: {
-          roleId: role.id,
-          permissionId: permission.id,
-        },
-      },
-      update: {},
-      create: { roleId: role.id, permissionId: permission.id },
+    await transaction.rolePermission.createMany({
+      data: permissions.map((permission) => ({
+        roleId: role.id,
+        permissionId: permission.id,
+      })),
+      skipDuplicates: true,
     })
     await transaction.userRole.upsert({
       where: { userId_roleId: { userId: user.id, roleId: role.id } },

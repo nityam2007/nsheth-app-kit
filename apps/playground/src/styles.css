@@ -1,4 +1,6 @@
 @import '@nsheth/ui/styles.css';
+@import './admin.css';
+@import './blog.css';
 
 .skip-link {
   position: fixed;
@@ -375,6 +377,12 @@
 .identity-proof__error {
   margin-top: 1rem;
   color: var(--ns-danger);
+}
+
+.identity-proof__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 @media (max-width: 64rem) {

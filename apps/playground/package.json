@@ -21,6 +21,8 @@
     "check": "prettier --check ."
   },
   "dependencies": {
+    "@nsheth/admin": "*",
+    "@nsheth/content": "*",
     "@nsheth/identity": "*",
     "@nsheth/ui": "*",
     "@prisma/adapter-pg": "^7.4.2",

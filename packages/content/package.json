@@ -1,0 +1,27 @@
+{
+  "name": "@nsheth/content",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "prettier --check .",
+    "format": "prettier --write . && eslint --fix",
+    "test": "node --import tsx --test src/index.test.ts"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-config": "latest",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.20.0",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

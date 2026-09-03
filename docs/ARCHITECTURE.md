@@ -40,6 +40,12 @@ integrations and deployments implement core boundaries
 
 `packages/identity` owns provider-neutral principals, role/permission checks, and opaque session-token mechanics. Apps own session persistence, cookie policy, authentication providers, and authorization decisions at their server boundaries.
 
+`packages/admin` owns the small module registration shape and permission filtering. Apps own route definitions, resource policy, data loading, and the branded shell composition.
+
+`packages/content` owns publication states and provider-neutral post validation. Apps own content persistence, admin authorization, public visibility queries, routes, and rendering.
+
+The root npm workspace scripts remain the task facade. Add Turborepo incrementally only when multiple runnable apps or measured CI cost make dependency-aware scheduling and caching valuable.
+
 ## Shared Mechanics
 
 Routes/actions own authorization, policy, transitions, and user-facing errors. Shared services own repeated provider calls, parsing, validation, and other operational mechanics. Extract only after reuse is real.

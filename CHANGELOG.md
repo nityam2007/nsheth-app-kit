@@ -2,6 +2,17 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.7.0] - 2026-09-05
+
+### Added
+
+- Optional Stripe card checkout from order receipts, with immutable server-side totals and idempotent session creation.
+- Signed webhook verification, amount/currency matching, event deduplication, and pending-payment safeguards.
+- Regression tests for valid signatures, tampered payloads, and expired signatures.
+- Corrected the project-local OpenSrc skill for the current `fetch` subcommand.
+
+Live provider testing requires the operator's Stripe test credentials and webhook endpoint; see `docs/PAYMENTS.md`.
+
 ## [0.6.0] - 2026-09-05
 
 ### Added

@@ -140,8 +140,18 @@ model Order {
   currency String @default("INR")
   status OrderStatus @default(PLACED)
   paid Boolean @default(false)
+  paymentPending Boolean @default(false)
+  paymentStartedAt DateTime?
+  paymentSessionId String? @unique
   createdAt DateTime @default(now())
   lines OrderLine[]
+}
+
+model PaymentEvent {
+  id String @id
+  type String
+  orderId String @db.Uuid
+  createdAt DateTime @default(now())
 }
 
 model OrderLine {

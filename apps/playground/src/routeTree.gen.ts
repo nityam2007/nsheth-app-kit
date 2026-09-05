@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PaymentReturnRouteImport } from './routes/payment-return'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -31,6 +32,7 @@ import { Route as AdminPropertiesRouteImport } from './routes/admin.properties'
 import { Route as AdminReservationsRouteImport } from './routes/admin.reservations'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as ApiStripeRouteImport } from './routes/api.stripe'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthGithubRouteImport } from './routes/auth.github'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -94,6 +96,11 @@ const CatalogueRoute = CatalogueRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentReturnRoute = PaymentReturnRouteImport.update({
+  id: '/payment-return',
+  path: '/payment-return',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -175,6 +182,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
   getParentRoute: () => AdminRoute,
+} as any)
+const ApiStripeRoute = ApiStripeRouteImport.update({
+  id: '/api/stripe',
+  path: '/api/stripe',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
@@ -355,6 +367,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
   '/login': typeof LoginRoute
+  '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
@@ -370,6 +383,7 @@ export interface FileRoutesByFullPath {
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/api/stripe': typeof ApiStripeRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -410,6 +424,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/login': typeof LoginRoute
+  '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
   '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
@@ -418,6 +433,7 @@ export interface FileRoutesByTo {
   '/admin/privacy': typeof AdminPrivacyRoute
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/api/stripe': typeof ApiStripeRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -458,6 +474,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
   '/login': typeof LoginRoute
+  '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
@@ -473,6 +490,7 @@ export interface FileRoutesById {
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/api/stripe': typeof ApiStripeRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -518,6 +536,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/catalogue'
     | '/login'
+    | '/payment-return'
     | '/privacy'
     | '/services'
     | '/shop'
@@ -533,6 +552,7 @@ export interface FileRouteTypes {
     | '/admin/reservations'
     | '/admin/services'
     | '/admin/users'
+    | '/api/stripe'
     | '/auth/callback'
     | '/auth/github'
     | '/blog/$slug'
@@ -573,6 +593,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/login'
+    | '/payment-return'
     | '/privacy'
     | '/admin/access'
     | '/admin/bookings'
@@ -581,6 +602,7 @@ export interface FileRouteTypes {
     | '/admin/privacy'
     | '/admin/reservations'
     | '/admin/users'
+    | '/api/stripe'
     | '/auth/callback'
     | '/auth/github'
     | '/blog/$slug'
@@ -620,6 +642,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/catalogue'
     | '/login'
+    | '/payment-return'
     | '/privacy'
     | '/services'
     | '/shop'
@@ -635,6 +658,7 @@ export interface FileRouteTypes {
     | '/admin/reservations'
     | '/admin/services'
     | '/admin/users'
+    | '/api/stripe'
     | '/auth/callback'
     | '/auth/github'
     | '/blog/$slug'
@@ -679,10 +703,12 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CatalogueRoute: typeof CatalogueRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PaymentReturnRoute: typeof PaymentReturnRoute
   PrivacyRoute: typeof PrivacyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   ShopRoute: typeof ShopRouteWithChildren
   StaysRoute: typeof StaysRouteWithChildren
+  ApiStripeRoute: typeof ApiStripeRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthGithubRoute: typeof AuthGithubRoute
 }
@@ -729,6 +755,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-return': {
+      id: '/payment-return'
+      path: '/payment-return'
+      fullPath: '/payment-return'
+      preLoaderRoute: typeof PaymentReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -842,6 +875,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/api/stripe': {
+      id: '/api/stripe'
+      path: '/api/stripe'
+      fullPath: '/api/stripe'
+      preLoaderRoute: typeof ApiStripeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -1308,10 +1348,12 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CatalogueRoute: CatalogueRouteWithChildren,
   LoginRoute: LoginRoute,
+  PaymentReturnRoute: PaymentReturnRoute,
   PrivacyRoute: PrivacyRoute,
   ServicesRoute: ServicesRouteWithChildren,
   ShopRoute: ShopRouteWithChildren,
   StaysRoute: StaysRouteWithChildren,
+  ApiStripeRoute: ApiStripeRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthGithubRoute: AuthGithubRoute,
 }

@@ -82,6 +82,11 @@ export type Product = Prisma.ProductModel
  */
 export type Order = Prisma.OrderModel
 /**
+ * Model PaymentEvent
+ * 
+ */
+export type PaymentEvent = Prisma.PaymentEventModel
+/**
  * Model OrderLine
  * 
  */

@@ -51,7 +51,12 @@ function Orders() {
                 {o.name} · {money(o.totalAmount, o.currency)}
               </h2>
               <span className="text-sm font-semibold text-brand-secondary">
-                {o.status} · {o.paid ? 'Paid' : 'Unpaid'}
+                {o.status} ·{' '}
+                {o.paid
+                  ? 'Paid'
+                  : o.paymentPending
+                    ? 'Online payment pending'
+                    : 'Unpaid'}
               </span>
             </div>
             <p className="my-3 text-tertiary">
@@ -86,7 +91,7 @@ function Orders() {
                 >
                   <SelectField name="status" label="Next status">
                     <option value="FULFILLED">Mark fulfilled</option>
-                    {!o.paid && (
+                    {!o.paid && !o.paymentPending && (
                       <option value="CANCELLED">
                         Cancel and restore stock
                       </option>
@@ -94,7 +99,7 @@ function Orders() {
                   </SelectField>
                 </ActionForm>
               )}
-              {!o.paid && o.status !== 'CANCELLED' && (
+              {!o.paid && !o.paymentPending && o.status !== 'CANCELLED' && (
                 <ActionForm
                   label="Record payment received"
                   action={() => paid({ data: { id: o.id } })}

@@ -101,7 +101,14 @@ export const quoteCart = createServerFn({ method: 'GET' })
         rejectRequest(409, 'A product is unavailable or has insufficient stock')
       return { ...line, name: p.name, price: p.price }
     })
-    return { lines, totalAmount: orderTotal(lines), currency: 'INR' }
+    return {
+      lines,
+      totalAmount: orderTotal(lines),
+      currency: 'INR',
+      onlinePayment: Boolean(
+        process.env.STRIPE_SECRET_KEY && process.env.STRIPE_WEBHOOK_SECRET,
+      ),
+    }
   })
 export const placeOrder = createServerFn({ method: 'POST' })
   .validator(checkoutSchema)
@@ -184,6 +191,7 @@ export const getOrders = createServerFn({ method: 'GET' })
         currency: true,
         status: true,
         paid: true,
+        paymentPending: true,
         createdAt: true,
         lines: true,
       },
@@ -208,7 +216,7 @@ export const updateOrder = createServerFn({ method: 'POST' })
       })
       if (!canTransitionOrder(order.status, data.status))
         rejectRequest(409, 'This order cannot change status')
-      if (data.status === 'CANCELLED' && order.paid)
+      if (data.status === 'CANCELLED' && (order.paid || order.paymentPending))
         rejectRequest(
           409,
           'A paid order requires a refund workflow before cancellation',
@@ -236,7 +244,11 @@ export const recordOfflinePayment = createServerFn({ method: 'POST' })
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
     await getPrisma().order.update({
-      where: { id: data.id, status: { not: 'CANCELLED' } },
+      where: {
+        id: data.id,
+        status: { not: 'CANCELLED' },
+        paymentPending: false,
+      },
       data: { paid: true },
     })
     return { ok: true }

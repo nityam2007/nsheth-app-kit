@@ -13,12 +13,15 @@ import { Input } from '../components/base/input/input'
 import { TextArea } from '../components/base/textarea/textarea'
 import { placeOrder, quoteCart } from '../commerce.functions'
 import { money } from '../money'
+import { startPayment } from '../payments.functions'
 
 export const Route = createFileRoute('/shop/cart')({ component: Cart })
 function Cart() {
   const { lines, setQuantity, clear } = useCart(),
-    place = useServerFn(placeOrder)
+    place = useServerFn(placeOrder),
+    pay = useServerFn(startPayment)
   const key = useRef('')
+  const [onlinePayment, setOnlinePayment] = useState(false)
   const [receipt, setReceipt] = useState<{
     reference: string
     totalAmount: number
@@ -55,6 +58,21 @@ function Cart() {
           <p className="mb-5 text-tertiary">
             No online payment has been taken.
           </p>
+          {onlinePayment && (
+            <div className="mb-5">
+              <ActionForm
+                label="Pay securely with Stripe"
+                action={async () => {
+                  const result = await pay({
+                    data: { reference: receipt.reference, key: key.current },
+                  })
+                  window.location.assign(result.url)
+                }}
+              >
+                {null}
+              </ActionForm>
+            </div>
+          )}
           <Link to="/shop" className="font-semibold text-brand-secondary">
             Continue shopping →
           </Link>
@@ -165,6 +183,7 @@ function Cart() {
                     address: String(f.get('address')),
                   },
                 })
+                setOnlinePayment(quote.data.onlinePayment)
                 setReceipt(result)
                 clear()
               }}

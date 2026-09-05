@@ -117,9 +117,15 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Expired session/login/throttle maintenance command.
 - [ ] Verify live OAuth with deployment credentials and callback.
 
-## Next Task: Integrations, Deployments and Templates
+## Completed: Optional Payment Integration
 
-Complete payment integration, deployment adapters, and reusable compositions.
+- [x] Stripe card sessions, idempotency, signed webhooks, event deduplication, and pending-payment safeguards.
+- [x] Signature/tampering/expiry regression tests and deployment setup documentation.
+- [ ] Verify real Stripe test checkout and callback delivery with deployment credentials.
+
+## Next Task: Deployments and Templates
+
+Complete deployment adapters and reusable compositions.
 
 ## Tooling Adoption Gate
 

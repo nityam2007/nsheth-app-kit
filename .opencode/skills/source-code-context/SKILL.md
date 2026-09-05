@@ -15,9 +15,11 @@ Use source as targeted reference, not as bulk prompt context.
 4. Use OpenSrc when a checkout is missing or another package version is required:
 
 ```bash
-npx -y opensrc@latest <package-or-github-repo>
+npx -y opensrc@latest fetch <package-or-github-repo>
 npx -y opensrc@latest path <package-or-github-repo>
 ```
+
+The current OpenSrc CLI requires the `fetch` subcommand and uses a source cache. Check `--help` if a later CLI version changes its syntax. Source caches are reference code, not global skills.
 
 5. Implement the smallest change matching the real API and established project patterns.
 

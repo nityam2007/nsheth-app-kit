@@ -59,6 +59,7 @@ export const ModelName = {
   BookingRequest: 'BookingRequest',
   Product: 'Product',
   Order: 'Order',
+  PaymentEvent: 'PaymentEvent',
   OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
   Post: 'Post',
@@ -206,10 +207,23 @@ export const OrderScalarFieldEnum = {
   currency: 'currency',
   status: 'status',
   paid: 'paid',
+  paymentPending: 'paymentPending',
+  paymentStartedAt: 'paymentStartedAt',
+  paymentSessionId: 'paymentSessionId',
   createdAt: 'createdAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const PaymentEventScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  orderId: 'orderId',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentEventScalarFieldEnum = (typeof PaymentEventScalarFieldEnum)[keyof typeof PaymentEventScalarFieldEnum]
 
 
 export const OrderLineScalarFieldEnum = {

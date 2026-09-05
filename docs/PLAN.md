@@ -102,9 +102,16 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Public property index/details, date-range availability and quoted reservation requests.
 - [x] Per-night capacity checks, row locking, timezone-aware arrival validation, and confirmation/cancellation queue.
 
-## Next Task: Commerce
+## Completed: Commerce with Offline Payment
 
-Add stock, prices, cart, checkout, and order operations on the existing product catalogue.
+- [x] Product price, stock, collections, external HTTPS images, and shop publication controls.
+- [x] Shop index/product pages, search, sort, cart, address form, and server-calculated checkout.
+- [x] Transactional stock deductions, idempotent checkout, price-change protection, and cancellation restocking.
+- [x] Operator order queue and offline payment recording.
+
+## Next Task: Production Identity, Operations and Integrations
+
+Add real sign-in, operator roles, enquiry workflow, payment integration boundaries, and deployment configuration.
 
 ## Tooling Adoption Gate
 

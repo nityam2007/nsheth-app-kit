@@ -14,9 +14,11 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as StaysRouteImport } from './routes/stays'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminPropertiesRouteImport } from './routes/admin.properties'
@@ -29,6 +31,9 @@ import { Route as CatalogueIndexRouteImport } from './routes/catalogue.index'
 import { Route as CatalogueSlugRouteImport } from './routes/catalogue.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
+import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
+import { Route as ShopCartRouteImport } from './routes/shop.cart'
 import { Route as StaysIndexRouteImport } from './routes/stays.index'
 import { Route as StaysSlugRouteImport } from './routes/stays.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
@@ -47,6 +52,7 @@ import { Route as AdminPostsSlugIndexRouteImport } from './routes/admin.posts.$s
 import { Route as AdminPostsSlugEditRouteImport } from './routes/admin.posts.$slug.edit'
 import { Route as AdminProductsSlugIndexRouteImport } from './routes/admin.products.$slug.index'
 import { Route as AdminProductsSlugEditRouteImport } from './routes/admin.products.$slug.edit'
+import { Route as AdminProductsSlugSaleRouteImport } from './routes/admin.products.$slug.sale'
 import { Route as AdminPropertiesSlugIndexRouteImport } from './routes/admin.properties.$slug.index'
 import { Route as AdminPropertiesSlugEditRouteImport } from './routes/admin.properties.$slug.edit'
 import { Route as AdminServicesSlugIndexRouteImport } from './routes/admin.services.$slug.index'
@@ -77,6 +83,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaysRoute = StaysRouteImport.update({
   id: '/stays',
   path: '/stays',
@@ -90,6 +101,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminBookingsRoute = AdminBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPostsRoute = AdminPostsRouteImport.update({
@@ -151,6 +167,21 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
+} as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopSlugRoute = ShopSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopCartRoute = ShopCartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => ShopRoute,
 } as any)
 const StaysIndexRoute = StaysIndexRouteImport.update({
   id: '/',
@@ -242,6 +273,11 @@ const AdminProductsSlugEditRoute = AdminProductsSlugEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AdminProductsSlugRoute,
 } as any)
+const AdminProductsSlugSaleRoute = AdminProductsSlugSaleRouteImport.update({
+  id: '/sale',
+  path: '/sale',
+  getParentRoute: () => AdminProductsSlugRoute,
+} as any)
 const AdminPropertiesSlugIndexRoute =
   AdminPropertiesSlugIndexRouteImport.update({
     id: '/',
@@ -270,8 +306,10 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/properties': typeof AdminPropertiesRouteWithChildren
@@ -281,11 +319,14 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/shop/': typeof ShopIndexRoute
   '/stays/': typeof StaysIndexRoute
   '/admin/posts/$slug': typeof AdminPostsSlugRouteWithChildren
   '/admin/posts/new': typeof AdminPostsNewRoute
@@ -301,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
@@ -311,16 +353,20 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/users': typeof AdminUsersRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/catalogue': typeof CatalogueIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/shop': typeof ShopIndexRoute
   '/stays': typeof StaysIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -332,6 +378,7 @@ export interface FileRoutesByTo {
   '/admin/services': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug': typeof AdminPostsSlugIndexRoute
@@ -346,8 +393,10 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
+  '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/properties': typeof AdminPropertiesRouteWithChildren
@@ -357,11 +406,14 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/shop/': typeof ShopIndexRoute
   '/stays/': typeof StaysIndexRoute
   '/admin/posts/$slug': typeof AdminPostsSlugRouteWithChildren
   '/admin/posts/new': typeof AdminPostsNewRoute
@@ -377,6 +429,7 @@ export interface FileRoutesById {
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
@@ -392,8 +445,10 @@ export interface FileRouteTypes {
     | '/blog'
     | '/catalogue'
     | '/services'
+    | '/shop'
     | '/stays'
     | '/admin/bookings'
+    | '/admin/orders'
     | '/admin/posts'
     | '/admin/products'
     | '/admin/properties'
@@ -403,11 +458,14 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/cart'
     | '/stays/$slug'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
     | '/services/'
+    | '/shop/'
     | '/stays/'
     | '/admin/posts/$slug'
     | '/admin/posts/new'
@@ -423,6 +481,7 @@ export interface FileRouteTypes {
     | '/admin/services/'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
@@ -433,16 +492,20 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin/bookings'
+    | '/admin/orders'
     | '/admin/reservations'
     | '/admin/users'
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/cart'
     | '/stays/$slug'
     | '/admin'
     | '/blog'
     | '/catalogue'
     | '/services'
+    | '/shop'
     | '/stays'
     | '/admin/posts/new'
     | '/admin/products/new'
@@ -454,6 +517,7 @@ export interface FileRouteTypes {
     | '/admin/services'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug'
@@ -467,8 +531,10 @@ export interface FileRouteTypes {
     | '/blog'
     | '/catalogue'
     | '/services'
+    | '/shop'
     | '/stays'
     | '/admin/bookings'
+    | '/admin/orders'
     | '/admin/posts'
     | '/admin/products'
     | '/admin/properties'
@@ -478,11 +544,14 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/cart'
     | '/stays/$slug'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
     | '/services/'
+    | '/shop/'
     | '/stays/'
     | '/admin/posts/$slug'
     | '/admin/posts/new'
@@ -498,6 +567,7 @@ export interface FileRouteTypes {
     | '/admin/services/'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
@@ -512,6 +582,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   CatalogueRoute: typeof CatalogueRouteWithChildren
   ServicesRoute: typeof ServicesRouteWithChildren
+  ShopRoute: typeof ShopRouteWithChildren
   StaysRoute: typeof StaysRouteWithChildren
 }
 
@@ -552,6 +623,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stays': {
       id: '/stays'
       path: '/stays'
@@ -571,6 +649,13 @@ declare module '@tanstack/react-router' {
       path: '/bookings'
       fullPath: '/admin/bookings'
       preLoaderRoute: typeof AdminBookingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/posts': {
@@ -656,6 +741,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/services/$slug'
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
+    }
+    '/shop/': {
+      id: '/shop/'
+      path: '/'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/$slug': {
+      id: '/shop/$slug'
+      path: '/$slug'
+      fullPath: '/shop/$slug'
+      preLoaderRoute: typeof ShopSlugRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/cart': {
+      id: '/shop/cart'
+      path: '/cart'
+      fullPath: '/shop/cart'
+      preLoaderRoute: typeof ShopCartRouteImport
+      parentRoute: typeof ShopRoute
     }
     '/stays/': {
       id: '/stays/'
@@ -783,6 +889,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsSlugEditRouteImport
       parentRoute: typeof AdminProductsSlugRoute
     }
+    '/admin/products/$slug/sale': {
+      id: '/admin/products/$slug/sale'
+      path: '/sale'
+      fullPath: '/admin/products/$slug/sale'
+      preLoaderRoute: typeof AdminProductsSlugSaleRouteImport
+      parentRoute: typeof AdminProductsSlugRoute
+    }
     '/admin/properties/$slug/': {
       id: '/admin/properties/$slug/'
       path: '/'
@@ -846,11 +959,13 @@ const AdminPostsRouteWithChildren = AdminPostsRoute._addFileChildren(
 
 interface AdminProductsSlugRouteChildren {
   AdminProductsSlugEditRoute: typeof AdminProductsSlugEditRoute
+  AdminProductsSlugSaleRoute: typeof AdminProductsSlugSaleRoute
   AdminProductsSlugIndexRoute: typeof AdminProductsSlugIndexRoute
 }
 
 const AdminProductsSlugRouteChildren: AdminProductsSlugRouteChildren = {
   AdminProductsSlugEditRoute: AdminProductsSlugEditRoute,
+  AdminProductsSlugSaleRoute: AdminProductsSlugSaleRoute,
   AdminProductsSlugIndexRoute: AdminProductsSlugIndexRoute,
 }
 
@@ -933,6 +1048,7 @@ const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminBookingsRoute: typeof AdminBookingsRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPostsRoute: typeof AdminPostsRouteWithChildren
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
   AdminPropertiesRoute: typeof AdminPropertiesRouteWithChildren
@@ -944,6 +1060,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminBookingsRoute: AdminBookingsRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
   AdminPostsRoute: AdminPostsRouteWithChildren,
   AdminProductsRoute: AdminProductsRouteWithChildren,
   AdminPropertiesRoute: AdminPropertiesRouteWithChildren,
@@ -995,6 +1112,20 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
   ServicesRouteChildren,
 )
 
+interface ShopRouteChildren {
+  ShopSlugRoute: typeof ShopSlugRoute
+  ShopCartRoute: typeof ShopCartRoute
+  ShopIndexRoute: typeof ShopIndexRoute
+}
+
+const ShopRouteChildren: ShopRouteChildren = {
+  ShopSlugRoute: ShopSlugRoute,
+  ShopCartRoute: ShopCartRoute,
+  ShopIndexRoute: ShopIndexRoute,
+}
+
+const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
+
 interface StaysRouteChildren {
   StaysSlugRoute: typeof StaysSlugRoute
   StaysIndexRoute: typeof StaysIndexRoute
@@ -1013,6 +1144,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   CatalogueRoute: CatalogueRouteWithChildren,
   ServicesRoute: ServicesRouteWithChildren,
+  ShopRoute: ShopRouteWithChildren,
   StaysRoute: StaysRouteWithChildren,
 }
 export const routeTree = rootRouteImport

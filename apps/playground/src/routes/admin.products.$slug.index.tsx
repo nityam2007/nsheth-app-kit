@@ -87,6 +87,13 @@ function ProductDetail() {
           >
             Edit product
           </Link>
+          <Link
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-secondary"
+            to="/admin/products/$slug/sale"
+            params={{ slug: product.slug }}
+          >
+            Price & inventory
+          </Link>
         </div>
       </header>
 

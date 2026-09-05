@@ -58,6 +58,8 @@ export const ModelName = {
   Reservation: 'Reservation',
   BookingRequest: 'BookingRequest',
   Product: 'Product',
+  Order: 'Order',
+  OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
   Post: 'Post',
   User: 'User',
@@ -179,10 +181,44 @@ export const ProductScalarFieldEnum = {
   status: 'status',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  price: 'price',
+  stock: 'stock',
+  forSale: 'forSale',
+  category: 'category',
+  imageUrl: 'imageUrl'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  id: 'id',
+  requestHash: 'requestHash',
+  payloadHash: 'payloadHash',
+  name: 'name',
+  email: 'email',
+  address: 'address',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  status: 'status',
+  paid: 'paid',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const OrderLineScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  name: 'name',
+  quantity: 'quantity',
+  price: 'price'
+} as const
+
+export type OrderLineScalarFieldEnum = (typeof OrderLineScalarFieldEnum)[keyof typeof OrderLineScalarFieldEnum]
 
 
 export const EnquiryScalarFieldEnum = {

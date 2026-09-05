@@ -26,6 +26,13 @@ export const productCatalogueModule = {
 
 export const adminModules = [
   {
+    id: 'commerce-orders',
+    group: 'Commerce',
+    label: 'Orders',
+    href: '/admin/orders',
+    permission: 'commerce.read',
+  },
+  {
     id: 'hospitality-properties',
     group: 'Hospitality',
     label: 'Properties',

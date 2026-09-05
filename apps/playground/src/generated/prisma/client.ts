@@ -77,6 +77,16 @@ export type BookingRequest = Prisma.BookingRequestModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderLine
+ * 
+ */
+export type OrderLine = Prisma.OrderLineModel
+/**
  * Model Enquiry
  * 
  */

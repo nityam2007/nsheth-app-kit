@@ -50,6 +50,8 @@ The root npm workspace scripts remain the task facade. Add Turborepo incremental
 
 ## Shared Mechanics
 
+`packages/commerce` owns cart/checkout validation and money/order rules. The app locks products in stable order, reserves stock atomically, snapshots prices in order lines, and serializes checkout retries with a PostgreSQL advisory lock. A hash binds each idempotency key to the exact checkout payload. Client cart prices are display hints; checkout accepts only current server prices matching the reviewed quote. The per-provider TanStack Store cart avoids SSR state sharing and stores no customer contact data.
+
 `packages/hospitality` owns property and room validation and date-only stay calculations. The app composes this with booking capacity/transition rules. Reservation transactions lock room types and count peak occupancy per night, treating checkout as exclusive. Inventory reductions cannot invalidate active reservations. All properties in a deployment share one authorized operator workspace; this is not tenant isolation.
 
 `packages/booking` owns service/slot/contact validation, capacity checks, and request transitions. The app owns PostgreSQL slot locks, availability persistence, public visibility, and operator permissions. Slots store absolute instants; the public form displays the browser timezone after hydration. Pending requests hold capacity until an operator confirms or cancels them.

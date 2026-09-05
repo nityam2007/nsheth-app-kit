@@ -2,6 +2,20 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.5.0] - 2026-09-05
+
+### Added
+
+- Storefront, collections, debounced search, sort, product pages, and a persistent TanStack Store cart.
+- Commerce settings on products, server quotes, offline checkout, and operator order/payment controls.
+- Atomic stock reservation, idempotent retries, price-change validation, and cancellation restocking.
+- Cart validation, monetary overflow, and order transition tests.
+
+### Verified
+
+- Formatting, lint, types, unit tests, production build, and PostgreSQL migration.
+- In-app browser: product creation, price/stock configuration, cart, server quote, checkout, and receipt; database confirms stock decrement and immutable price snapshots.
+
 ## [0.4.0] - 2026-09-05
 
 ### Added

@@ -1,3 +1,9 @@
+# 0.8.0 - Deployment adapters and production integration checks
+
+- Add streaming Node/VPS server and Docker deployment, Cloudflare request-scoped database adapter, and native Vercel configuration.
+- Add PostgreSQL-backed production security, concurrency, and checkout retry checks, with GitHub Actions CI.
+- Verify Node and Cloudflare builds; live host deployments remain dependent on operator accounts and secrets.
+
 # Changelog
 
 All notable changes are recorded here using pre-1.0 semantic versions.

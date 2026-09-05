@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.7.0`
+**Current version:** `0.8.0`
 
 > **Project status:** Active development. Identity, admin, CMS/blog, catalogue/RFQ, and service booking are working. Hospitality and commerce are next.
 
@@ -150,3 +150,5 @@ This is a custom source-available license, not an OSI-approved open-source licen
 - [`SECURITY.md`](SECURITY.md): private vulnerability reporting policy
 - [`LICENSE`](LICENSE): personal-use and commercial licensing terms
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md): licenses for adapted upstream source
+
+Deployment instructions: [Node/VPS, Vercel, and Cloudflare](docs/DEPLOYMENT.md). Run production database checks with `ALLOW_INTEGRATION_TESTS=1 npm run test:integration` against a disposable database after building.

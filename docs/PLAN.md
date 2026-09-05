@@ -123,9 +123,17 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Signature/tampering/expiry regression tests and deployment setup documentation.
 - [ ] Verify real Stripe test checkout and callback delivery with deployment credentials.
 
-## Next Task: Deployments and Templates
+## Completed: Deployment Adapters
 
-Complete deployment adapters and reusable compositions.
+- [x] Node/VPS streaming server and Docker configuration.
+- [x] Cloudflare worker entry, request-scoped database context, and successful build.
+- [x] Vercel native framework configuration and host setup instructions.
+- [x] Production integration checks and CI with disposable PostgreSQL.
+- [ ] Verify live host provisioning and provider callbacks with operator credentials.
+
+## Next Task: Reusable Templates
+
+Compile seven runnable compositions and document customization.
 
 ## Tooling Adoption Gate
 

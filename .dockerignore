@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+.git
+reference
+AIDATA
+**/.env*
+!**/.env.example
+**/dist
+**/.wrangler
+test-results
+playwright-report

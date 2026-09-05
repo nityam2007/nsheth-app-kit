@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -14,9 +14,14 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "check": "npm run check --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
-    "build": "npm run build --workspace playground"
+    "build": "npm run build --workspace playground",
+    "start": "node scripts/serve.mjs",
+    "build:cloudflare": "npm run build:cloudflare --workspace playground",
+    "test:integration": "node --import tsx scripts/integration.mts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0"
+    "@playwright/test": "^1.63.0",
+    "seroval": "^1.6.4",
+    "tsx": "^4.23.13"
   }
 }

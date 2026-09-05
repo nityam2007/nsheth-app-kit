@@ -26,6 +26,7 @@
     "@nsheth/admin": "*",
     "@nsheth/booking": "*",
     "@nsheth/content": "*",
+    "@nsheth/hospitality": "*",
     "@nsheth/identity": "*",
     "@nsheth/product": "*",
     "@prisma/adapter-pg": "^7.4.2",
@@ -82,5 +83,5 @@
       "prisma"
     ]
   },
-  "version": "0.3.0"
+  "version": "0.4.0"
 }

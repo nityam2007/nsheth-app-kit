@@ -403,10 +403,6 @@ export type BookingRequestUncheckedUpdateManyWithoutSlotNestedInput = {
   deleteMany?: Prisma.BookingRequestScalarWhereInput | Prisma.BookingRequestScalarWhereInput[]
 }
 
-export type EnumBookingStatusFieldUpdateOperationsInput = {
-  set?: $Enums.BookingStatus
-}
-
 export type BookingRequestCreateWithoutSlotInput = {
   id?: string
   name: string

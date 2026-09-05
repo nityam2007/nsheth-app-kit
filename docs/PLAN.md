@@ -96,9 +96,15 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Database row locks prevent overbooking; pending requests reserve capacity; cancellation releases capacity.
 - [x] Status transitions, validation, capacity tests, and unpublished-service isolation.
 
-## Next Task: Hospitality
+## Completed: Hospitality
 
-Compose properties, room inventory, date ranges, and an operator reservation queue.
+- [x] Property CRUD, room types, inventory, rates, and publication controls.
+- [x] Public property index/details, date-range availability and quoted reservation requests.
+- [x] Per-night capacity checks, row locking, timezone-aware arrival validation, and confirmation/cancellation queue.
+
+## Next Task: Commerce
+
+Add stock, prices, cart, checkout, and order operations on the existing product catalogue.
 
 ## Tooling Adoption Gate
 

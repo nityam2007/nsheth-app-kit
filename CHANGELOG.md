@@ -2,6 +2,20 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.4.0] - 2026-09-05
+
+### Added
+
+- Single/multi-property hospitality, room inventory and rate management, public stay pages, and reservation operations.
+- Date-range availability and server-calculated INR quotes, with transactional per-night capacity enforcement.
+- Tests for exclusive checkout dates, disjoint reservations, leap days, and property-local arrival dates.
+- Native datetime control for service availability.
+
+### Verified
+
+- Formatting, lint, types, unit tests, production build, and PostgreSQL migration.
+- In-app browser: create property, add room inventory, quote a two-night stay, submit reservation, and view it in the operator queue.
+
 ## [0.3.0] - 2026-09-05
 
 ### Added

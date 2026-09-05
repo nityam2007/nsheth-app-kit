@@ -28,6 +28,21 @@ export type Service = Prisma.ServiceModel
  */
 export type AvailabilitySlot = Prisma.AvailabilitySlotModel
 /**
+ * Model Property
+ * 
+ */
+export type Property = Prisma.PropertyModel
+/**
+ * Model RoomType
+ * 
+ */
+export type RoomType = Prisma.RoomTypeModel
+/**
+ * Model Reservation
+ * 
+ */
+export type Reservation = Prisma.ReservationModel
+/**
  * Model BookingRequest
  * 
  */

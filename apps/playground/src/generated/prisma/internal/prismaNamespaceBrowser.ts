@@ -53,6 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Service: 'Service',
   AvailabilitySlot: 'AvailabilitySlot',
+  Property: 'Property',
+  RoomType: 'RoomType',
+  Reservation: 'Reservation',
   BookingRequest: 'BookingRequest',
   Product: 'Product',
   Enquiry: 'Enquiry',
@@ -105,6 +108,53 @@ export const AvailabilitySlotScalarFieldEnum = {
 } as const
 
 export type AvailabilitySlotScalarFieldEnum = (typeof AvailabilitySlotScalarFieldEnum)[keyof typeof AvailabilitySlotScalarFieldEnum]
+
+
+export const PropertyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  summary: 'summary',
+  description: 'description',
+  location: 'location',
+  timezone: 'timezone',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
+
+
+export const RoomTypeScalarFieldEnum = {
+  id: 'id',
+  propertyId: 'propertyId',
+  name: 'name',
+  description: 'description',
+  inventory: 'inventory',
+  maxGuests: 'maxGuests',
+  nightlyRate: 'nightlyRate',
+  active: 'active'
+} as const
+
+export type RoomTypeScalarFieldEnum = (typeof RoomTypeScalarFieldEnum)[keyof typeof RoomTypeScalarFieldEnum]
+
+
+export const ReservationScalarFieldEnum = {
+  id: 'id',
+  roomTypeId: 'roomTypeId',
+  checkIn: 'checkIn',
+  checkOut: 'checkOut',
+  guests: 'guests',
+  name: 'name',
+  email: 'email',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
 
 
 export const BookingRequestScalarFieldEnum = {

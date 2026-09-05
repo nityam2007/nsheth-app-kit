@@ -26,6 +26,20 @@ export const productCatalogueModule = {
 
 export const adminModules = [
   {
+    id: 'hospitality-properties',
+    group: 'Hospitality',
+    label: 'Properties',
+    href: '/admin/properties',
+    permission: 'hospitality.read',
+  },
+  {
+    id: 'hospitality-reservations',
+    group: 'Hospitality',
+    label: 'Reservations',
+    href: '/admin/reservations',
+    permission: 'hospitality.read',
+  },
+  {
     id: 'booking-services',
     group: 'Booking',
     label: 'Services',

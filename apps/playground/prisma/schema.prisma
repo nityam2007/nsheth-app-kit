@@ -37,6 +37,49 @@ enum BookingStatus {
   CANCELLED
 }
 
+model Property {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  slug String @unique
+  summary String
+  description String @db.Text
+  location String
+  timezone String @default("Asia/Kolkata")
+  status ProductStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rooms RoomType[]
+}
+
+model RoomType {
+  id String @id @default(uuid()) @db.Uuid
+  propertyId String @db.Uuid
+  name String
+  description String
+  inventory Int
+  maxGuests Int
+  nightlyRate Int
+  active Boolean @default(true)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+}
+
+model Reservation {
+  id String @id @default(uuid()) @db.Uuid
+  roomTypeId String @db.Uuid
+  checkIn DateTime @db.Date
+  checkOut DateTime @db.Date
+  guests Int
+  name String
+  email String
+  totalAmount Int
+  currency String @default("INR")
+  status BookingStatus @default(REQUESTED)
+  createdAt DateTime @default(now())
+  roomType RoomType @relation(fields: [roomTypeId], references: [id], onDelete: Restrict)
+  @@index([roomTypeId, status, checkIn, checkOut])
+}
+
 model BookingRequest {
   id String @id @default(uuid()) @db.Uuid
   slotId String @db.Uuid

@@ -16,6 +16,9 @@ export function PublicLayout() {
             className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-secondary"
             aria-label="Site navigation"
           >
+            <a className="inline-flex min-h-11 items-center" href="/stays">
+              Stays
+            </a>
             <a className="inline-flex min-h-11 items-center" href="/blog">
               Journal
             </a>

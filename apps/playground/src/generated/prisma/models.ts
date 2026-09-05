@@ -10,6 +10,9 @@
  */
 export type * from './models/Service.ts'
 export type * from './models/AvailabilitySlot.ts'
+export type * from './models/Property.ts'
+export type * from './models/RoomType.ts'
+export type * from './models/Reservation.ts'
 export type * from './models/BookingRequest.ts'
 export type * from './models/Product.ts'
 export type * from './models/Enquiry.ts'

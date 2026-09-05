@@ -6,7 +6,7 @@ import {
   deleteAdminService,
   removeAvailability,
 } from '../booking.functions'
-import { ActionForm, PageHeading } from '../components/workflow'
+import { ActionForm, PageHeading, controlClass } from '../components/workflow'
 import { Input } from '../components/base/input/input'
 
 export const Route = createFileRoute('/admin/services/$slug/')({
@@ -70,12 +70,15 @@ function Detail() {
               })
             }
           >
-            <Input
-              label="Starts at (your local time)"
-              name="startsAt"
-              type="datetime-local"
-              isRequired
-            />
+            <label className="grid gap-2 text-sm font-medium text-secondary">
+              Starts at (your local time)
+              <input
+                className={controlClass}
+                name="startsAt"
+                type="datetime-local"
+                required
+              />
+            </label>
             <Input
               label="Capacity"
               name="capacity"

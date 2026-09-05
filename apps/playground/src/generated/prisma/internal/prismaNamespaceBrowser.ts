@@ -51,6 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Service: 'Service',
+  AvailabilitySlot: 'AvailabilitySlot',
+  BookingRequest: 'BookingRequest',
   Product: 'Product',
   Enquiry: 'Enquiry',
   Post: 'Post',
@@ -76,6 +79,45 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ServiceScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  summary: 'summary',
+  description: 'description',
+  status: 'status',
+  durationMinutes: 'durationMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const AvailabilitySlotScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  capacity: 'capacity'
+} as const
+
+export type AvailabilitySlotScalarFieldEnum = (typeof AvailabilitySlotScalarFieldEnum)[keyof typeof AvailabilitySlotScalarFieldEnum]
+
+
+export const BookingRequestScalarFieldEnum = {
+  id: 'id',
+  slotId: 'slotId',
+  name: 'name',
+  email: 'email',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type BookingRequestScalarFieldEnum = (typeof BookingRequestScalarFieldEnum)[keyof typeof BookingRequestScalarFieldEnum]
 
 
 export const ProductScalarFieldEnum = {

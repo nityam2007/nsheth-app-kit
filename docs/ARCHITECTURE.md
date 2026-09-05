@@ -50,6 +50,8 @@ The root npm workspace scripts remain the task facade. Add Turborepo incremental
 
 ## Shared Mechanics
 
+`packages/booking` owns service/slot/contact validation, capacity checks, and request transitions. The app owns PostgreSQL slot locks, availability persistence, public visibility, and operator permissions. Slots store absolute instants; the public form displays the browser timezone after hydration. Pending requests hold capacity until an operator confirms or cancels them.
+
 Routes/actions own authorization, policy, transitions, and user-facing errors. Shared services own repeated provider calls, parsing, validation, and other operational mechanics. Extract only after reuse is real.
 
 ## Deployment

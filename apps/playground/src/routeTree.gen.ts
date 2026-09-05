@@ -13,24 +13,34 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CatalogueIndexRouteImport } from './routes/catalogue.index'
 import { Route as CatalogueSlugRouteImport } from './routes/catalogue.$slug'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as AdminPostsIndexRouteImport } from './routes/admin.posts.index'
 import { Route as AdminPostsSlugRouteImport } from './routes/admin.posts.$slug'
 import { Route as AdminPostsNewRouteImport } from './routes/admin.posts.new'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
 import { Route as AdminProductsSlugRouteImport } from './routes/admin.products.$slug'
 import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
+import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminServicesSlugRouteImport } from './routes/admin.services.$slug'
+import { Route as AdminServicesNewRouteImport } from './routes/admin.services.new'
 import { Route as AdminPostsSlugIndexRouteImport } from './routes/admin.posts.$slug.index'
 import { Route as AdminPostsSlugEditRouteImport } from './routes/admin.posts.$slug.edit'
 import { Route as AdminProductsSlugIndexRouteImport } from './routes/admin.products.$slug.index'
 import { Route as AdminProductsSlugEditRouteImport } from './routes/admin.products.$slug.edit'
+import { Route as AdminServicesSlugIndexRouteImport } from './routes/admin.services.$slug.index'
+import { Route as AdminServicesSlugEditRouteImport } from './routes/admin.services.$slug.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,9 +62,19 @@ const CatalogueRoute = CatalogueRouteImport.update({
   path: '/catalogue',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBookingsRoute = AdminBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPostsRoute = AdminPostsRouteImport.update({
@@ -65,6 +85,11 @@ const AdminPostsRoute = AdminPostsRouteImport.update({
 const AdminProductsRoute = AdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -91,6 +116,16 @@ const CatalogueSlugRoute = CatalogueSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => CatalogueRoute,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const AdminPostsIndexRoute = AdminPostsIndexRouteImport.update({
   id: '/',
@@ -122,6 +157,21 @@ const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
   path: '/new',
   getParentRoute: () => AdminProductsRoute,
 } as any)
+const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminServicesRoute,
+} as any)
+const AdminServicesSlugRoute = AdminServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AdminServicesRoute,
+} as any)
+const AdminServicesNewRoute = AdminServicesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminServicesRoute,
+} as any)
 const AdminPostsSlugIndexRoute = AdminPostsSlugIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -142,47 +192,74 @@ const AdminProductsSlugEditRoute = AdminProductsSlugEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AdminProductsSlugRoute,
 } as any)
+const AdminServicesSlugIndexRoute = AdminServicesSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminServicesSlugRoute,
+} as any)
+const AdminServicesSlugEditRoute = AdminServicesSlugEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AdminServicesSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/admin/bookings': typeof AdminBookingsRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
+  '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/admin/posts/$slug': typeof AdminPostsSlugRouteWithChildren
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/admin/products/$slug': typeof AdminProductsSlugRouteWithChildren
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/services/$slug': typeof AdminServicesSlugRouteWithChildren
+  '/admin/services/new': typeof AdminServicesNewRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug/': typeof AdminProductsSlugIndexRoute
+  '/admin/services/$slug/': typeof AdminServicesSlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/bookings': typeof AdminBookingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/catalogue': typeof CatalogueIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/services/new': typeof AdminServicesNewRoute
   '/admin/posts': typeof AdminPostsIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/services': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug': typeof AdminProductsSlugIndexRoute
+  '/admin/services/$slug': typeof AdminServicesSlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,24 +267,34 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/services': typeof ServicesRouteWithChildren
+  '/admin/bookings': typeof AdminBookingsRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
   '/admin/products': typeof AdminProductsRouteWithChildren
+  '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/admin/posts/$slug': typeof AdminPostsSlugRouteWithChildren
   '/admin/posts/new': typeof AdminPostsNewRoute
   '/admin/products/$slug': typeof AdminProductsSlugRouteWithChildren
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/services/$slug': typeof AdminServicesSlugRouteWithChildren
+  '/admin/services/new': typeof AdminServicesNewRoute
   '/admin/posts/': typeof AdminPostsIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/posts/$slug/edit': typeof AdminPostsSlugEditRoute
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
+  '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug/': typeof AdminProductsSlugIndexRoute
+  '/admin/services/$slug/': typeof AdminServicesSlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -216,65 +303,92 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/services'
+    | '/admin/bookings'
     | '/admin/posts'
     | '/admin/products'
+    | '/admin/services'
     | '/admin/users'
     | '/blog/$slug'
     | '/catalogue/$slug'
+    | '/services/$slug'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
+    | '/services/'
     | '/admin/posts/$slug'
     | '/admin/posts/new'
     | '/admin/products/$slug'
     | '/admin/products/new'
+    | '/admin/services/$slug'
+    | '/admin/services/new'
     | '/admin/posts/'
     | '/admin/products/'
+    | '/admin/services/'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
     | '/admin/products/$slug/'
+    | '/admin/services/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/bookings'
     | '/admin/users'
     | '/blog/$slug'
     | '/catalogue/$slug'
+    | '/services/$slug'
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/services'
     | '/admin/posts/new'
     | '/admin/products/new'
+    | '/admin/services/new'
     | '/admin/posts'
     | '/admin/products'
+    | '/admin/services'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/services/$slug/edit'
     | '/admin/posts/$slug'
     | '/admin/products/$slug'
+    | '/admin/services/$slug'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/services'
+    | '/admin/bookings'
     | '/admin/posts'
     | '/admin/products'
+    | '/admin/services'
     | '/admin/users'
     | '/blog/$slug'
     | '/catalogue/$slug'
+    | '/services/$slug'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
+    | '/services/'
     | '/admin/posts/$slug'
     | '/admin/posts/new'
     | '/admin/products/$slug'
     | '/admin/products/new'
+    | '/admin/services/$slug'
+    | '/admin/services/new'
     | '/admin/posts/'
     | '/admin/products/'
+    | '/admin/services/'
     | '/admin/posts/$slug/edit'
     | '/admin/products/$slug/edit'
+    | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
     | '/admin/products/$slug/'
+    | '/admin/services/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -282,6 +396,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
   CatalogueRoute: typeof CatalogueRouteWithChildren
+  ServicesRoute: typeof ServicesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -314,11 +429,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogueRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/bookings': {
+      id: '/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminBookingsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/posts': {
@@ -333,6 +462,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/admin/products'
       preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/users': {
@@ -369,6 +505,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/catalogue/$slug'
       preLoaderRoute: typeof CatalogueSlugRouteImport
       parentRoute: typeof CatalogueRoute
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/admin/posts/': {
       id: '/admin/posts/'
@@ -412,6 +562,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsNewRouteImport
       parentRoute: typeof AdminProductsRoute
     }
+    '/admin/services/': {
+      id: '/admin/services/'
+      path: '/'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminServicesIndexRouteImport
+      parentRoute: typeof AdminServicesRoute
+    }
+    '/admin/services/$slug': {
+      id: '/admin/services/$slug'
+      path: '/$slug'
+      fullPath: '/admin/services/$slug'
+      preLoaderRoute: typeof AdminServicesSlugRouteImport
+      parentRoute: typeof AdminServicesRoute
+    }
+    '/admin/services/new': {
+      id: '/admin/services/new'
+      path: '/new'
+      fullPath: '/admin/services/new'
+      preLoaderRoute: typeof AdminServicesNewRouteImport
+      parentRoute: typeof AdminServicesRoute
+    }
     '/admin/posts/$slug/': {
       id: '/admin/posts/$slug/'
       path: '/'
@@ -439,6 +610,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/products/$slug/edit'
       preLoaderRoute: typeof AdminProductsSlugEditRouteImport
       parentRoute: typeof AdminProductsSlugRoute
+    }
+    '/admin/services/$slug/': {
+      id: '/admin/services/$slug/'
+      path: '/'
+      fullPath: '/admin/services/$slug/'
+      preLoaderRoute: typeof AdminServicesSlugIndexRouteImport
+      parentRoute: typeof AdminServicesSlugRoute
+    }
+    '/admin/services/$slug/edit': {
+      id: '/admin/services/$slug/edit'
+      path: '/edit'
+      fullPath: '/admin/services/$slug/edit'
+      preLoaderRoute: typeof AdminServicesSlugEditRouteImport
+      parentRoute: typeof AdminServicesSlugRoute
     }
   }
 }
@@ -502,16 +687,49 @@ const AdminProductsRouteWithChildren = AdminProductsRoute._addFileChildren(
   AdminProductsRouteChildren,
 )
 
+interface AdminServicesSlugRouteChildren {
+  AdminServicesSlugEditRoute: typeof AdminServicesSlugEditRoute
+  AdminServicesSlugIndexRoute: typeof AdminServicesSlugIndexRoute
+}
+
+const AdminServicesSlugRouteChildren: AdminServicesSlugRouteChildren = {
+  AdminServicesSlugEditRoute: AdminServicesSlugEditRoute,
+  AdminServicesSlugIndexRoute: AdminServicesSlugIndexRoute,
+}
+
+const AdminServicesSlugRouteWithChildren =
+  AdminServicesSlugRoute._addFileChildren(AdminServicesSlugRouteChildren)
+
+interface AdminServicesRouteChildren {
+  AdminServicesSlugRoute: typeof AdminServicesSlugRouteWithChildren
+  AdminServicesNewRoute: typeof AdminServicesNewRoute
+  AdminServicesIndexRoute: typeof AdminServicesIndexRoute
+}
+
+const AdminServicesRouteChildren: AdminServicesRouteChildren = {
+  AdminServicesSlugRoute: AdminServicesSlugRouteWithChildren,
+  AdminServicesNewRoute: AdminServicesNewRoute,
+  AdminServicesIndexRoute: AdminServicesIndexRoute,
+}
+
+const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
+  AdminServicesRouteChildren,
+)
+
 interface AdminRouteChildren {
+  AdminBookingsRoute: typeof AdminBookingsRoute
   AdminPostsRoute: typeof AdminPostsRouteWithChildren
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
+  AdminServicesRoute: typeof AdminServicesRouteWithChildren
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminBookingsRoute: AdminBookingsRoute,
   AdminPostsRoute: AdminPostsRouteWithChildren,
   AdminProductsRoute: AdminProductsRouteWithChildren,
+  AdminServicesRoute: AdminServicesRouteWithChildren,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -544,11 +762,26 @@ const CatalogueRouteWithChildren = CatalogueRoute._addFileChildren(
   CatalogueRouteChildren,
 )
 
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
   CatalogueRoute: CatalogueRouteWithChildren,
+  ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

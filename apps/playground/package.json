@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@nsheth/admin": "*",
+    "@nsheth/booking": "*",
     "@nsheth/content": "*",
     "@nsheth/identity": "*",
     "@nsheth/product": "*",
@@ -81,5 +82,5 @@
       "prisma"
     ]
   },
-  "version": "0.2.2"
+  "version": "0.3.0"
 }

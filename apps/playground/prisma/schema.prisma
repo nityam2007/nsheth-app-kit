@@ -7,6 +7,48 @@ datasource db {
   provider = "postgresql"
 }
 
+model Service {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  slug String @unique
+  summary String
+  description String @db.Text
+  status ProductStatus @default(DRAFT)
+  durationMinutes Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  slots AvailabilitySlot[]
+}
+
+model AvailabilitySlot {
+  id String @id @default(uuid()) @db.Uuid
+  serviceId String @db.Uuid
+  startsAt DateTime
+  endsAt DateTime
+  capacity Int
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  bookings BookingRequest[]
+  @@unique([serviceId, startsAt])
+}
+
+enum BookingStatus {
+  REQUESTED
+  CONFIRMED
+  CANCELLED
+}
+
+model BookingRequest {
+  id String @id @default(uuid()) @db.Uuid
+  slotId String @db.Uuid
+  name String
+  email String
+  notes String @db.Text
+  status BookingStatus @default(REQUESTED)
+  createdAt DateTime @default(now())
+  slot AvailabilitySlot @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  @@index([slotId, status])
+}
+
 enum PostStatus {
   DRAFT
   PUBLISHED

@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const BookingStatus = {
+  REQUESTED: 'REQUESTED',
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
 export const PostStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED'

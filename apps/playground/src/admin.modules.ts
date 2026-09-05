@@ -25,6 +25,20 @@ export const productCatalogueModule = {
 } as const satisfies AdminModule
 
 export const adminModules = [
+  {
+    id: 'booking-services',
+    group: 'Booking',
+    label: 'Services',
+    href: '/admin/services',
+    permission: 'booking.read',
+  },
+  {
+    id: 'booking-requests',
+    group: 'Booking',
+    label: 'Requests',
+    href: '/admin/bookings',
+    permission: 'booking.read',
+  },
   productCatalogueModule,
   contentPostsModule,
   identityUsersModule,

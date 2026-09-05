@@ -8,6 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Service.ts'
+export type * from './models/AvailabilitySlot.ts'
+export type * from './models/BookingRequest.ts'
 export type * from './models/Product.ts'
 export type * from './models/Enquiry.ts'
 export type * from './models/Post.ts'

@@ -88,12 +88,17 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Warn before leaving dirty create/edit forms and move focus to server errors.
 - [x] Match native RFQ quantity constraints to server validation.
 
-## Next Task: Booking Core and Service Booking
+## Completed: Booking Core and Service Booking
 
-1. Define the minimum service, availability, and booking-request models without payment or hospitality abstractions.
-2. Add server-authorized service and availability management through the existing admin shell.
-3. Add a public service index/detail and one booking-request flow.
-4. Verify validation, unavailable-service isolation, accessibility, and responsive behavior.
+- [x] Service, dated availability, and booking-request models.
+- [x] Authorized service CRUD and slot creation/removal in the admin shell.
+- [x] Public service index/detail and booking-request flow with contact details and reference.
+- [x] Database row locks prevent overbooking; pending requests reserve capacity; cancellation releases capacity.
+- [x] Status transitions, validation, capacity tests, and unpublished-service isolation.
+
+## Next Task: Hospitality
+
+Compose properties, room inventory, date ranges, and an operator reservation queue.
 
 ## Tooling Adoption Gate
 

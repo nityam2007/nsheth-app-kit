@@ -64,6 +64,12 @@ function Home() {
             className="flex items-center gap-5"
             aria-label="Primary navigation"
           >
+            <Link
+              className="text-sm font-semibold text-tertiary"
+              to="/services"
+            >
+              Services
+            </Link>
             <a
               className="text-sm font-semibold text-tertiary hover:text-tertiary_hover"
               href="#capabilities"

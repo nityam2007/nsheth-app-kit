@@ -21,6 +21,8 @@ const DEMO_PERMISSIONS = [
   { key: 'content.write', name: 'Write content' },
   { key: 'product.read', name: 'Read products' },
   { key: 'product.write', name: 'Write products' },
+  { key: 'booking.read', name: 'Read bookings' },
+  { key: 'booking.write', name: 'Manage bookings' },
 ] as const
 const SESSION_SECONDS = 60 * 60 * 8
 

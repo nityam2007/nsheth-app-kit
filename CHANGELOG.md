@@ -2,6 +2,21 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.3.0] - 2026-09-05
+
+### Added
+
+- Service CRUD, dated availability, public appointment requests, and an authorized operator queue.
+- Transactional slot locking, capacity validation, guarded deletion, and terminal cancellation.
+- Shared accessible action feedback, loading states, and service form dirty-state protection.
+- Workspace release-version script and booking domain regression tests.
+
+### Verified
+
+- Formatting, lint, types, unit tests, PostgreSQL migration, and production build.
+- In-app browser: create service, submit request, exhaust capacity, cancel request, and restore availability.
+- Standalone Playwright launch is blocked on this Windows host; the lifecycle test is supplied for CI.
+
 ## [0.2.2] - 2026-09-03
 
 ### Changed

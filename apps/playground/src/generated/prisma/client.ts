@@ -24,17 +24,17 @@ export * as $Enums from './enums.ts'
 export * from "./enums.ts"
 /**
  * ## Prisma Client
- *
+ * 
  * Type-safe database client for TypeScript
  * @example
  * ```
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Products
- * const products = await prisma.product.findMany()
+ * // Fetch zero or more Services
+ * const services = await prisma.service.findMany()
  * ```
- *
+ * 
  * Read more in our [docs](https://pris.ly/d/client).
  */
 export const PrismaClient = $Class.getPrismaClientClass()
@@ -42,13 +42,28 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
+ * Model Service
+ * 
+ */
+export type Service = Prisma.ServiceModel
+/**
+ * Model AvailabilitySlot
+ * 
+ */
+export type AvailabilitySlot = Prisma.AvailabilitySlotModel
+/**
+ * Model BookingRequest
+ * 
+ */
+export type BookingRequest = Prisma.BookingRequestModel
+/**
  * Model Product
- *
+ * 
  */
 export type Product = Prisma.ProductModel
 /**
  * Model Enquiry
- *
+ * 
  */
 export type Enquiry = Prisma.EnquiryModel
 /**

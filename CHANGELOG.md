@@ -2,6 +2,23 @@
 
 All notable changes are recorded here using pre-1.0 semantic versions.
 
+## [0.6.0] - 2026-09-05
+
+### Added
+
+- GitHub OAuth PKCE with verified emails, secure app sessions, and configurable owners.
+- Customer account history/export, sign-out, staff/editor roles, and session-revoking team administration.
+- TanStack DB enquiry inbox, privacy-request intake/triage, persistent submission throttles, and maintenance command.
+- Admin home keyboard shortcut (Mod+Shift+H).
+
+### Verified
+
+- Formatting, lint, types, tests, build, migration, local sign-in/dashboard, live enquiry inbox, and expired-session maintenance.
+
+### Deployment setup
+
+- Live OAuth requires the operator's GitHub app credentials and callback configuration; see `docs/AUTH.md`.
+
 ## [0.5.0] - 2026-09-05
 
 ### Added

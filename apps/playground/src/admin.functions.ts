@@ -1,5 +1,5 @@
 import { visibleAdminModules } from '@nsheth/admin'
-import { hasPermission, hasRole } from '@nsheth/identity'
+import { hasPermission } from '@nsheth/identity'
 import { createServerFn } from '@tanstack/react-start'
 
 import { adminModules, identityUsersModule } from './admin.modules'
@@ -10,7 +10,7 @@ import { rejectRequest } from './server-utils'
 export const getAdminContext = createServerFn({ method: 'GET' })
   .middleware([identityMiddleware])
   .handler(({ context }) => {
-    if (!hasRole(context.principal, 'admin')) {
+    if (!visibleAdminModules(adminModules, context.principal).length) {
       rejectRequest(403, 'Forbidden')
     }
 

@@ -163,6 +163,7 @@ model Enquiry {
   email     String
   quantity  Int
   message   String   @db.Text
+  status String @default("NEW")
   createdAt DateTime @default(now())
   product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
 
@@ -187,6 +188,8 @@ model User {
   id        String     @id @default(uuid()) @db.Uuid
   email     String     @unique
   name      String?
+  githubId String? @unique
+  disabledAt DateTime?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   sessions Session[]
@@ -221,6 +224,28 @@ model Permission {
   name      String
   createdAt DateTime         @default(now())
   roles     RolePermission[]
+}
+
+model OauthAttempt {
+  stateHash String @id
+  verifier String
+  expiresAt DateTime
+}
+
+model RequestThrottle {
+  key String @id
+  hits Int
+  expiresAt DateTime
+  @@index([expiresAt])
+}
+
+model PrivacyRequest {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  email String
+  request String @db.Text
+  status String @default("OPEN")
+  createdAt DateTime @default(now())
 }
 
 model UserRole {

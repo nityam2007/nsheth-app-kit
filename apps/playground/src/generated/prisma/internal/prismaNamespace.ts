@@ -412,6 +412,9 @@ export const ModelName = {
   Session: 'Session',
   Role: 'Role',
   Permission: 'Permission',
+  OauthAttempt: 'OauthAttempt',
+  RequestThrottle: 'RequestThrottle',
+  PrivacyRequest: 'PrivacyRequest',
   UserRole: 'UserRole',
   RolePermission: 'RolePermission'
 } as const
@@ -429,7 +432,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "order" | "orderLine" | "enquiry" | "post" | "user" | "session" | "role" | "permission" | "userRole" | "rolePermission"
+    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "order" | "orderLine" | "enquiry" | "post" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1543,6 +1546,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OauthAttempt: {
+      payload: Prisma.$OauthAttemptPayload<ExtArgs>
+      fields: Prisma.OauthAttemptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OauthAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OauthAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        findFirst: {
+          args: Prisma.OauthAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OauthAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        findMany: {
+          args: Prisma.OauthAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>[]
+        }
+        create: {
+          args: Prisma.OauthAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        createMany: {
+          args: Prisma.OauthAttemptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OauthAttemptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>[]
+        }
+        delete: {
+          args: Prisma.OauthAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        update: {
+          args: Prisma.OauthAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        deleteMany: {
+          args: Prisma.OauthAttemptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OauthAttemptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OauthAttemptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>[]
+        }
+        upsert: {
+          args: Prisma.OauthAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OauthAttemptPayload>
+        }
+        aggregate: {
+          args: Prisma.OauthAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOauthAttempt>
+        }
+        groupBy: {
+          args: Prisma.OauthAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OauthAttemptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OauthAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OauthAttemptCountAggregateOutputType> | number
+        }
+      }
+    }
+    RequestThrottle: {
+      payload: Prisma.$RequestThrottlePayload<ExtArgs>
+      fields: Prisma.RequestThrottleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequestThrottleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequestThrottleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        findFirst: {
+          args: Prisma.RequestThrottleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequestThrottleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        findMany: {
+          args: Prisma.RequestThrottleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>[]
+        }
+        create: {
+          args: Prisma.RequestThrottleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        createMany: {
+          args: Prisma.RequestThrottleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequestThrottleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>[]
+        }
+        delete: {
+          args: Prisma.RequestThrottleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        update: {
+          args: Prisma.RequestThrottleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        deleteMany: {
+          args: Prisma.RequestThrottleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequestThrottleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequestThrottleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>[]
+        }
+        upsert: {
+          args: Prisma.RequestThrottleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequestThrottlePayload>
+        }
+        aggregate: {
+          args: Prisma.RequestThrottleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequestThrottle>
+        }
+        groupBy: {
+          args: Prisma.RequestThrottleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestThrottleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequestThrottleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequestThrottleCountAggregateOutputType> | number
+        }
+      }
+    }
+    PrivacyRequest: {
+      payload: Prisma.$PrivacyRequestPayload<ExtArgs>
+      fields: Prisma.PrivacyRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PrivacyRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PrivacyRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.PrivacyRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PrivacyRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        findMany: {
+          args: Prisma.PrivacyRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>[]
+        }
+        create: {
+          args: Prisma.PrivacyRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        createMany: {
+          args: Prisma.PrivacyRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PrivacyRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.PrivacyRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        update: {
+          args: Prisma.PrivacyRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.PrivacyRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PrivacyRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PrivacyRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.PrivacyRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrivacyRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.PrivacyRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePrivacyRequest>
+        }
+        groupBy: {
+          args: Prisma.PrivacyRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrivacyRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PrivacyRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrivacyRequestCountAggregateOutputType> | number
+        }
+      }
+    }
     UserRole: {
       payload: Prisma.$UserRolePayload<ExtArgs>
       fields: Prisma.UserRoleFieldRefs
@@ -1872,6 +2097,7 @@ export const EnquiryScalarFieldEnum = {
   email: 'email',
   quantity: 'quantity',
   message: 'message',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
@@ -1897,6 +2123,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  githubId: 'githubId',
+  disabledAt: 'disabledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1934,6 +2162,36 @@ export const PermissionScalarFieldEnum = {
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const OauthAttemptScalarFieldEnum = {
+  stateHash: 'stateHash',
+  verifier: 'verifier',
+  expiresAt: 'expiresAt'
+} as const
+
+export type OauthAttemptScalarFieldEnum = (typeof OauthAttemptScalarFieldEnum)[keyof typeof OauthAttemptScalarFieldEnum]
+
+
+export const RequestThrottleScalarFieldEnum = {
+  key: 'key',
+  hits: 'hits',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RequestThrottleScalarFieldEnum = (typeof RequestThrottleScalarFieldEnum)[keyof typeof RequestThrottleScalarFieldEnum]
+
+
+export const PrivacyRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  request: 'request',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type PrivacyRequestScalarFieldEnum = (typeof PrivacyRequestScalarFieldEnum)[keyof typeof PrivacyRequestScalarFieldEnum]
 
 
 export const UserRoleScalarFieldEnum = {
@@ -2268,6 +2526,9 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   role?: Prisma.RoleOmit
   permission?: Prisma.PermissionOmit
+  oauthAttempt?: Prisma.OauthAttemptOmit
+  requestThrottle?: Prisma.RequestThrottleOmit
+  privacyRequest?: Prisma.PrivacyRequestOmit
   userRole?: Prisma.UserRoleOmit
   rolePermission?: Prisma.RolePermissionOmit
 }

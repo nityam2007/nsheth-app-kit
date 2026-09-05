@@ -10,21 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as StaysRouteImport } from './routes/stays'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAccessRouteImport } from './routes/admin.access'
 import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
+import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminPostsRouteImport } from './routes/admin.posts'
+import { Route as AdminPrivacyRouteImport } from './routes/admin.privacy'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminPropertiesRouteImport } from './routes/admin.properties'
 import { Route as AdminReservationsRouteImport } from './routes/admin.reservations'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthGithubRouteImport } from './routes/auth.github'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CatalogueIndexRouteImport } from './routes/catalogue.index'
@@ -63,6 +71,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -76,6 +89,16 @@ const BlogRoute = BlogRouteImport.update({
 const CatalogueRoute = CatalogueRouteImport.update({
   id: '/catalogue',
   path: '/catalogue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -98,9 +121,19 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAccessRoute = AdminAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBookingsRoute = AdminBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEnquiriesRoute = AdminEnquiriesRouteImport.update({
+  id: '/enquiries',
+  path: '/enquiries',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
@@ -111,6 +144,11 @@ const AdminOrdersRoute = AdminOrdersRouteImport.update({
 const AdminPostsRoute = AdminPostsRouteImport.update({
   id: '/posts',
   path: '/posts',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPrivacyRoute = AdminPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
@@ -137,6 +175,16 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
   getParentRoute: () => AdminRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthGithubRoute = AuthGithubRouteImport.update({
+  id: '/auth/github',
+  path: '/auth/github',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/',
@@ -302,20 +350,28 @@ const AdminServicesSlugEditRoute = AdminServicesSlugEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
+  '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
+  '/admin/privacy': typeof AdminPrivacyRoute
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/properties': typeof AdminPropertiesRouteWithChildren
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -352,10 +408,18 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/orders': typeof AdminOrdersRoute
+  '/admin/privacy': typeof AdminPrivacyRoute
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -389,20 +453,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
+  '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/posts': typeof AdminPostsRouteWithChildren
+  '/admin/privacy': typeof AdminPrivacyRoute
   '/admin/products': typeof AdminProductsRouteWithChildren
   '/admin/properties': typeof AdminPropertiesRouteWithChildren
   '/admin/reservations': typeof AdminReservationsRoute
   '/admin/services': typeof AdminServicesRouteWithChildren
   '/admin/users': typeof AdminUsersRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/auth/github': typeof AuthGithubRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/catalogue/$slug': typeof CatalogueSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -441,20 +513,28 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/login'
+    | '/privacy'
     | '/services'
     | '/shop'
     | '/stays'
+    | '/admin/access'
     | '/admin/bookings'
+    | '/admin/enquiries'
     | '/admin/orders'
     | '/admin/posts'
+    | '/admin/privacy'
     | '/admin/products'
     | '/admin/properties'
     | '/admin/reservations'
     | '/admin/services'
     | '/admin/users'
+    | '/auth/callback'
+    | '/auth/github'
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
@@ -491,10 +571,18 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
+    | '/login'
+    | '/privacy'
+    | '/admin/access'
     | '/admin/bookings'
+    | '/admin/enquiries'
     | '/admin/orders'
+    | '/admin/privacy'
     | '/admin/reservations'
     | '/admin/users'
+    | '/auth/callback'
+    | '/auth/github'
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
@@ -527,20 +615,28 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/login'
+    | '/privacy'
     | '/services'
     | '/shop'
     | '/stays'
+    | '/admin/access'
     | '/admin/bookings'
+    | '/admin/enquiries'
     | '/admin/orders'
     | '/admin/posts'
+    | '/admin/privacy'
     | '/admin/products'
     | '/admin/properties'
     | '/admin/reservations'
     | '/admin/services'
     | '/admin/users'
+    | '/auth/callback'
+    | '/auth/github'
     | '/blog/$slug'
     | '/catalogue/$slug'
     | '/services/$slug'
@@ -578,12 +674,17 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
   CatalogueRoute: typeof CatalogueRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   ShopRoute: typeof ShopRouteWithChildren
   StaysRoute: typeof StaysRouteWithChildren
+  AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthGithubRoute: typeof AuthGithubRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -593,6 +694,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -614,6 +722,20 @@ declare module '@tanstack/react-router' {
       path: '/catalogue'
       fullPath: '/catalogue'
       preLoaderRoute: typeof CatalogueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -644,11 +766,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/access': {
+      id: '/admin/access'
+      path: '/access'
+      fullPath: '/admin/access'
+      preLoaderRoute: typeof AdminAccessRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/bookings': {
       id: '/admin/bookings'
       path: '/bookings'
       fullPath: '/admin/bookings'
       preLoaderRoute: typeof AdminBookingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/enquiries': {
+      id: '/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AdminEnquiriesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/orders': {
@@ -663,6 +799,13 @@ declare module '@tanstack/react-router' {
       path: '/posts'
       fullPath: '/admin/posts'
       preLoaderRoute: typeof AdminPostsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/privacy': {
+      id: '/admin/privacy'
+      path: '/privacy'
+      fullPath: '/admin/privacy'
+      preLoaderRoute: typeof AdminPrivacyRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/products': {
@@ -699,6 +842,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/github': {
+      id: '/auth/github'
+      path: '/auth/github'
+      fullPath: '/auth/github'
+      preLoaderRoute: typeof AuthGithubRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/blog/': {
       id: '/blog/'
@@ -1047,9 +1204,12 @@ const AdminServicesRouteWithChildren = AdminServicesRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminAccessRoute: typeof AdminAccessRoute
   AdminBookingsRoute: typeof AdminBookingsRoute
+  AdminEnquiriesRoute: typeof AdminEnquiriesRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminPostsRoute: typeof AdminPostsRouteWithChildren
+  AdminPrivacyRoute: typeof AdminPrivacyRoute
   AdminProductsRoute: typeof AdminProductsRouteWithChildren
   AdminPropertiesRoute: typeof AdminPropertiesRouteWithChildren
   AdminReservationsRoute: typeof AdminReservationsRoute
@@ -1059,9 +1219,12 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAccessRoute: AdminAccessRoute,
   AdminBookingsRoute: AdminBookingsRoute,
+  AdminEnquiriesRoute: AdminEnquiriesRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminPostsRoute: AdminPostsRouteWithChildren,
+  AdminPrivacyRoute: AdminPrivacyRoute,
   AdminProductsRoute: AdminProductsRouteWithChildren,
   AdminPropertiesRoute: AdminPropertiesRouteWithChildren,
   AdminReservationsRoute: AdminReservationsRoute,
@@ -1140,12 +1303,17 @@ const StaysRouteWithChildren = StaysRoute._addFileChildren(StaysRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   AdminRoute: AdminRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
   CatalogueRoute: CatalogueRouteWithChildren,
+  LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   ServicesRoute: ServicesRouteWithChildren,
   ShopRoute: ShopRouteWithChildren,
   StaysRoute: StaysRouteWithChildren,
+  AuthCallbackRoute: AuthCallbackRoute,
+  AuthGithubRoute: AuthGithubRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

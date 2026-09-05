@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.5.0`
+**Current version:** `0.6.0`
 
 > **Project status:** Active development. Identity, admin, CMS/blog, catalogue/RFQ, and service booking are working. Hospitality and commerce are next.
 
@@ -29,6 +29,7 @@ The playground currently demonstrates:
 - Service CRUD, dated availability, capacity-safe public appointment requests, and an operator confirmation/cancellation queue at `/admin/bookings`
 - Multi-property hospitality at `/stays`, with room inventory, date-range availability, INR quotes, reservation requests, and operator controls
 - Storefront at `/shop`, collections and search, persistent cart, server-priced offline checkout, stock control, and `/admin/orders`
+- GitHub OAuth sign-in, account activity/export, team roles, session revocation, enquiry inbox, and privacy-request triage
 
 ## Quick Start
 

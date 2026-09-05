@@ -1,0 +1,31 @@
+export const permissionDefinitions = [
+  { key: 'identity.read', name: 'Read identity' },
+  { key: 'identity.write', name: 'Manage access' },
+  { key: 'content.read', name: 'Read content' },
+  { key: 'content.write', name: 'Write content' },
+  { key: 'product.read', name: 'Read products' },
+  { key: 'product.write', name: 'Write products' },
+  { key: 'booking.read', name: 'Read bookings' },
+  { key: 'booking.write', name: 'Manage bookings' },
+  { key: 'hospitality.read', name: 'Read hospitality' },
+  { key: 'hospitality.write', name: 'Manage hospitality' },
+  { key: 'commerce.read', name: 'Read orders' },
+  { key: 'commerce.write', name: 'Manage orders' },
+  { key: 'operations.read', name: 'Read enquiries and privacy requests' },
+  { key: 'operations.write', name: 'Manage enquiries and privacy requests' },
+] as const
+export const rolePermissions = {
+  admin: permissionDefinitions.map((p) => p.key),
+  staff: [
+    'booking.read',
+    'booking.write',
+    'hospitality.read',
+    'hospitality.write',
+    'commerce.read',
+    'commerce.write',
+    'operations.read',
+    'operations.write',
+  ],
+  editor: ['content.read', 'content.write', 'product.read', 'product.write'],
+  customer: [],
+} satisfies Record<string, Array<string>>

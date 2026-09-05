@@ -109,9 +109,17 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Transactional stock deductions, idempotent checkout, price-change protection, and cancellation restocking.
 - [x] Operator order queue and offline payment recording.
 
-## Next Task: Production Identity, Operations and Integrations
+## Completed: Identity and Operator Workflows
 
-Add real sign-in, operator roles, enquiry workflow, payment integration boundaries, and deployment configuration.
+- [x] GitHub OAuth with PKCE, verified emails, initial owners, and secure sessions.
+- [x] Customer/staff/editor/admin roles, account activity/export, team access, and revocation.
+- [x] Live enquiry inbox, privacy-request intake/triage, and persistent submission throttles.
+- [x] Expired session/login/throttle maintenance command.
+- [ ] Verify live OAuth with deployment credentials and callback.
+
+## Next Task: Integrations, Deployments and Templates
+
+Complete payment integration, deployment adapters, and reusable compositions.
 
 ## Tooling Adoption Gate
 

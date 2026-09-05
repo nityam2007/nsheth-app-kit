@@ -5,9 +5,15 @@ import {
   hashSessionToken,
 } from '@nsheth/identity'
 import { createMiddleware, createServerFn } from '@tanstack/react-start'
-import { getCookie, setCookie } from '@tanstack/react-start/server'
+import {
+  getCookie,
+  setCookie,
+  setResponseHeader,
+} from '@tanstack/react-start/server'
 
 import { getPrisma } from './db'
+import { permissionDefinitions } from './permissions'
+import { sessionCookieName } from './session.server'
 import { rejectRequest, requireSameOrigin } from './server-utils'
 
 import type { Principal } from '@nsheth/identity'
@@ -15,27 +21,12 @@ import type { Principal } from '@nsheth/identity'
 const DEMO_EMAIL = 'admin@demo.local'
 const DEMO_ROLE = 'admin'
 const DEMO_PERMISSION = 'identity.read'
-const DEMO_PERMISSIONS = [
-  { key: DEMO_PERMISSION, name: 'Read identity' },
-  { key: 'content.read', name: 'Read content' },
-  { key: 'content.write', name: 'Write content' },
-  { key: 'product.read', name: 'Read products' },
-  { key: 'product.write', name: 'Write products' },
-  { key: 'booking.read', name: 'Read bookings' },
-  { key: 'booking.write', name: 'Manage bookings' },
-  { key: 'hospitality.read', name: 'Read properties and reservations' },
-  { key: 'hospitality.write', name: 'Manage hospitality' },
-  { key: 'commerce.read', name: 'Read orders' },
-  { key: 'commerce.write', name: 'Manage orders' },
-] as const
+const DEMO_PERMISSIONS = permissionDefinitions
 const SESSION_SECONDS = 60 * 60 * 8
-
-function sessionCookieName() {
-  return process.env.NODE_ENV === 'production' ? '__Host-session' : 'session'
-}
 
 export const identityMiddleware = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
+    setResponseHeader('Cache-Control', 'no-store')
     const token = getCookie(sessionCookieName())
 
     if (!token) rejectRequest(401, 'Unauthorized')
@@ -45,6 +36,7 @@ export const identityMiddleware = createMiddleware({ type: 'function' }).server(
         tokenHash: await hashSessionToken(token),
         expiresAt: { gt: new Date() },
         revokedAt: null,
+        user: { disabledAt: null },
       },
       select: {
         user: {

@@ -41,6 +41,7 @@ export type EnquiryMinAggregateOutputType = {
   email: string | null
   quantity: number | null
   message: string | null
+  status: string | null
   createdAt: Date | null
 }
 
@@ -51,6 +52,7 @@ export type EnquiryMaxAggregateOutputType = {
   email: string | null
   quantity: number | null
   message: string | null
+  status: string | null
   createdAt: Date | null
 }
 
@@ -61,6 +63,7 @@ export type EnquiryCountAggregateOutputType = {
   email: number
   quantity: number
   message: number
+  status: number
   createdAt: number
   _all: number
 }
@@ -81,6 +84,7 @@ export type EnquiryMinAggregateInputType = {
   email?: true
   quantity?: true
   message?: true
+  status?: true
   createdAt?: true
 }
 
@@ -91,6 +95,7 @@ export type EnquiryMaxAggregateInputType = {
   email?: true
   quantity?: true
   message?: true
+  status?: true
   createdAt?: true
 }
 
@@ -101,6 +106,7 @@ export type EnquiryCountAggregateInputType = {
   email?: true
   quantity?: true
   message?: true
+  status?: true
   createdAt?: true
   _all?: true
 }
@@ -198,6 +204,7 @@ export type EnquiryGroupByOutputType = {
   email: string
   quantity: number
   message: string
+  status: string
   createdAt: Date
   _count: EnquiryCountAggregateOutputType | null
   _avg: EnquiryAvgAggregateOutputType | null
@@ -231,6 +238,7 @@ export type EnquiryWhereInput = {
   email?: Prisma.StringFilter<"Enquiry"> | string
   quantity?: Prisma.IntFilter<"Enquiry"> | number
   message?: Prisma.StringFilter<"Enquiry"> | string
+  status?: Prisma.StringFilter<"Enquiry"> | string
   createdAt?: Prisma.DateTimeFilter<"Enquiry"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
@@ -242,6 +250,7 @@ export type EnquiryOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
@@ -256,6 +265,7 @@ export type EnquiryWhereUniqueInput = Prisma.AtLeast<{
   email?: Prisma.StringFilter<"Enquiry"> | string
   quantity?: Prisma.IntFilter<"Enquiry"> | number
   message?: Prisma.StringFilter<"Enquiry"> | string
+  status?: Prisma.StringFilter<"Enquiry"> | string
   createdAt?: Prisma.DateTimeFilter<"Enquiry"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id">
@@ -267,6 +277,7 @@ export type EnquiryOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.EnquiryCountOrderByAggregateInput
   _avg?: Prisma.EnquiryAvgOrderByAggregateInput
@@ -285,6 +296,7 @@ export type EnquiryScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Enquiry"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"Enquiry"> | number
   message?: Prisma.StringWithAggregatesFilter<"Enquiry"> | string
+  status?: Prisma.StringWithAggregatesFilter<"Enquiry"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Enquiry"> | Date | string
 }
 
@@ -294,6 +306,7 @@ export type EnquiryCreateInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutEnquiriesInput
 }
@@ -305,6 +318,7 @@ export type EnquiryUncheckedCreateInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
 }
 
@@ -314,6 +328,7 @@ export type EnquiryUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutEnquiriesNestedInput
 }
@@ -325,6 +340,7 @@ export type EnquiryUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,6 +351,7 @@ export type EnquiryCreateManyInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
 }
 
@@ -344,6 +361,7 @@ export type EnquiryUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -354,6 +372,7 @@ export type EnquiryUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -374,6 +393,7 @@ export type EnquiryCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -388,6 +408,7 @@ export type EnquiryMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -398,6 +419,7 @@ export type EnquiryMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -453,6 +475,7 @@ export type EnquiryCreateWithoutProductInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
 }
 
@@ -462,6 +485,7 @@ export type EnquiryUncheckedCreateWithoutProductInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
 }
 
@@ -501,6 +525,7 @@ export type EnquiryScalarWhereInput = {
   email?: Prisma.StringFilter<"Enquiry"> | string
   quantity?: Prisma.IntFilter<"Enquiry"> | number
   message?: Prisma.StringFilter<"Enquiry"> | string
+  status?: Prisma.StringFilter<"Enquiry"> | string
   createdAt?: Prisma.DateTimeFilter<"Enquiry"> | Date | string
 }
 
@@ -510,6 +535,7 @@ export type EnquiryCreateManyProductInput = {
   email: string
   quantity: number
   message: string
+  status?: string
   createdAt?: Date | string
 }
 
@@ -519,6 +545,7 @@ export type EnquiryUpdateWithoutProductInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -528,6 +555,7 @@ export type EnquiryUncheckedUpdateWithoutProductInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -537,6 +565,7 @@ export type EnquiryUncheckedUpdateManyWithoutProductInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   message?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -549,6 +578,7 @@ export type EnquirySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   email?: boolean
   quantity?: boolean
   message?: boolean
+  status?: boolean
   createdAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enquiry"]>
@@ -560,6 +590,7 @@ export type EnquirySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   email?: boolean
   quantity?: boolean
   message?: boolean
+  status?: boolean
   createdAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enquiry"]>
@@ -571,6 +602,7 @@ export type EnquirySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   email?: boolean
   quantity?: boolean
   message?: boolean
+  status?: boolean
   createdAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enquiry"]>
@@ -582,10 +614,11 @@ export type EnquirySelectScalar = {
   email?: boolean
   quantity?: boolean
   message?: boolean
+  status?: boolean
   createdAt?: boolean
 }
 
-export type EnquiryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "name" | "email" | "quantity" | "message" | "createdAt", ExtArgs["result"]["enquiry"]>
+export type EnquiryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "name" | "email" | "quantity" | "message" | "status" | "createdAt", ExtArgs["result"]["enquiry"]>
 export type EnquiryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -608,6 +641,7 @@ export type $EnquiryPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     email: string
     quantity: number
     message: string
+    status: string
     createdAt: Date
   }, ExtArgs["result"]["enquiry"]>
   composites: {}
@@ -1039,6 +1073,7 @@ export interface EnquiryFieldRefs {
   readonly email: Prisma.FieldRef<"Enquiry", 'String'>
   readonly quantity: Prisma.FieldRef<"Enquiry", 'Int'>
   readonly message: Prisma.FieldRef<"Enquiry", 'String'>
+  readonly status: Prisma.FieldRef<"Enquiry", 'String'>
   readonly createdAt: Prisma.FieldRef<"Enquiry", 'DateTime'>
 }
     

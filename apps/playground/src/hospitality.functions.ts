@@ -1,3 +1,4 @@
+import { throttle } from './throttle.server'
 import { canTransitionBooking, hasCapacity } from '@nsheth/booking'
 import {
   peakOccupancy,
@@ -152,6 +153,7 @@ export const requestReservation = createServerFn({ method: 'POST' })
   .validator(reservationInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
+    await throttle('reservation', data.email)
     return getPrisma().$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM "RoomType" WHERE id = ${data.roomTypeId}::uuid FOR UPDATE`
       const room = await tx.roomType.findUnique({

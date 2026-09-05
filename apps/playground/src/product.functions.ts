@@ -1,3 +1,4 @@
+import { throttle } from './throttle.server'
 import {
   enquiryInputSchema,
   productInputSchema,
@@ -191,6 +192,7 @@ export const submitProductEnquiry = createServerFn({ method: 'POST' })
   .validator(enquiryInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
+    await throttle('enquiry', data.email)
 
     const product = await getPrisma().product.findFirst({
       where: {

@@ -93,6 +93,21 @@ export type Role = Prisma.RoleModel
  */
 export type Permission = Prisma.PermissionModel
 /**
+ * Model OauthAttempt
+ * 
+ */
+export type OauthAttempt = Prisma.OauthAttemptModel
+/**
+ * Model RequestThrottle
+ * 
+ */
+export type RequestThrottle = Prisma.RequestThrottleModel
+/**
+ * Model PrivacyRequest
+ * 
+ */
+export type PrivacyRequest = Prisma.PrivacyRequestModel
+/**
  * Model UserRole
  * 
  */

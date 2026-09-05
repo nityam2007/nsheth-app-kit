@@ -15,6 +15,7 @@ import {
   useLocation,
 } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
+import { useHotkey } from '@tanstack/react-hotkeys'
 
 import { getAdminContext } from '../admin.functions'
 
@@ -26,13 +27,16 @@ export const Route = createFileRoute('/admin')({
     try {
       return await getAdminContext()
     } catch {
-      throw redirect({ to: '/' })
+      throw redirect({ to: '/login' })
     }
   },
   component: AdminLayout,
 })
 
 function AdminLayout() {
+  useHotkey('Mod+Shift+H', () => {
+    window.location.assign('/admin')
+  })
   const { modules, principal } = Route.useRouteContext()
   const pathname = useLocation({ select: (location) => location.pathname })
   const mobileNavigation = useRef<HTMLDialogElement>(null)

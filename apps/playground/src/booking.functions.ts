@@ -1,3 +1,4 @@
+import { throttle } from './throttle.server'
 import {
   bookingInputSchema,
   bookingStatuses,
@@ -135,6 +136,7 @@ export const requestBooking = createServerFn({ method: 'POST' })
   .validator(bookingInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
+    await throttle('booking', data.email)
     return getPrisma().$transaction(async (tx) => {
       // Lock the slot before counting. All competing requests serialize on this row.
       await tx.$queryRaw`SELECT id FROM "AvailabilitySlot" WHERE id = ${data.slotId}::uuid FOR UPDATE`

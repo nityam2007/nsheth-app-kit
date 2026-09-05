@@ -15,6 +15,10 @@ Other privacy, employment, consumer, communications, and sector-specific laws ma
 
 ## Current Data Inventory
 
+### Implemented in 0.6
+
+GitHub sign-in now stores a provider identifier and verified email. Booking, reservation, and order records contain contact data; orders also store a delivery address. The cart stores only product display data and quantities in browser local storage. `/account` provides an authenticated activity export. `/privacy` accepts operator-reviewed requests; `/admin/privacy` tracks triage. The maintenance command removes expired/revoked session records, expired OAuth attempts, and throttle buckets. Business-record erasure, operator-specific retention, and legal review remain deployment responsibilities; triage does not itself fulfil a deletion request.
+
 The repository currently implements a development playground, not a production service.
 
 | Area             | Data in the application                                                           | Current behavior                                                                                                                                    |

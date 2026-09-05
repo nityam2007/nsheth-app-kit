@@ -66,6 +66,9 @@ export const ModelName = {
   Session: 'Session',
   Role: 'Role',
   Permission: 'Permission',
+  OauthAttempt: 'OauthAttempt',
+  RequestThrottle: 'RequestThrottle',
+  PrivacyRequest: 'PrivacyRequest',
   UserRole: 'UserRole',
   RolePermission: 'RolePermission'
 } as const
@@ -228,6 +231,7 @@ export const EnquiryScalarFieldEnum = {
   email: 'email',
   quantity: 'quantity',
   message: 'message',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
@@ -253,6 +257,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  githubId: 'githubId',
+  disabledAt: 'disabledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -290,6 +296,36 @@ export const PermissionScalarFieldEnum = {
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const OauthAttemptScalarFieldEnum = {
+  stateHash: 'stateHash',
+  verifier: 'verifier',
+  expiresAt: 'expiresAt'
+} as const
+
+export type OauthAttemptScalarFieldEnum = (typeof OauthAttemptScalarFieldEnum)[keyof typeof OauthAttemptScalarFieldEnum]
+
+
+export const RequestThrottleScalarFieldEnum = {
+  key: 'key',
+  hits: 'hits',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RequestThrottleScalarFieldEnum = (typeof RequestThrottleScalarFieldEnum)[keyof typeof RequestThrottleScalarFieldEnum]
+
+
+export const PrivacyRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  request: 'request',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type PrivacyRequestScalarFieldEnum = (typeof PrivacyRequestScalarFieldEnum)[keyof typeof PrivacyRequestScalarFieldEnum]
 
 
 export const UserRoleScalarFieldEnum = {

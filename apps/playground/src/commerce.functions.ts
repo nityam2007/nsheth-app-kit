@@ -1,3 +1,4 @@
+import { throttle } from './throttle.server'
 import {
   cartSchema,
   checkoutSchema,
@@ -106,6 +107,7 @@ export const placeOrder = createServerFn({ method: 'POST' })
   .validator(checkoutSchema)
   .handler(async ({ data: { key, ...data } }) => {
     requireSameOrigin()
+    await throttle('order', data.email)
     const requestHash = await hashSessionToken(key),
       payloadHash = await hashSessionToken(JSON.stringify(data))
     return getPrisma().$transaction(async (tx) => {

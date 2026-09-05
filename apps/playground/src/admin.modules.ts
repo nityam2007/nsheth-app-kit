@@ -26,6 +26,27 @@ export const productCatalogueModule = {
 
 export const adminModules = [
   {
+    id: 'operations-enquiries',
+    group: 'Operations',
+    label: 'Enquiries',
+    href: '/admin/enquiries',
+    permission: 'operations.read',
+  },
+  {
+    id: 'operations-privacy',
+    group: 'Operations',
+    label: 'Privacy requests',
+    href: '/admin/privacy',
+    permission: 'operations.read',
+  },
+  {
+    id: 'identity-access',
+    group: 'Identity',
+    label: 'Team access',
+    href: '/admin/access',
+    permission: 'identity.write',
+  },
+  {
     id: 'commerce-orders',
     group: 'Commerce',
     label: 'Orders',

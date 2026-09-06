@@ -1,0 +1,194 @@
+{
+  "kernel": {
+    "packages": [
+      "packages/admin",
+      "packages/identity"
+    ],
+    "contracts": [
+      "identity and session authorization",
+      "account history references all domains",
+      "safe errors and request middleware",
+      "shared semantic UI controls",
+      "database and audit boundary"
+    ],
+    "models": [
+      "User",
+      "Session",
+      "Role",
+      "Permission",
+      "UserRole",
+      "RolePermission",
+      "OauthAttempt",
+      "RequestThrottle"
+    ]
+  },
+  "blocks": {
+    "content": {
+      "dependencies": [],
+      "package": "packages/content",
+      "routes": [
+        "blog",
+        "admin.posts"
+      ],
+      "server": [
+        "content.functions.ts"
+      ],
+      "components": [
+        "admin/post-form.tsx",
+        "article-body.tsx"
+      ],
+      "models": [
+        "Post",
+        "PostRevision"
+      ],
+      "configuration": [
+        "author/byline",
+        "cover URLs",
+        "publication instant"
+      ]
+    },
+    "product": {
+      "dependencies": [],
+      "package": "packages/product",
+      "routes": [
+        "catalogue",
+        "admin.products"
+      ],
+      "server": [
+        "product.functions.ts"
+      ],
+      "components": [
+        "admin/product-form.tsx",
+        "product-information.tsx",
+        "structured-rows.tsx"
+      ],
+      "models": [
+        "Product",
+        "Enquiry",
+        "InventoryMovement",
+        "AuditEvent"
+      ],
+      "configuration": [
+        "product metadata",
+        "publication",
+        "SKU and options"
+      ]
+    },
+    "commerce": {
+      "dependencies": [
+        "product"
+      ],
+      "package": "packages/commerce",
+      "routes": [
+        "shop",
+        "admin.orders",
+        "admin.products.$slug.sale",
+        "payment-return",
+        "api.stripe"
+      ],
+      "server": [
+        "commerce.functions.ts",
+        "commerce.config.ts",
+        "payments.functions.ts",
+        "payments.server.ts"
+      ],
+      "components": [
+        "cart-provider.tsx"
+      ],
+      "models": [
+        "Order",
+        "OrderLine",
+        "ClosedCheckoutKey",
+        "PaymentEvent"
+      ],
+      "configuration": [
+        "commerce.config.ts",
+        "Stripe secrets and webhook",
+        "delivery/tax policy"
+      ]
+    },
+    "booking": {
+      "dependencies": [],
+      "package": "packages/booking",
+      "routes": [
+        "services",
+        "admin.services",
+        "admin.bookings"
+      ],
+      "server": [
+        "booking.functions.ts"
+      ],
+      "components": [
+        "admin/service-form.tsx",
+        "history-list.tsx"
+      ],
+      "models": [
+        "Service",
+        "AvailabilitySlot",
+        "BookingRequest",
+        "AuditEvent"
+      ],
+      "configuration": [
+        "timezone/location",
+        "lead time/horizon",
+        "cancellation policy"
+      ]
+    },
+    "hospitality": {
+      "dependencies": [
+        "booking"
+      ],
+      "package": "packages/hospitality",
+      "routes": [
+        "stays",
+        "admin.properties",
+        "admin.reservations"
+      ],
+      "server": [
+        "hospitality.functions.ts"
+      ],
+      "components": [
+        "admin/property-form.tsx",
+        "admin/room-form.tsx",
+        "history-list.tsx"
+      ],
+      "models": [
+        "Property",
+        "RoomType",
+        "Reservation",
+        "AuditEvent"
+      ],
+      "configuration": [
+        "property timezone",
+        "arrival/departure times",
+        "room rates and stay rules"
+      ]
+    },
+    "operations": {
+      "dependencies": [
+        "product"
+      ],
+      "routes": [
+        "admin.enquiries",
+        "admin.privacy",
+        "privacy"
+      ],
+      "server": [
+        "operations.functions.ts"
+      ],
+      "components": [
+        "triage-fields.tsx",
+        "history-list.tsx"
+      ],
+      "models": [
+        "Enquiry",
+        "PrivacyRequest",
+        "AuditEvent"
+      ],
+      "configuration": [
+        "follow-up ownership",
+        "privacy handling and retention policy"
+      ]
+    }
+  }
+}

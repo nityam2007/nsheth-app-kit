@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import { newRequestKey } from '../request-key'
 import { errorMessage } from '../errors'
 import { createFileRoute, notFound } from '@tanstack/react-router'
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/stays/$slug')({
     return property
   },
   head: ({ loaderData }) => ({
-    meta: [{ title: `${loaderData?.name ?? 'Stay'} | NSheth App Kit` }],
+    meta: [{ title: `${loaderData?.name ?? 'Stay'} | ${appConfig.name}` }],
   }),
   component: Property,
 })

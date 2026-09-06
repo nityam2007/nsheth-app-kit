@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { attachHistory } from './audit.server'
 import { createServerFn } from '@tanstack/react-start'
 import { hasPermission } from '@nsheth/identity'
@@ -8,6 +9,7 @@ import { rejectRequest, requireSameOrigin } from './server-utils'
 import { throttle } from './throttle.server'
 
 export const getEnquiries = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'operations.read'))
@@ -27,6 +29,7 @@ const triageFields = {
   followUpAt: z.union([z.literal(''), z.iso.datetime()]),
 }
 export const updateEnquiry = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -72,6 +75,7 @@ export const updateEnquiry = createServerFn({ method: 'POST' })
     })
   })
 export const submitPrivacyRequest = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('operations')])
   .validator(
     z.object({
       name: z.string().trim().min(2).max(120),
@@ -86,6 +90,7 @@ export const submitPrivacyRequest = createServerFn({ method: 'POST' })
     return { reference: request.id }
   })
 export const getPrivacyRequests = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'operations.read'))
@@ -98,6 +103,7 @@ export const getPrivacyRequests = createServerFn({ method: 'GET' })
       .then((rows) => attachHistory('privacy', rows))
   })
 export const updatePrivacyRequest = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
   .validator(
     z.object({

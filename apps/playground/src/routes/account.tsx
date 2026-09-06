@@ -1,3 +1,4 @@
+import { moduleEnabled } from '../app.config'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   getOwnSessions,
@@ -197,12 +198,14 @@ function Account() {
           )}
         </section>
       </div>
-      <p className="mt-10 text-tertiary">
-        Need a correction, export, or deletion?{' '}
-        <a className="text-brand-secondary underline" href="/privacy">
-          Submit a privacy request.
-        </a>
-      </p>
+      {moduleEnabled('operations') && (
+        <p className="mt-10 text-tertiary">
+          Need a correction, export, or deletion?{' '}
+          <a className="text-brand-secondary underline" href="/privacy">
+            Submit a privacy request.
+          </a>
+        </p>
+      )}
     </Container>
   )
 }

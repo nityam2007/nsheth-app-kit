@@ -33,7 +33,7 @@ const property=await db.property.create({data:{name:'Integration property',slug:
 const room=await db.roomType.create({data:{propertyId:property.id,name:'Test room',description:'Test',inventory:1,maxGuests:2,nightlyRate:10000}})
 try{
   for(const name of ['getAdminProducts','getAdminBookings','getReservations','getOrders','getAccessUsers','getEnquiries','getPrivacyRequests']){
-    const response=await call(name,undefined,undefined,'GET');assert.equal(response.status,401,`${name} anonymous access`)
+    const response=await call(name,undefined,undefined,'GET');assert.match(response.headers.get('cache-control')??'',/no-store/);assert.equal(response.status,401,`${name} anonymous access`)
     const forbidden=await call(name,undefined,cookie,'GET');assert.equal(forbidden.status,403,`${name} customer access`)
   }
   assert.equal((await call('createDemoIdentitySession')).status,404,'Production demo bootstrap disabled')
@@ -127,6 +127,12 @@ try{
   await hiddenOption.text()
   assert.equal(hiddenOption.status,404,'Retired parent hides options')
   assert.equal(await db.inventoryMovement.count({where:{productId:product.id}}),3,'Order, cancellation and adjustment recorded')
+  process.env.APP_DISABLED_MODULES='content'
+  assert.equal((await call('getPublishedPosts',undefined,undefined,'GET')).status,404,'Disabled block rejects public direct reads')
+  assert.equal((await call('createAdminPost',{...article,slug:'disabled-'+suffix},cookie)).status,404,'Disabled block rejects authorized direct writes')
+  delete process.env.APP_DISABLED_MODULES
+  const oversized=await server.fetch(new Request(new URL(`/_serverFn/${ids.get('requestBooking')}`,origin),{method:'POST',headers:{origin,'content-type':'application/json'},body:'x'.repeat(1024*1024+1)}))
+  await oversized.text();assert.equal(oversized.status,413,'Actual body size is bounded without Content-Length')
   const peer=await db.user.create({data:{email:'peer-'+email,roles:{create:{roleId:adminRole.id}}}})
   const peerToken=createSessionToken()
   await db.session.create({data:{userId:peer.id,tokenHash:await hashSessionToken(peerToken),expiresAt:new Date(Date.now()+600000)}})

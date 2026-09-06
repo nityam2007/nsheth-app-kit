@@ -1,3 +1,4 @@
+import { moduleEnabled } from './app.config'
 import type { AdminModule } from '@nsheth/admin'
 
 export const identityUsersModule = {
@@ -24,7 +25,7 @@ export const productCatalogueModule = {
   permission: 'product.read',
 } as const satisfies AdminModule
 
-export const adminModules = [
+const registeredModules = [
   {
     id: 'operations-enquiries',
     group: 'Operations',
@@ -85,3 +86,8 @@ export const adminModules = [
   contentPostsModule,
   identityUsersModule,
 ] as const
+
+export const adminModules = registeredModules.filter((module) => {
+  const domain = module.permission.split('.')[0]
+  return domain === 'identity' || moduleEnabled(domain)
+})

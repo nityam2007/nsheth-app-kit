@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { useState } from 'react'
 import { Input } from '../components/base/input/input'
 import { HistoryList } from '../components/history-list'
@@ -17,6 +18,7 @@ import {
 } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/bookings')({
+  beforeLoad: () => requireRouteModule('booking'),
   loader: () => getAdminBookings(),
   component: Bookings,
 })

@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import { ArticleBody } from '../components/article-body'
 import { ArrowLeft } from '@untitledui/icons'
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/blog/$slug')({
     meta: loaderData
       ? [
           {
-            title: `${loaderData.seoTitle || loaderData.title} | NSheth App Kit`,
+            title: `${loaderData.seoTitle || loaderData.title} | ${appConfig.name}`,
           },
           {
             name: 'description',

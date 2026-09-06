@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
@@ -7,7 +8,10 @@ import { ActionForm, PageHeading } from '../components/workflow'
 import { Input } from '../components/base/input/input'
 import { TextArea } from '../components/base/textarea/textarea'
 
-export const Route = createFileRoute('/privacy')({ component: Privacy })
+export const Route = createFileRoute('/privacy')({
+  beforeLoad: () => requireRouteModule('operations'),
+  component: Privacy,
+})
 function Privacy() {
   const submit = useServerFn(submitPrivacyRequest)
   const [reference, setReference] = useState('')

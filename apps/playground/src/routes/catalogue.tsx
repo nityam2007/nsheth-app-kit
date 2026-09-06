@@ -1,11 +1,14 @@
+import { appConfig, moduleEnabled } from '../app.config'
+import { requireRouteModule } from '../module-route'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
 import { Container } from '@/components/container'
 
 export const Route = createFileRoute('/catalogue')({
+  beforeLoad: () => requireRouteModule('product'),
   head: () => ({
     meta: [
-      { title: 'Catalogue | NSheth App Kit' },
+      { title: `Catalogue | ${appConfig.name}` },
       {
         name: 'description',
         content:
@@ -29,7 +32,7 @@ function CatalogueLayout() {
       <header className="border-b border-secondary">
         <Container className="flex min-h-18 items-center justify-between gap-6">
           <Link className="text-lg font-semibold text-primary" to="/">
-            NSheth App Kit
+            {appConfig.name}
           </Link>
           <nav
             className="flex items-center gap-5"
@@ -41,9 +44,11 @@ function CatalogueLayout() {
             >
               Catalogue
             </Link>
-            <Link className="text-sm font-semibold text-tertiary" to="/blog">
-              Notes
-            </Link>
+            {moduleEnabled('content') && (
+              <Link className="text-sm font-semibold text-tertiary" to="/blog">
+                Notes
+              </Link>
+            )}
           </nav>
         </Container>
       </header>
@@ -53,7 +58,7 @@ function CatalogueLayout() {
       <footer className="border-t border-secondary py-8">
         <Container>
           <span className="text-sm text-tertiary">
-            NSheth App Kit / Product catalogue
+            {appConfig.name} / Product catalogue
           </span>
         </Container>
       </footer>

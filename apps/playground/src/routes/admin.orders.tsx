@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
@@ -16,6 +17,7 @@ import { Input } from '../components/base/input/input'
 import { money } from '../money'
 
 export const Route = createFileRoute('/admin/orders')({
+  beforeLoad: () => requireRouteModule('commerce'),
   loader: () => getOrders(),
   component: Orders,
 })

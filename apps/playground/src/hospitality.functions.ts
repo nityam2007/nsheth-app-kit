@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { throttle } from './throttle.server'
 import { canTransitionBooking, hasCapacity } from '@nsheth/booking'
 import {
@@ -18,13 +19,18 @@ import { identityMiddleware } from './identity.functions'
 import { rejectRequest, requireSameOrigin } from './server-utils'
 
 export const getAdminProperties = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'hospitality.read'))
       rejectRequest(403, 'Forbidden')
-    return getPrisma().property.findMany({ orderBy: { name: 'asc' } })
+    return getPrisma().property.findMany({
+      orderBy: { name: 'asc' },
+      take: 500,
+    })
   })
 export const getAdminProperty = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: z.string().max(160) }))
   .handler(({ context, data }) => {
@@ -36,6 +42,7 @@ export const getAdminProperty = createServerFn({ method: 'GET' })
     })
   })
 export const saveProperty = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .validator(
     propertyInputSchema.extend({
@@ -63,6 +70,7 @@ export const saveProperty = createServerFn({ method: 'POST' })
     },
   )
 export const deleteProperty = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .validator(z.object({ id: z.uuid() }))
   .handler(async ({ context, data }) => {
@@ -73,6 +81,7 @@ export const deleteProperty = createServerFn({ method: 'POST' })
     return { ok: true }
   })
 export const saveRoom = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .validator(roomInputSchema)
   .handler(async ({ context, data: { id, expectedVersion, ...data } }) => {
@@ -121,14 +130,17 @@ export const saveRoom = createServerFn({ method: 'POST' })
       })
     })
   })
-export const getProperties = createServerFn({ method: 'GET' }).handler(() =>
-  getPrisma().property.findMany({
-    where: { status: 'PUBLISHED' },
-    select: { slug: true, name: true, summary: true, location: true },
-    orderBy: { name: 'asc' },
-  }),
-)
+export const getProperties = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
+  .handler(() =>
+    getPrisma().property.findMany({
+      where: { status: 'PUBLISHED' },
+      select: { slug: true, name: true, summary: true, location: true },
+      orderBy: { name: 'asc' },
+    }),
+  )
 export const getProperty = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
   .validator(z.object({ slug: z.string().max(160) }))
   .handler(({ data }) =>
     getPrisma().property.findFirst({
@@ -139,6 +151,7 @@ export const getProperty = createServerFn({ method: 'GET' })
     }),
   )
 export const checkRoomAvailability = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
   .validator(
     stayDatesSchema.safeExtend({
       roomTypeId: z.uuid(),
@@ -181,6 +194,7 @@ export const checkRoomAvailability = createServerFn({ method: 'GET' })
     }
   })
 export const requestReservation = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('hospitality')])
   .validator(reservationInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
@@ -204,7 +218,7 @@ export const requestReservation = createServerFn({ method: 'POST' })
           currency: prior.currency,
         }
       }
-      await throttle('reservation', data.email)
+      await throttle('reservation', data.email, 5, tx)
       await tx.$queryRaw`SELECT id FROM "RoomType" WHERE id = ${data.roomTypeId}::uuid FOR UPDATE`
       const room = await tx.roomType.findUnique({
         where: { id: data.roomTypeId },
@@ -280,6 +294,7 @@ export const requestReservation = createServerFn({ method: 'POST' })
     })
   })
 export const getReservations = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'hospitality.read'))
@@ -295,6 +310,7 @@ export const getReservations = createServerFn({ method: 'GET' })
       .then((rows) => attachHistory('reservation', rows))
   })
 export const updateReservation = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
   .validator(
     z.object({

@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { HistoryList } from '../components/history-list'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
@@ -13,6 +14,7 @@ import { Input } from '../components/base/input/input'
 import { money } from '../money'
 
 export const Route = createFileRoute('/admin/reservations')({
+  beforeLoad: () => requireRouteModule('hospitality'),
   loader: () => getReservations(),
   component: Reservations,
 })

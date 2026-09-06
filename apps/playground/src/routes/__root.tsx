@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import { RouteError, RouteNotFound } from '../components/route-feedback'
 import {
   HeadContent,
@@ -36,7 +37,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: '#ffffff',
       },
       {
-        title: 'NSheth App Kit',
+        title: appConfig.name,
       },
     ],
     links: [

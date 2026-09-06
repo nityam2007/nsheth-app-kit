@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { createServerFn } from '@tanstack/react-start'
 import { hashSessionToken } from '@nsheth/identity'
 import { z } from 'zod'
@@ -7,6 +8,7 @@ import { requireSameOrigin, rejectRequest } from './server-utils'
 import { createPaymentSession } from './payments.server'
 
 export const startPayment = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .validator(
     z.object({ reference: z.uuid(), key: z.string().regex(/^[a-f0-9]{64}$/) }),
   )
@@ -22,6 +24,7 @@ export const startPayment = createServerFn({ method: 'POST' })
     return { url: await createPaymentSession(order.id) }
   })
 export const startAccountPayment = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .validator(z.object({ id: z.uuid() }))
   .handler(async ({ context, data }) => {

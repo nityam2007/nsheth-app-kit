@@ -1,11 +1,14 @@
+import { requireRouteModule } from '../module-route'
+import { appConfig, moduleEnabled } from '../app.config'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
 import { Container } from '@/components/container'
 
 export const Route = createFileRoute('/blog')({
+  beforeLoad: () => requireRouteModule('content'),
   head: () => ({
     meta: [
-      { title: 'Notes | NSheth App Kit' },
+      { title: `Notes | ${appConfig.name}` },
       {
         name: 'description',
         content: 'Practical notes on building clear, useful digital products.',
@@ -28,18 +31,20 @@ function BlogLayout() {
       <header className="border-b border-secondary">
         <Container className="flex min-h-18 items-center justify-between gap-6">
           <Link className="text-lg font-semibold text-primary" to="/">
-            NSheth App Kit
+            {appConfig.name}
           </Link>
           <nav className="flex items-center gap-5" aria-label="Blog navigation">
             <Link className="text-sm font-semibold text-primary" to="/blog">
               Notes
             </Link>
-            <Link
-              className="text-sm font-semibold text-tertiary"
-              to="/catalogue"
-            >
-              Catalogue
-            </Link>
+            {moduleEnabled('product') && (
+              <Link
+                className="text-sm font-semibold text-tertiary"
+                to="/catalogue"
+              >
+                Catalogue
+              </Link>
+            )}
           </nav>
         </Container>
       </header>
@@ -49,7 +54,7 @@ function BlogLayout() {
       <footer className="border-t border-secondary py-8">
         <Container>
           <span className="text-sm text-tertiary">
-            NSheth App Kit / Implementation notes
+            {appConfig.name} / Implementation notes
           </span>
         </Container>
       </footer>

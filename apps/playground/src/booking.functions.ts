@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { throttle } from './throttle.server'
 import {
   bookingInputSchema,
@@ -18,6 +19,7 @@ import { identityMiddleware } from './identity.functions'
 import { rejectRequest, requireSameOrigin } from './server-utils'
 
 export const getAdminServices = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'booking.read'))
@@ -25,6 +27,7 @@ export const getAdminServices = createServerFn({ method: 'GET' })
     return getPrisma().service.findMany({ orderBy: { name: 'asc' }, take: 500 })
   })
 export const getAdminService = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: slugSchema }))
   .handler(({ context, data }) => {
@@ -41,6 +44,7 @@ export const getAdminService = createServerFn({ method: 'GET' })
     })
   })
 export const saveAdminService = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(
     serviceInputSchema.extend({
@@ -68,6 +72,7 @@ export const saveAdminService = createServerFn({ method: 'POST' })
     },
   )
 export const deleteAdminService = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: slugSchema }))
   .handler(async ({ context, data }) => {
@@ -79,6 +84,7 @@ export const deleteAdminService = createServerFn({ method: 'POST' })
     return { ok: true }
   })
 export const addAvailability = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(slotInputSchema)
   .handler(async ({ context, data }) => {
@@ -111,6 +117,7 @@ export const addAvailability = createServerFn({ method: 'POST' })
     })
   })
 export const removeAvailability = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(z.object({ id: z.uuid() }))
   .handler(async ({ context, data }) => {
@@ -120,14 +127,17 @@ export const removeAvailability = createServerFn({ method: 'POST' })
     await getPrisma().availabilitySlot.delete({ where: data })
     return { ok: true }
   })
-export const getServices = createServerFn({ method: 'GET' }).handler(() =>
-  getPrisma().service.findMany({
-    where: { status: 'PUBLISHED' },
-    select: { name: true, slug: true, summary: true, durationMinutes: true },
-    orderBy: { name: 'asc' },
-  }),
-)
+export const getServices = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('booking')])
+  .handler(() =>
+    getPrisma().service.findMany({
+      where: { status: 'PUBLISHED' },
+      select: { name: true, slug: true, summary: true, durationMinutes: true },
+      orderBy: { name: 'asc' },
+    }),
+  )
 export const getService = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('booking')])
   .validator(z.object({ slug: slugSchema }))
   .handler(async ({ data }) => {
     const service = await getPrisma().service.findFirst({
@@ -172,6 +182,7 @@ export const getService = createServerFn({ method: 'GET' })
     }
   })
 export const requestBooking = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .validator(bookingInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
@@ -191,7 +202,7 @@ export const requestBooking = createServerFn({ method: 'POST' })
           )
         return { reference: prior.id }
       }
-      await throttle('booking', data.email)
+      await throttle('booking', data.email, 5, tx)
       // Lock the slot before counting. All competing requests serialize on this row.
       await tx.$queryRaw`SELECT id FROM "AvailabilitySlot" WHERE id = ${data.slotId}::uuid FOR UPDATE`
       const slot = await tx.availabilitySlot.findUnique({
@@ -234,6 +245,7 @@ export const requestBooking = createServerFn({ method: 'POST' })
     })
   })
 export const getAdminBookings = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'booking.read'))
@@ -251,6 +263,7 @@ export const getAdminBookings = createServerFn({ method: 'GET' })
       .then((rows) => attachHistory('booking', rows))
   })
 export const updateBookingStatus = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -294,6 +307,7 @@ export const updateBookingStatus = createServerFn({ method: 'POST' })
   })
 
 export const pauseAvailability = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(z.object({ id: z.uuid(), paused: z.boolean() }))
   .handler(async ({ context, data }) => {
@@ -308,6 +322,7 @@ export const pauseAvailability = createServerFn({ method: 'POST' })
   })
 
 export const rescheduleBooking = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
   .validator(
     z.object({

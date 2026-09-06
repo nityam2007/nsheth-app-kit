@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace playground",
+    "dev": "node scripts/dev-local.mjs",
     "generate-routes": "npm run generate-routes --workspace playground",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
@@ -22,13 +22,21 @@
     "doctor": "node --import tsx scripts/doctor.mts",
     "db:local": "node scripts/db-local.mjs",
     "test:http": "node --import tsx scripts/http-smoke.mts",
-    "test:integration:local": "node scripts/integration-local.mjs"
+    "test:integration:local": "node scripts/integration-local.mjs",
+    "dev:bare": "npm run dev --workspace playground",
+    "compose": "node scripts/compose.mjs",
+    "setup": "node scripts/setup-local.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
-    "dotenv": "^17.4.2",
-    "pg": "^8.23.0",
-    "seroval": "^1.6.4",
-    "tsx": "^4.23.13"
+    "@playwright/test": "1.63.0",
+    "dotenv": "17.4.2",
+    "pg": "8.23.0",
+    "seroval": "1.6.4",
+    "tsx": "4.23.13",
+    "prisma": "7.10.0"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.2",
+    "mysql2": "3.24.3"
   }
 }

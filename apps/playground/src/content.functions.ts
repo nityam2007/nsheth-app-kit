@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { postInputSchema, postSlugSchema } from '@nsheth/content'
 import { hasPermission } from '@nsheth/identity'
 import { createServerFn } from '@tanstack/react-start'
@@ -40,6 +41,7 @@ const metadata = {
   seoDescription: true,
 } as const
 export const getAdminPosts = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .handler(async ({ context }) => {
     if (!hasPermission(context.principal, 'content.read'))
@@ -67,6 +69,7 @@ export const getAdminPosts = createServerFn({ method: 'GET' })
     }))
   })
 export const createAdminPost = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .validator(postInputSchema)
   .handler(({ context, data }) => {
@@ -79,6 +82,7 @@ export const createAdminPost = createServerFn({ method: 'POST' })
     })
   })
 export const getAdminPost = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: postSlugSchema }))
   .handler(async ({ context, data }) => {
@@ -104,6 +108,7 @@ export const getAdminPost = createServerFn({ method: 'GET' })
       : null
   })
 export const updateAdminPost = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .validator(
     postInputSchema.extend({
@@ -142,6 +147,7 @@ export const updateAdminPost = createServerFn({ method: 'POST' })
     },
   )
 export const restorePostRevision = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -155,6 +161,7 @@ export const restorePostRevision = createServerFn({ method: 'POST' })
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
     return getPrisma().$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Post" WHERE id=${data.postId}::uuid FOR UPDATE`
       const revision = await tx.postRevision.findFirstOrThrow({
         where: { id: data.revisionId, postId: data.postId },
       })
@@ -184,6 +191,7 @@ export const restorePostRevision = createServerFn({ method: 'POST' })
     })
   })
 export const deleteAdminPost = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('content')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -202,8 +210,9 @@ export const deleteAdminPost = createServerFn({ method: 'POST' })
       rejectRequest(409, 'Post changed. Refresh before deleting.')
     return { ok: true }
   })
-export const getPublishedPosts = createServerFn({ method: 'GET' }).handler(
-  async () => {
+export const getPublishedPosts = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('content')])
+  .handler(async () => {
     const rows = await getPrisma().post.findMany({
       where: visible(),
       orderBy: { publishedAt: 'desc' },
@@ -221,9 +230,9 @@ export const getPublishedPosts = createServerFn({ method: 'GET' }).handler(
       ...post,
       publishedAt: post.publishedAt?.toISOString().slice(0, 10) ?? '',
     }))
-  },
-)
+  })
 export const getPublishedPost = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('content')])
   .validator(z.object({ slug: postSlugSchema }))
   .handler(async ({ data }) => {
     const post = await getPrisma().post.findFirst({

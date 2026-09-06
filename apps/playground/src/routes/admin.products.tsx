@@ -1,6 +1,8 @@
+import { requireRouteModule } from '../module-route'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/admin/products')({
+  beforeLoad: () => requireRouteModule('product'),
   component: Outlet,
   notFoundComponent: () => (
     <section className="py-12">

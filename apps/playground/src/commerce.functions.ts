@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import { commercePolicy } from './commerce.config'
 import { mediaSchema, specificationSchema } from '@nsheth/product'
 import { throttle } from './throttle.server'
@@ -39,8 +40,9 @@ function purchasable() {
     ],
   }
 }
-export const getStoreProducts = createServerFn({ method: 'GET' }).handler(
-  async () => {
+export const getStoreProducts = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('commerce')])
+  .handler(async () => {
     const products = await getPrisma().product.findMany({
       where: { ...purchasable(), parentId: null },
       select: {
@@ -69,9 +71,9 @@ export const getStoreProducts = createServerFn({ method: 'GET' }).handler(
         ? p.options.reduce((sum, o) => sum + o.stock, 0)
         : p.stock,
     }))
-  },
-)
+  })
 export const getStoreProduct = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('commerce')])
   .validator(z.object({ slug: z.string().max(160) }))
   .handler(async ({ data }) => {
     const p = await getPrisma().product.findFirst({
@@ -117,6 +119,7 @@ export const getStoreProduct = createServerFn({ method: 'GET' })
       : null
   })
 export const getProductSale = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: z.string().max(160) }))
   .handler(({ context, data }) => {
@@ -136,6 +139,7 @@ export const getProductSale = createServerFn({ method: 'GET' })
     })
   })
 export const saveProductSale = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .validator(saleInputSchema)
   .handler(
@@ -189,6 +193,7 @@ export const saveProductSale = createServerFn({ method: 'POST' })
     },
   )
 export const quoteCart = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('commerce')])
   .validator(cartSchema)
   .handler(async ({ data }) => {
     const products = await getPrisma().product.findMany({
@@ -221,6 +226,7 @@ export const quoteCart = createServerFn({ method: 'GET' })
     }
   })
 export const placeOrder = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .validator(checkoutSchema)
   .handler(async ({ data: { key, ...data } }) => {
     requireSameOrigin()
@@ -326,6 +332,7 @@ export const placeOrder = createServerFn({ method: 'POST' })
     })
   })
 export const getOrders = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .handler(async ({ context }) => {
     if (!hasPermission(context.principal, 'commerce.read'))
@@ -361,6 +368,7 @@ export const getOrders = createServerFn({ method: 'GET' })
     }))
   })
 export const updateOrder = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -441,6 +449,7 @@ export const updateOrder = createServerFn({ method: 'POST' })
     })
   })
 export const recordOfflinePayment = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
   .validator(
     z.object({ id: z.uuid(), reference: z.string().trim().min(3).max(150) }),
@@ -470,6 +479,7 @@ export const recordOfflinePayment = createServerFn({ method: 'POST' })
   })
 
 export const recoverCheckout = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('commerce')])
   .validator(z.object({ key: z.string().regex(/^[a-f0-9]{64}$/) }))
   .handler(async ({ data }) => {
     requireSameOrigin()

@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import { newRequestKey } from '../request-key'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
@@ -19,7 +20,7 @@ export const Route = createFileRoute('/services/$slug')({
     return service
   },
   head: ({ loaderData }) => ({
-    meta: [{ title: `${loaderData?.name ?? 'Service'} | NSheth App Kit` }],
+    meta: [{ title: `${loaderData?.name ?? 'Service'} | ${appConfig.name}` }],
   }),
   component: Service,
 })

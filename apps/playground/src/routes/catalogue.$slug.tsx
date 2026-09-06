@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import {
   ProductGallery,
   ProductSpecifications,
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/catalogue/$slug')({
     meta: loaderData
       ? [
           {
-            title: `${loaderData.seoTitle || loaderData.name} | NSheth App Kit`,
+            title: `${loaderData.seoTitle || loaderData.name} | ${appConfig.name}`,
           },
           {
             name: 'description',

@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { TriageFields, triageData } from '../components/triage-fields'
 import { HistoryList } from '../components/history-list'
 import { createFileRoute } from '@tanstack/react-router'
@@ -14,6 +15,7 @@ import {
 } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/privacy')({
+  beforeLoad: () => requireRouteModule('operations'),
   loader: () => getPrivacyRequests(),
   component: Requests,
 })

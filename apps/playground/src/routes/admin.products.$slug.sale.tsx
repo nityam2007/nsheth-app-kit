@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { getProductSale, saveProductSale } from '../commerce.functions'
@@ -5,6 +6,7 @@ import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 import { Input } from '../components/base/input/input'
 
 export const Route = createFileRoute('/admin/products/$slug/sale')({
+  beforeLoad: () => requireRouteModule('commerce'),
   loader: ({ params }) => getProductSale({ data: params }),
   component: Sale,
 })

@@ -26,6 +26,8 @@ export async function localDatabase({start=false}={}){
  const env=await configuration(),url=new URL(env.DATABASE_URL||'')
  if(!['postgres:','postgresql:'].includes(url.protocol))throw new Error('DATABASE_URL must use PostgreSQL.')
  const local=['localhost','127.0.0.1','[::1]'].includes(url.hostname)
+ const managed=env.DEV_DATABASE_MODE==='compose'||(!env.DEV_DATABASE_MODE&&url.pathname==='/nsheth_app_kit'&&url.username==='nsheth')
+ if(!managed){if(await tcpReachable(url.hostname,Number(url.port||5432)))return {env,close:async()=>{}};throw new Error('Configured database is unreachable. Use DEV_DATABASE_MODE=compose only for the bundled local database.')}
  const availableTransport=process.platform==='win32'&&local?await dockerTransport().catch(()=>null):null
  const needsRelay=availableTransport?.command==='wsl'
  if(!needsRelay&&await tcpReachable(url.hostname,Number(url.port||5432)))return {env,close:async()=>{}}

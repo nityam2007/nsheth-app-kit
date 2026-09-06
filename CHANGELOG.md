@@ -1,3 +1,13 @@
+# 0.8.5 - Make existing blocks configurable and reusable
+
+- Add a source manifest and fresh-project export with dependency selection, separate local database configuration and secret/build exclusions.
+- Apply project branding and module selection to navigation, routes and server calls; replace the foundation showcase with working workflow entry points.
+- Add catalogue images, brand/collection discovery and search; keep realistic module boundaries documented.
+- Make npm run dev use managed startup; add npm run setup for generation and additive migrations.
+- Bound streamed request bodies, preserve private no-store headers, and avoid extra database connections inside booking transactions.
+- Pin dependencies and patch Prisma tooling transitive packages; npm audit reports zero vulnerabilities.
+- Verify the full kit and an independently exported Content/Shop project without browser tools.
+
 # 0.8.4 - Add editorial recovery and accountable follow-up
 
 - Add authors, covers, tags, search metadata, scheduled publication, safe article blocks and editor preview.

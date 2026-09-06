@@ -1,3 +1,4 @@
+import { requireRouteModule } from '../module-route'
 import { Route as AdminRoute } from './admin'
 import { TriageFields, triageData } from '../components/triage-fields'
 import { HistoryList } from '../components/history-list'
@@ -17,6 +18,7 @@ import {
 import { Input } from '../components/base/input/input'
 
 export const Route = createFileRoute('/admin/enquiries')({
+  beforeLoad: () => requireRouteModule('operations'),
   ssr: false,
   component: Enquiries,
 })

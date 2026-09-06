@@ -2,9 +2,9 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.8.4`
+**Current version:** `0.8.5`
 
-> **Project status:** Existing-module hardening. Version 0.8.0 demonstrates basic workflows; it is not a complete production product kit. Follow [MODULE_READINESS.md](docs/MODULE_READINESS.md). New modules and templates are paused.
+> **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
 
 ![NSheth App Kit social preview](<./Social Preview.png>)
 
@@ -12,7 +12,7 @@ A modular TanStack Start foundation for building portfolio, content, booking, ho
 
 NSheth App Kit is a source-first monorepo for composing focused applications from shared foundations and optional domain modules. It favors direct code, server-enforced authorization, accessible native controls, and deployment-neutral boundaries over speculative framework layers.
 
-The playground currently demonstrates:
+The existing application includes:
 
 - TanStack Start routing, SSR, Query integration, and development tooling
 - Copied Untitled UI React controls, semantic Tailwind tokens, and responsive layouts
@@ -36,26 +36,28 @@ The playground currently demonstrates:
 
 ### Requirements
 
-- Node.js 22 or newer
+- Node.js 24
 - npm
 - Docker with Compose, or another PostgreSQL 17-compatible database, for database-backed demos
 
 ```bash
 git clone https://github.com/nityam2007/nsheth-app-kit.git
 cd nsheth-app-kit
-npm install
+npm ci
+# Copy apps/playground/.env.example to apps/playground/.env.local
+npm run setup
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The UI showcase runs without a database.
+The app runs at [http://localhost:3000](http://localhost:3000). `setup` starts the bundled local database, generates the client and applies checked-in migrations; it never resets data. `dev` checks the database and starts Vite, including managed Windows/WSL connectivity. Use `dev:bare` only with an already reachable database.
 
 ## Database-Backed Demos
 
 Run PostgreSQL through Compose, create `apps/playground/.env.local` from the included example, and apply the migrations. Node and npm continue to run directly on the host:
 
 ```bash
-docker compose up -d --wait postgres
-npm run db:migrate --workspace playground
+npm run setup
+npm run doctor
 npm run dev
 ```
 
@@ -160,3 +162,11 @@ Product and commerce now include option SKUs, media/specifications, inventory hi
 Booking and hospitality now include policy configuration, retry-safe requests, quote checks, appointment moves and customer cancellation. [Scope and acceptance](docs/modules/BOOKING_HOSPITALITY.md).
 
 Publishing includes safe article blocks, metadata, scheduling and draft revision recovery. Operator cases include responsibility, notes and follow-up dates. Accounts include session controls. [Scope and acceptance](docs/modules/CONTENT_IDENTITY_OPERATIONS.md).
+
+## Reuse the existing blocks
+
+```sh
+npm run compose -- --modules content,commerce --name "My project" --out ../my-project
+```
+
+See [the composition guide](docs/COMPOSITION.md) for configuration, file manifests, database boundaries and verification.

@@ -1,3 +1,4 @@
+import { appConfig, publicModules, moduleEnabled } from '../app.config'
 import { Link, Outlet } from '@tanstack/react-router'
 import { Container } from './container'
 
@@ -10,7 +11,7 @@ export function PublicLayout() {
       <header className="border-b border-secondary">
         <Container className="flex min-h-20 flex-wrap items-center justify-between gap-4 py-4">
           <Link to="/" className="text-lg font-semibold text-primary">
-            NSheth App Kit
+            {appConfig.name}
           </Link>
           <nav
             className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-secondary"
@@ -19,21 +20,15 @@ export function PublicLayout() {
             <a className="inline-flex min-h-11 items-center" href="/account">
               Account
             </a>
-            <a className="inline-flex min-h-11 items-center" href="/shop">
-              Shop
-            </a>
-            <a className="inline-flex min-h-11 items-center" href="/stays">
-              Stays
-            </a>
-            <a className="inline-flex min-h-11 items-center" href="/blog">
-              Journal
-            </a>
-            <a className="inline-flex min-h-11 items-center" href="/catalogue">
-              Catalogue
-            </a>
-            <a className="inline-flex min-h-11 items-center" href="/services">
-              Services
-            </a>
+            {publicModules.map((module) => (
+              <a
+                key={module.id}
+                className="inline-flex min-h-11 items-center"
+                href={module.href}
+              >
+                {module.label}
+              </a>
+            ))}
             <a className="inline-flex min-h-11 items-center" href="/admin">
               Admin
             </a>
@@ -47,8 +42,10 @@ export function PublicLayout() {
       </main>
       <footer className="border-t border-secondary py-8">
         <Container className="flex flex-wrap justify-between gap-4 text-sm text-tertiary">
-          <span>NSheth App Kit</span>
-          <a href="/privacy">Privacy & contact</a>
+          <span>{appConfig.name}</span>
+          {moduleEnabled('operations') && (
+            <a href="/privacy">Privacy & contact</a>
+          )}
         </Container>
       </footer>
     </div>

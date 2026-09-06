@@ -1,3 +1,4 @@
+import { appConfig } from '../app.config'
 import { errorStatus } from '../errors'
 import {
   File06,
@@ -63,7 +64,7 @@ function AdminLayout() {
       <aside className="sticky top-0 hidden h-svh flex-col border-r border-secondary bg-primary lg:flex">
         <div className="flex min-h-18 items-center justify-between gap-4 border-b border-secondary px-4 lg:px-5">
           <Link className="text-md font-semibold text-primary" to="/admin">
-            NSheth App Kit
+            {appConfig.name}
           </Link>
           <span className="rounded-md bg-brand-primary px-2 py-1 text-xs font-medium text-brand-secondary">
             Admin
@@ -114,7 +115,7 @@ function AdminLayout() {
                   className="block truncate text-sm font-semibold text-primary"
                   id="mobile-navigation-title"
                 >
-                  NSheth App Kit
+                  {appConfig.name}
                 </strong>
                 <span className="block text-xs text-tertiary">
                   Admin workspace

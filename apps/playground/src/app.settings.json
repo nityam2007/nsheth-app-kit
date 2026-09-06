@@ -1,0 +1,12 @@
+{
+  "name": "NSheth App Kit",
+  "description": "Catalogue, appointments, stays and publishing in one workspace.",
+  "enabledModules": [
+    "content",
+    "product",
+    "commerce",
+    "booking",
+    "hospitality",
+    "operations"
+  ]
+}

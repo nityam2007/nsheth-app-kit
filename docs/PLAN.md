@@ -4,7 +4,7 @@
 
 Follow [MODULE_READINESS.md](MODULE_READINESS.md). Historical completed sections describe demonstrated slices, not complete product modules. New modules and templates are paused. Browser use is prohibited.
 
-Product/commerce workflow depth is implemented in 0.8.2; see [its plan and boundaries](modules/PRODUCT_COMMERCE.md). Next: booking/hospitality workflow depth. Keep repairs in the 0.8.x series.
+Product/commerce workflow depth is implemented in 0.8.2; see [its plan and boundaries](modules/PRODUCT_COMMERCE.md). Booking/hospitality followed in 0.8.3; editorial/operations followed in 0.8.4. Keep repairs in the 0.8.x series.
 
 ## Completed: Foundation Scaffold
 
@@ -154,6 +154,6 @@ Turborepo is reliable and incrementally adoptable, but it does not reduce mainte
 
 Implement one vertical slice per phase. Update this file as scope becomes concrete.
 
-Booking/hospitality workflow depth delivered in 0.8.3; next: content revisions and identity/operations hardening.
+Booking/hospitality workflow depth delivered in 0.8.3.
 
-Content/identity/operations hardening delivered in 0.8.4. Next: existing-block selection/copy contracts and final runtime/security verification.
+Content/identity/operations hardening delivered in 0.8.4. Composition, startup and security checks delivered in 0.8.5. Existing-module baselines and exclusions are recorded in MODULE_READINESS.md; do not start new modules or templates.

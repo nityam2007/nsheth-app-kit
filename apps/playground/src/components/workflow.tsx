@@ -2,7 +2,7 @@ import { errorMessage } from '../errors'
 import { useEffect, useRef, useState } from 'react'
 import { useBlocker, useRouter } from '@tanstack/react-router'
 import { Button } from './base/buttons/button'
-import type { ReactNode } from 'react'
+import type { ReactNode, SelectHTMLAttributes } from 'react'
 
 export const controlClass =
   'min-h-11 w-full rounded-lg bg-primary px-3.5 py-2.5 text-md text-primary shadow-xs ring-1 ring-primary ring-inset focus:ring-2 focus:ring-brand'
@@ -129,22 +129,16 @@ export function SelectField({
   label,
   name,
   children,
-  defaultValue,
+  ...props
 }: {
   label: string
   name: string
   children: ReactNode
-  defaultValue?: string
-}) {
+} & SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <label className="grid gap-1.5 text-sm font-medium text-secondary">
       {label}
-      <select
-        className={controlClass}
-        name={name}
-        defaultValue={defaultValue}
-        required
-      >
+      <select className={controlClass} name={name} required {...props}>
         {children}
       </select>
     </label>

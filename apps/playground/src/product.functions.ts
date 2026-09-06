@@ -1,3 +1,4 @@
+import { moduleMiddleware } from './module.middleware'
 import {
   enquiryInputSchema,
   productInputSchema,
@@ -61,6 +62,7 @@ const normalize = (p: { gallery: unknown; specifications: unknown }) => ({
   specifications: specificationSchema.catch([]).parse(p.specifications),
 })
 export const getAdminProducts = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .handler(async ({ context }) => {
     if (!hasPermission(context.principal, 'product.read'))
@@ -91,6 +93,7 @@ export const getAdminProducts = createServerFn({ method: 'GET' })
     }))
   })
 export const createAdminProduct = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(productInputSchema)
   .handler(async ({ context, data }) => {
@@ -108,6 +111,7 @@ export const createAdminProduct = createServerFn({ method: 'POST' })
     })
   })
 export const getAdminProduct = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: productSlugSchema }))
   .handler(async ({ context, data }) => {
@@ -151,6 +155,7 @@ export const getAdminProduct = createServerFn({ method: 'GET' })
     }
   })
 export const updateAdminProduct = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(
     productInputSchema.extend({
@@ -199,6 +204,7 @@ export const updateAdminProduct = createServerFn({ method: 'POST' })
     },
   )
 export const deleteAdminProduct = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(z.object({ slug: productSlugSchema }))
   .handler(async ({ context, data }) => {
@@ -228,6 +234,7 @@ export const deleteAdminProduct = createServerFn({ method: 'POST' })
     return { ok: true }
   })
 export const changeProductLifecycle = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -290,6 +297,7 @@ export const changeProductLifecycle = createServerFn({ method: 'POST' })
     })
   })
 export const createProductOption = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .middleware([identityMiddleware])
   .validator(
     z.object({
@@ -345,8 +353,9 @@ export const createProductOption = createServerFn({ method: 'POST' })
       })
     })
   })
-export const getPublishedProducts = createServerFn({ method: 'GET' }).handler(
-  () =>
+export const getPublishedProducts = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('product')])
+  .handler(() =>
     getPrisma().product.findMany({
       where: {
         ...publicWhere(),
@@ -366,8 +375,9 @@ export const getPublishedProducts = createServerFn({ method: 'GET' }).handler(
         tags: true,
       },
     }),
-)
+  )
 export const getPublishedProduct = createServerFn({ method: 'GET' })
+  .middleware([moduleMiddleware('product')])
   .validator(z.object({ slug: productSlugSchema }))
   .handler(async ({ data }) => {
     const p = await getPrisma().product.findFirst({
@@ -387,6 +397,7 @@ export const getPublishedProduct = createServerFn({ method: 'GET' })
     return p ? { ...p, ...normalize(p) } : null
   })
 export const submitProductEnquiry = createServerFn({ method: 'POST' })
+  .middleware([moduleMiddleware('product')])
   .validator(enquiryInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()

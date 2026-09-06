@@ -16,3 +16,11 @@ If schema checks fail, run the migration command before restarting. Do not use s
 `DEV_DATABASE_MODE=compose` selects the project’s bundled database explicitly. For a custom database set `DEV_DATABASE_MODE=external`; the launcher never starts Compose or redirects that connection. Dependencies are pinned. Prisma CLI runs from the root workspace so patched transitive dependency overrides also apply to workspace commands.
 
 Security overrides currently pin deepmerge-ts 8.0.2 and mysql2 3.24.3 beneath Prisma CLI 7.10.0. Generation, migration deployment and clean export installation were verified with these overrides. Review them when upgrading Prisma; do not use an automatic major downgrade to clear an audit report.
+
+## Cloudflare development tunnel
+
+Run `npm run dev` and point the Cloudflare Tunnel hostname `dev3000.nsheth.in` to `http://localhost:3000`. Open `https://dev3000.nsheth.in`. Vite allows this exact hostname and requires port 3000 to be free instead of silently switching ports. Localhost access continues to work.
+
+`apps/playground/src/request-origin.ts` holds the explicit HTTPS development origin, shared by Vite configuration and both server-function origin checks. This accounts for Cloudflare terminating HTTPS before forwarding HTTP locally. The exception applies only outside production, accepts only the configured tunnel or local port 3000 as the receiving host, and never trusts arbitrary forwarded headers. For a different development tunnel, update this constant and its regression tests. Production same-origin checks remain unchanged.
+
+Public pages, server-function requests, rejection of unrelated origins/hosts, and the live-reload WebSocket were verified with direct HTTP/WebSocket clients. GitHub OAuth, when configured, also needs `PUBLIC_ORIGIN=https://dev3000.nsheth.in` and the matching provider callback described in [AUTH.md](AUTH.md).

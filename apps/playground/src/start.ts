@@ -12,6 +12,7 @@ import {
   setResponseStatus,
 } from '@tanstack/react-start/server'
 import { PublicError, classifyFailure, errorStatus } from './errors'
+import { isAllowedRequestOrigin } from './request-origin'
 
 const safeErrors = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
@@ -99,6 +100,12 @@ export const startInstance = createStart(() => ({
     securityHeaders,
     createCsrfMiddleware({
       filter: (context) => context.handlerType === 'serverFn',
+      origin: (origin, context) =>
+        isAllowedRequestOrigin(
+          context.request.url,
+          origin,
+          process.env.NODE_ENV !== 'production',
+        ),
     }),
   ],
 }))

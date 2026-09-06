@@ -6,6 +6,8 @@ Follow [MODULE_READINESS.md](MODULE_READINESS.md). Historical completed sections
 
 Product/commerce workflow depth is implemented in 0.8.2; see [its plan and boundaries](modules/PRODUCT_COMMERCE.md). Booking/hospitality followed in 0.8.3; editorial/operations followed in 0.8.4. Keep repairs in the 0.8.x series.
 
+Development tunnel access is repaired in 0.8.6: exact Vite hostname allowlisting, strict port 3000, and development-only HTTPS origin matching across Cloudflare's local HTTP connection. Public module routes, server-function requests, blocked unrelated hosts/origins and live-reload connectivity have direct protocol verification.
+
 ## Completed: Foundation Scaffold
 
 - [x] Read the original brief and NSheth brand source.

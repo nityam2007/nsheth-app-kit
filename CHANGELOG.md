@@ -1,3 +1,9 @@
+# 0.8.6 - Support the Cloudflare development tunnel
+
+- Allow `dev3000.nsheth.in` through Vite and keep startup on port 3000.
+- Accept the explicit HTTPS tunnel origin across local HTTP forwarding in development, preserving production origin checks and rejecting unrelated origins.
+- Verify public module pages, server-function requests and live-reload WebSocket connectivity without browser tools; add origin regression tests and tunnel setup documentation.
+
 # 0.8.5 - Make existing blocks configurable and reusable
 
 - Add a source manifest and fresh-project export with dependency selection, separate local database configuration and secret/build exclusions.

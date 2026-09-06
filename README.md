@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.8.5`
+**Current version:** `0.8.6`
 
 > **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
 
@@ -50,6 +50,8 @@ npm run dev
 ```
 
 The app runs at [http://localhost:3000](http://localhost:3000). `setup` starts the bundled local database, generates the client and applies checked-in migrations; it never resets data. `dev` checks the database and starts Vite, including managed Windows/WSL connectivity. Use `dev:bare` only with an already reachable database.
+
+The development server also supports [https://dev3000.nsheth.in](https://dev3000.nsheth.in) through the configured Cloudflare Tunnel to `http://localhost:3000`. See [local development](docs/LOCAL_DEVELOPMENT.md) for the host/origin configuration.
 
 ## Database-Backed Demos
 

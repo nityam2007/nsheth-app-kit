@@ -1,7 +1,7 @@
 import { errorStatus } from '../errors'
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { getAccount, signOut } from '../account.functions'
+import { getAccount, signOut, cancelOwnRequest } from '../account.functions'
 import { Container } from '../components/container'
 import { ActionForm, PageHeading } from '../components/workflow'
 import { Button } from '../components/base/buttons/button'
@@ -20,6 +20,7 @@ export const Route = createFileRoute('/account')({
 })
 function Account() {
   const data = Route.useLoaderData(),
+    cancel = useServerFn(cancelOwnRequest),
     logout = useServerFn(signOut)
   return (
     <Container className="py-12">
@@ -88,10 +89,26 @@ function Account() {
           </h2>
           {data.bookings.length ? (
             data.bookings.map((b) => (
-              <p key={b.id} className="mb-4 text-tertiary">
-                {b.slot.service.name} · {b.slot.startsAt.toISOString()} ·{' '}
-                {b.status}
-              </p>
+              <div key={b.id} className="mb-4 text-tertiary">
+                <p>
+                  {b.slot.service.name} · {b.slot.startsAt.toISOString()} ·{' '}
+                  {b.status}
+                </p>
+                <p className="my-2 break-all text-xs">Reference {b.id}</p>
+                {b.status !== 'CANCELLED' && b.cancelUntil && (
+                  <ActionForm
+                    label="Cancel appointment"
+                    action={() =>
+                      cancel({ data: { id: b.id, kind: 'booking' } })
+                    }
+                  >
+                    <p className="text-sm">
+                      Online cancellation before {b.cancelUntil.toISOString()}.
+                      No refund is processed here.
+                    </p>
+                  </ActionForm>
+                )}
+              </div>
             ))
           ) : (
             <p className="text-tertiary">No appointments yet.</p>
@@ -101,10 +118,26 @@ function Account() {
           <h2 className="mb-4 text-xl font-semibold text-primary">Stays</h2>
           {data.reservations.length ? (
             data.reservations.map((r) => (
-              <p key={r.id} className="mb-4 text-tertiary">
-                {r.roomType.name} · {r.checkIn.toISOString().slice(0, 10)} →{' '}
-                {r.checkOut.toISOString().slice(0, 10)} · {r.status}
-              </p>
+              <div key={r.id} className="mb-4 text-tertiary">
+                <p>
+                  {r.roomType.name} · {r.checkIn.toISOString().slice(0, 10)} →{' '}
+                  {r.checkOut.toISOString().slice(0, 10)} · {r.status}
+                </p>
+                <p className="my-2 break-all text-xs">Reference {r.id}</p>
+                {r.status !== 'CANCELLED' && r.cancelUntilDate && (
+                  <ActionForm
+                    label="Cancel reservation"
+                    action={() =>
+                      cancel({ data: { id: r.id, kind: 'reservation' } })
+                    }
+                  >
+                    <p className="text-sm">
+                      Online cancellation before {r.cancelUntilDate} (
+                      {r.cancellationTimezone}). No refund is processed here.
+                    </p>
+                  </ActionForm>
+                )}
+              </div>
             ))
           ) : (
             <p className="text-tertiary">No stays yet.</p>

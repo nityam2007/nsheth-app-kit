@@ -153,3 +153,5 @@ Turborepo is reliable and incrementally adoptable, but it does not reduce mainte
 4. Compile reusable add-ons and seven composed templates.
 
 Implement one vertical slice per phase. Update this file as scope becomes concrete.
+
+Booking/hospitality workflow depth delivered in 0.8.3; next: content revisions and identity/operations hardening.

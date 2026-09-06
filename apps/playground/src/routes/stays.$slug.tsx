@@ -1,6 +1,8 @@
+import { newRequestKey } from '../request-key'
+import { errorMessage } from '../errors'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   getProperty,
   requestReservation,
@@ -38,6 +40,23 @@ function Property() {
       <p className="mb-12 max-w-3xl whitespace-pre-wrap leading-7 text-tertiary">
         {property.description}
       </p>
+      <section
+        className="mb-10 grid gap-3 text-secondary"
+        aria-label="Property policies"
+      >
+        <p>{property.address}</p>
+        <p>{property.amenities.join(' · ')}</p>
+        <p>
+          Check-in from {property.checkInTime}; check-out by{' '}
+          {property.checkOutTime} ({property.timezone}).
+        </p>
+        <p>
+          Online cancellation closes at the start of the day{' '}
+          {property.cancelNoticeDays} days before arrival, in the property
+          timezone.
+        </p>
+        <p className="whitespace-pre-wrap">{property.policy}</p>
+      </section>
       <h2 className="mb-6 text-display-xs font-semibold text-primary">
         Choose your room
       </h2>
@@ -60,11 +79,19 @@ function Room({
     name: string
     description: string
     maxGuests: number
+    minNights: number
+    maxNights: number
+    amenities: string[]
     nightlyRate: number
   }
 }) {
   const request = useServerFn(requestReservation),
     check = useServerFn(checkRoomAvailability)
+  const key = useRef('')
+  const [priced, setPriced] = useState<{
+    fingerprint: string
+    total: number
+  } | null>(null)
   const [reference, setReference] = useState(''),
     [quote, setQuote] = useState('')
   return (
@@ -73,6 +100,9 @@ function Room({
       <p className="my-3 text-tertiary">{room.description}</p>
       <p className="mb-6 font-semibold text-brand-secondary">
         {money(room.nightlyRate)} / night · Up to {room.maxGuests} guests
+      </p>
+      <p className="mb-5 text-tertiary">
+        {room.minNights}–{room.maxNights} nights · {room.amenities.join(' · ')}
       </p>
       {reference ? (
         <div role="status">
@@ -89,8 +119,21 @@ function Room({
         <ActionForm
           label="Request this room"
           action={async (f) => {
+            const fingerprint = JSON.stringify([
+              String(f.get('checkIn')),
+              String(f.get('checkOut')),
+              Number(f.get('guests')),
+            ])
+            if (!priced || priced.fingerprint !== fingerprint) {
+              setQuote(
+                'Check availability and total for these dates before submitting.',
+              )
+              return false
+            }
             const result = await request({
               data: {
+                key: (key.current ||= newRequestKey()),
+                expectedTotal: priced.total,
                 roomTypeId: room.id,
                 checkIn: String(f.get('checkIn')),
                 checkOut: String(f.get('checkOut')),
@@ -150,13 +193,26 @@ function Room({
                     guests: Number(f.get('guests')),
                   },
                 })
+                setPriced(
+                  result.available
+                    ? {
+                        fingerprint: JSON.stringify([
+                          String(f.get('checkIn')),
+                          String(f.get('checkOut')),
+                          Number(f.get('guests')),
+                        ]),
+                        total: result.totalAmount,
+                      }
+                    : null,
+                )
                 setQuote(
                   result.available
                     ? `Available now · ${money(result.totalAmount)} for your stay`
                     : 'Unavailable for these dates or guests.',
                 )
-              } catch {
-                setQuote('Choose valid dates between 1 and 30 nights.')
+              } catch (error) {
+                setPriced(null)
+                setQuote(errorMessage(error))
               }
             }}
           >

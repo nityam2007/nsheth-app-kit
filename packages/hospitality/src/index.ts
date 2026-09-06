@@ -21,10 +21,26 @@ export const propertyInputSchema = z.object({
     }
   }, 'Use an IANA timezone'),
   status: z.enum(['DRAFT', 'PUBLISHED']),
+  address: z.string().trim().max(500).default(''),
+  amenities: z.array(z.string().trim().min(1).max(60)).max(30).default([]),
+  checkInTime: z
+    .string()
+    .regex(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)
+    .default('14:00'),
+  checkOutTime: z
+    .string()
+    .regex(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)
+    .default('11:00'),
+  cancelNoticeDays: z.number().int().min(0).max(30).default(1),
+  policy: z.string().trim().max(4000).default(''),
 })
 export const roomInputSchema = z.object({
   propertyId: z.uuid(),
   id: z.uuid().optional(),
+  expectedVersion: z.number().int().positive().optional(),
+  minNights: z.number().int().min(1).max(30).default(1),
+  maxNights: z.number().int().min(1).max(30).default(30),
+  amenities: z.array(z.string().trim().min(1).max(60)).max(30).default([]),
   name: z.string().trim().min(2).max(120),
   description: z.string().trim().min(1).max(2000),
   inventory: z.number().int().min(1).max(500),
@@ -39,6 +55,8 @@ export const stayDatesSchema = z
     return nights >= 1 && nights <= 30
   }, 'Stays must be between 1 and 30 nights')
 export const reservationInputSchema = stayDatesSchema.safeExtend({
+  key: z.string().regex(/^[a-f0-9]{64}$/),
+  expectedTotal: z.number().int().min(0).max(300_000_000),
   roomTypeId: z.uuid(),
   guests: z.number().int().min(1).max(20),
   name: z.string().trim().min(2).max(120),

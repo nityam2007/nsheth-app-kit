@@ -7,7 +7,11 @@ import { saveAdminService } from '../../booking.functions'
 import { slugify } from '../../slug'
 import type { ServiceInput } from '@nsheth/booking'
 
-export function ServiceForm({ initial }: { initial?: ServiceInput }) {
+export function ServiceForm({
+  initial,
+}: {
+  initial?: ServiceInput & { version: number }
+}) {
   const save = useServerFn(saveAdminService)
   const [slug, setSlug] = useState(initial?.slug ?? '')
   const [edited, setEdited] = useState(Boolean(initial))
@@ -19,6 +23,14 @@ export function ServiceForm({ initial }: { initial?: ServiceInput }) {
         const service = await save({
           data: {
             currentSlug: initial?.slug,
+            expectedVersion: initial?.version,
+            timezone: String(form.get('timezone')),
+            location: String(form.get('location')),
+            policy: String(form.get('policy')),
+            minLeadHours: Number(form.get('minLeadHours')),
+            maxAdvanceDays: Number(form.get('maxAdvanceDays')),
+            cancelNoticeHours: Number(form.get('cancelNoticeHours')),
+
             name: String(form.get('name')),
             slug: String(form.get('slug')),
             summary: String(form.get('summary')),
@@ -77,6 +89,51 @@ export function ServiceForm({ initial }: { initial?: ServiceInput }) {
         max={1440}
         isRequired
         defaultValue={String(initial?.durationMinutes ?? 60)}
+      />
+      <Input
+        name="timezone"
+        label="IANA timezone"
+        maxLength={100}
+        defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
+      />
+      <Input
+        name="location"
+        label="Location or meeting instructions"
+        maxLength={300}
+        defaultValue={initial?.location ?? ''}
+      />
+      <TextArea
+        name="policy"
+        label="Booking policy"
+        maxLength={4000}
+        defaultValue={initial?.policy ?? ''}
+      />
+      <Input
+        name="minLeadHours"
+        label="Minimum lead time (hours)"
+        type="number"
+        min={0}
+        max={720}
+        isRequired
+        defaultValue={String(initial?.minLeadHours ?? 0)}
+      />
+      <Input
+        name="maxAdvanceDays"
+        label="Book up to (days ahead)"
+        type="number"
+        min={1}
+        max={3650}
+        isRequired
+        defaultValue={String(initial?.maxAdvanceDays ?? 365)}
+      />
+      <Input
+        name="cancelNoticeHours"
+        label="Cancellation notice (hours)"
+        type="number"
+        min={0}
+        max={720}
+        isRequired
+        defaultValue={String(initial?.cancelNoticeHours ?? 24)}
       />
       <SelectField
         label="Visibility"

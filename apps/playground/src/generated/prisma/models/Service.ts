@@ -27,14 +27,29 @@ export type AggregateService = {
 }
 
 export type ServiceAvgAggregateOutputType = {
+  version: number | null
+  minLeadHours: number | null
+  maxAdvanceDays: number | null
+  cancelNoticeHours: number | null
   durationMinutes: number | null
 }
 
 export type ServiceSumAggregateOutputType = {
+  version: number | null
+  minLeadHours: number | null
+  maxAdvanceDays: number | null
+  cancelNoticeHours: number | null
   durationMinutes: number | null
 }
 
 export type ServiceMinAggregateOutputType = {
+  version: number | null
+  timezone: string | null
+  location: string | null
+  minLeadHours: number | null
+  maxAdvanceDays: number | null
+  cancelNoticeHours: number | null
+  policy: string | null
   id: string | null
   name: string | null
   slug: string | null
@@ -47,6 +62,13 @@ export type ServiceMinAggregateOutputType = {
 }
 
 export type ServiceMaxAggregateOutputType = {
+  version: number | null
+  timezone: string | null
+  location: string | null
+  minLeadHours: number | null
+  maxAdvanceDays: number | null
+  cancelNoticeHours: number | null
+  policy: string | null
   id: string | null
   name: string | null
   slug: string | null
@@ -59,6 +81,13 @@ export type ServiceMaxAggregateOutputType = {
 }
 
 export type ServiceCountAggregateOutputType = {
+  version: number
+  timezone: number
+  location: number
+  minLeadHours: number
+  maxAdvanceDays: number
+  cancelNoticeHours: number
+  policy: number
   id: number
   name: number
   slug: number
@@ -73,14 +102,29 @@ export type ServiceCountAggregateOutputType = {
 
 
 export type ServiceAvgAggregateInputType = {
+  version?: true
+  minLeadHours?: true
+  maxAdvanceDays?: true
+  cancelNoticeHours?: true
   durationMinutes?: true
 }
 
 export type ServiceSumAggregateInputType = {
+  version?: true
+  minLeadHours?: true
+  maxAdvanceDays?: true
+  cancelNoticeHours?: true
   durationMinutes?: true
 }
 
 export type ServiceMinAggregateInputType = {
+  version?: true
+  timezone?: true
+  location?: true
+  minLeadHours?: true
+  maxAdvanceDays?: true
+  cancelNoticeHours?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -93,6 +137,13 @@ export type ServiceMinAggregateInputType = {
 }
 
 export type ServiceMaxAggregateInputType = {
+  version?: true
+  timezone?: true
+  location?: true
+  minLeadHours?: true
+  maxAdvanceDays?: true
+  cancelNoticeHours?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -105,6 +156,13 @@ export type ServiceMaxAggregateInputType = {
 }
 
 export type ServiceCountAggregateInputType = {
+  version?: true
+  timezone?: true
+  location?: true
+  minLeadHours?: true
+  maxAdvanceDays?: true
+  cancelNoticeHours?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -204,6 +262,13 @@ export type ServiceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type ServiceGroupByOutputType = {
+  version: number
+  timezone: string
+  location: string
+  minLeadHours: number
+  maxAdvanceDays: number
+  cancelNoticeHours: number
+  policy: string
   id: string
   name: string
   slug: string
@@ -239,6 +304,13 @@ export type ServiceWhereInput = {
   AND?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
   OR?: Prisma.ServiceWhereInput[]
   NOT?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
+  version?: Prisma.IntFilter<"Service"> | number
+  timezone?: Prisma.StringFilter<"Service"> | string
+  location?: Prisma.StringFilter<"Service"> | string
+  minLeadHours?: Prisma.IntFilter<"Service"> | number
+  maxAdvanceDays?: Prisma.IntFilter<"Service"> | number
+  cancelNoticeHours?: Prisma.IntFilter<"Service"> | number
+  policy?: Prisma.StringFilter<"Service"> | string
   id?: Prisma.UuidFilter<"Service"> | string
   name?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
@@ -252,6 +324,13 @@ export type ServiceWhereInput = {
 }
 
 export type ServiceOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -270,6 +349,13 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
   OR?: Prisma.ServiceWhereInput[]
   NOT?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
+  version?: Prisma.IntFilter<"Service"> | number
+  timezone?: Prisma.StringFilter<"Service"> | string
+  location?: Prisma.StringFilter<"Service"> | string
+  minLeadHours?: Prisma.IntFilter<"Service"> | number
+  maxAdvanceDays?: Prisma.IntFilter<"Service"> | number
+  cancelNoticeHours?: Prisma.IntFilter<"Service"> | number
+  policy?: Prisma.StringFilter<"Service"> | string
   name?: Prisma.StringFilter<"Service"> | string
   summary?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringFilter<"Service"> | string
@@ -281,6 +367,13 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
 }, "id" | "slug">
 
 export type ServiceOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -301,6 +394,13 @@ export type ServiceScalarWhereWithAggregatesInput = {
   AND?: Prisma.ServiceScalarWhereWithAggregatesInput | Prisma.ServiceScalarWhereWithAggregatesInput[]
   OR?: Prisma.ServiceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ServiceScalarWhereWithAggregatesInput | Prisma.ServiceScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"Service"> | number
+  timezone?: Prisma.StringWithAggregatesFilter<"Service"> | string
+  location?: Prisma.StringWithAggregatesFilter<"Service"> | string
+  minLeadHours?: Prisma.IntWithAggregatesFilter<"Service"> | number
+  maxAdvanceDays?: Prisma.IntWithAggregatesFilter<"Service"> | number
+  cancelNoticeHours?: Prisma.IntWithAggregatesFilter<"Service"> | number
+  policy?: Prisma.StringWithAggregatesFilter<"Service"> | string
   id?: Prisma.UuidWithAggregatesFilter<"Service"> | string
   name?: Prisma.StringWithAggregatesFilter<"Service"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Service"> | string
@@ -313,6 +413,13 @@ export type ServiceScalarWhereWithAggregatesInput = {
 }
 
 export type ServiceCreateInput = {
+  version?: number
+  timezone?: string
+  location?: string
+  minLeadHours?: number
+  maxAdvanceDays?: number
+  cancelNoticeHours?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -326,6 +433,13 @@ export type ServiceCreateInput = {
 }
 
 export type ServiceUncheckedCreateInput = {
+  version?: number
+  timezone?: string
+  location?: string
+  minLeadHours?: number
+  maxAdvanceDays?: number
+  cancelNoticeHours?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -339,6 +453,13 @@ export type ServiceUncheckedCreateInput = {
 }
 
 export type ServiceUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -352,6 +473,13 @@ export type ServiceUpdateInput = {
 }
 
 export type ServiceUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -365,6 +493,13 @@ export type ServiceUncheckedUpdateInput = {
 }
 
 export type ServiceCreateManyInput = {
+  version?: number
+  timezone?: string
+  location?: string
+  minLeadHours?: number
+  maxAdvanceDays?: number
+  cancelNoticeHours?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -377,6 +512,13 @@ export type ServiceCreateManyInput = {
 }
 
 export type ServiceUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -389,6 +531,13 @@ export type ServiceUpdateManyMutationInput = {
 }
 
 export type ServiceUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -401,6 +550,13 @@ export type ServiceUncheckedUpdateManyInput = {
 }
 
 export type ServiceCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -413,10 +569,21 @@ export type ServiceCountOrderByAggregateInput = {
 }
 
 export type ServiceAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
 }
 
 export type ServiceMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -429,6 +596,13 @@ export type ServiceMaxOrderByAggregateInput = {
 }
 
 export type ServiceMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -441,6 +615,10 @@ export type ServiceMinOrderByAggregateInput = {
 }
 
 export type ServiceSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minLeadHours?: Prisma.SortOrder
+  maxAdvanceDays?: Prisma.SortOrder
+  cancelNoticeHours?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
 }
 
@@ -449,20 +627,20 @@ export type ServiceScalarRelationFilter = {
   isNot?: Prisma.ServiceWhereInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type EnumProductStatusFieldUpdateOperationsInput = {
-  set?: $Enums.ProductStatus
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type EnumProductStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ProductStatus
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -484,6 +662,13 @@ export type ServiceUpdateOneRequiredWithoutSlotsNestedInput = {
 }
 
 export type ServiceCreateWithoutSlotsInput = {
+  version?: number
+  timezone?: string
+  location?: string
+  minLeadHours?: number
+  maxAdvanceDays?: number
+  cancelNoticeHours?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -496,6 +681,13 @@ export type ServiceCreateWithoutSlotsInput = {
 }
 
 export type ServiceUncheckedCreateWithoutSlotsInput = {
+  version?: number
+  timezone?: string
+  location?: string
+  minLeadHours?: number
+  maxAdvanceDays?: number
+  cancelNoticeHours?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -524,6 +716,13 @@ export type ServiceUpdateToOneWithWhereWithoutSlotsInput = {
 }
 
 export type ServiceUpdateWithoutSlotsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,6 +735,13 @@ export type ServiceUpdateWithoutSlotsInput = {
 }
 
 export type ServiceUncheckedUpdateWithoutSlotsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  minLeadHours?: Prisma.IntFieldUpdateOperationsInput | number
+  maxAdvanceDays?: Prisma.IntFieldUpdateOperationsInput | number
+  cancelNoticeHours?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -579,6 +785,13 @@ export type ServiceCountOutputTypeCountSlotsArgs<ExtArgs extends runtime.Types.E
 
 
 export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  timezone?: boolean
+  location?: boolean
+  minLeadHours?: boolean
+  maxAdvanceDays?: boolean
+  cancelNoticeHours?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -593,6 +806,13 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  timezone?: boolean
+  location?: boolean
+  minLeadHours?: boolean
+  maxAdvanceDays?: boolean
+  cancelNoticeHours?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -605,6 +825,13 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  timezone?: boolean
+  location?: boolean
+  minLeadHours?: boolean
+  maxAdvanceDays?: boolean
+  cancelNoticeHours?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -617,6 +844,13 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectScalar = {
+  version?: boolean
+  timezone?: boolean
+  location?: boolean
+  minLeadHours?: boolean
+  maxAdvanceDays?: boolean
+  cancelNoticeHours?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -628,7 +862,7 @@ export type ServiceSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "summary" | "description" | "status" | "durationMinutes" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "timezone" | "location" | "minLeadHours" | "maxAdvanceDays" | "cancelNoticeHours" | "policy" | "id" | "name" | "slug" | "summary" | "description" | "status" | "durationMinutes" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slots?: boolean | Prisma.Service$slotsArgs<ExtArgs>
   _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -642,6 +876,13 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     slots: Prisma.$AvailabilitySlotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
+    timezone: string
+    location: string
+    minLeadHours: number
+    maxAdvanceDays: number
+    cancelNoticeHours: number
+    policy: string
     id: string
     name: string
     slug: string
@@ -734,8 +975,8 @@ export interface ServiceDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 Services
    * const services = await prisma.service.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const serviceWithIdOnly = await prisma.service.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const serviceWithVersionOnly = await prisma.service.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends ServiceFindManyArgs>(args?: Prisma.SelectSubset<T, ServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -779,9 +1020,9 @@ export interface ServiceDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Create many Services and only return the `id`
-   * const serviceWithIdOnly = await prisma.service.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Services and only return the `version`
+   * const serviceWithVersionOnly = await prisma.service.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -870,9 +1111,9 @@ export interface ServiceDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Update zero or more Services and only return the `id`
-   * const serviceWithIdOnly = await prisma.service.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Services and only return the `version`
+   * const serviceWithVersionOnly = await prisma.service.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1075,6 +1316,13 @@ export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Service model
  */
 export interface ServiceFieldRefs {
+  readonly version: Prisma.FieldRef<"Service", 'Int'>
+  readonly timezone: Prisma.FieldRef<"Service", 'String'>
+  readonly location: Prisma.FieldRef<"Service", 'String'>
+  readonly minLeadHours: Prisma.FieldRef<"Service", 'Int'>
+  readonly maxAdvanceDays: Prisma.FieldRef<"Service", 'Int'>
+  readonly cancelNoticeHours: Prisma.FieldRef<"Service", 'Int'>
+  readonly policy: Prisma.FieldRef<"Service", 'String'>
   readonly id: Prisma.FieldRef<"Service", 'String'>
   readonly name: Prisma.FieldRef<"Service", 'String'>
   readonly slug: Prisma.FieldRef<"Service", 'String'>

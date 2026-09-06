@@ -11,6 +11,10 @@ interface Room {
   inventory: number
   maxGuests: number
   nightlyRate: number
+  version: number
+  minNights: number
+  maxNights: number
+  amenities: string[]
   active: boolean
 }
 export function RoomForm({
@@ -23,12 +27,20 @@ export function RoomForm({
   const save = useServerFn(saveRoom)
   return (
     <ActionForm
+      key={room?.version ?? 'new'}
       reset={!room}
       label={room ? 'Save room type' : 'Add room type'}
       action={(form) =>
         save({
           data: {
             id: room?.id,
+            expectedVersion: room?.version,
+            minNights: Number(form.get('minNights')),
+            maxNights: Number(form.get('maxNights')),
+            amenities: String(form.get('amenities'))
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean),
             propertyId,
             name: String(form.get('name')),
             description: String(form.get('description')),
@@ -85,6 +97,32 @@ export function RoomForm({
           defaultValue={String((room?.nightlyRate ?? 500000) / 100)}
         />
       </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Input
+          name="minNights"
+          label="Minimum nights"
+          type="number"
+          min={1}
+          max={30}
+          isRequired
+          defaultValue={String(room?.minNights ?? 1)}
+        />
+        <Input
+          name="maxNights"
+          label="Maximum nights"
+          type="number"
+          min={1}
+          max={30}
+          isRequired
+          defaultValue={String(room?.maxNights ?? 30)}
+        />
+      </div>
+      <Input
+        name="amenities"
+        label="Room amenities (comma separated)"
+        maxLength={1800}
+        defaultValue={room?.amenities.join(', ')}
+      />
       <SelectField
         label="Availability"
         name="active"

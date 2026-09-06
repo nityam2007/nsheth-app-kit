@@ -27,16 +27,23 @@ export type AggregateReservation = {
 }
 
 export type ReservationAvgAggregateOutputType = {
+  version: number | null
   guests: number | null
   totalAmount: number | null
 }
 
 export type ReservationSumAggregateOutputType = {
+  version: number | null
   guests: number | null
   totalAmount: number | null
 }
 
 export type ReservationMinAggregateOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntilDate: string | null
+  cancellationTimezone: string | null
+  version: number | null
   id: string | null
   roomTypeId: string | null
   checkIn: Date | null
@@ -51,6 +58,11 @@ export type ReservationMinAggregateOutputType = {
 }
 
 export type ReservationMaxAggregateOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntilDate: string | null
+  cancellationTimezone: string | null
+  version: number | null
   id: string | null
   roomTypeId: string | null
   checkIn: Date | null
@@ -65,6 +77,11 @@ export type ReservationMaxAggregateOutputType = {
 }
 
 export type ReservationCountAggregateOutputType = {
+  requestHash: number
+  payloadHash: number
+  cancelUntilDate: number
+  cancellationTimezone: number
+  version: number
   id: number
   roomTypeId: number
   checkIn: number
@@ -81,16 +98,23 @@ export type ReservationCountAggregateOutputType = {
 
 
 export type ReservationAvgAggregateInputType = {
+  version?: true
   guests?: true
   totalAmount?: true
 }
 
 export type ReservationSumAggregateInputType = {
+  version?: true
   guests?: true
   totalAmount?: true
 }
 
 export type ReservationMinAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntilDate?: true
+  cancellationTimezone?: true
+  version?: true
   id?: true
   roomTypeId?: true
   checkIn?: true
@@ -105,6 +129,11 @@ export type ReservationMinAggregateInputType = {
 }
 
 export type ReservationMaxAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntilDate?: true
+  cancellationTimezone?: true
+  version?: true
   id?: true
   roomTypeId?: true
   checkIn?: true
@@ -119,6 +148,11 @@ export type ReservationMaxAggregateInputType = {
 }
 
 export type ReservationCountAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntilDate?: true
+  cancellationTimezone?: true
+  version?: true
   id?: true
   roomTypeId?: true
   checkIn?: true
@@ -220,6 +254,11 @@ export type ReservationGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type ReservationGroupByOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntilDate: string | null
+  cancellationTimezone: string
+  version: number
   id: string
   roomTypeId: string
   checkIn: Date
@@ -257,6 +296,11 @@ export type ReservationWhereInput = {
   AND?: Prisma.ReservationWhereInput | Prisma.ReservationWhereInput[]
   OR?: Prisma.ReservationWhereInput[]
   NOT?: Prisma.ReservationWhereInput | Prisma.ReservationWhereInput[]
+  requestHash?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  payloadHash?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancelUntilDate?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancellationTimezone?: Prisma.StringFilter<"Reservation"> | string
+  version?: Prisma.IntFilter<"Reservation"> | number
   id?: Prisma.UuidFilter<"Reservation"> | string
   roomTypeId?: Prisma.UuidFilter<"Reservation"> | string
   checkIn?: Prisma.DateTimeFilter<"Reservation"> | Date | string
@@ -272,6 +316,11 @@ export type ReservationWhereInput = {
 }
 
 export type ReservationOrderByWithRelationInput = {
+  requestHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  payloadHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelUntilDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationTimezone?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   roomTypeId?: Prisma.SortOrder
   checkIn?: Prisma.SortOrder
@@ -287,10 +336,15 @@ export type ReservationOrderByWithRelationInput = {
 }
 
 export type ReservationWhereUniqueInput = Prisma.AtLeast<{
+  requestHash?: string
   id?: string
   AND?: Prisma.ReservationWhereInput | Prisma.ReservationWhereInput[]
   OR?: Prisma.ReservationWhereInput[]
   NOT?: Prisma.ReservationWhereInput | Prisma.ReservationWhereInput[]
+  payloadHash?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancelUntilDate?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancellationTimezone?: Prisma.StringFilter<"Reservation"> | string
+  version?: Prisma.IntFilter<"Reservation"> | number
   roomTypeId?: Prisma.UuidFilter<"Reservation"> | string
   checkIn?: Prisma.DateTimeFilter<"Reservation"> | Date | string
   checkOut?: Prisma.DateTimeFilter<"Reservation"> | Date | string
@@ -302,9 +356,14 @@ export type ReservationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumBookingStatusFilter<"Reservation"> | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFilter<"Reservation"> | Date | string
   roomType?: Prisma.XOR<Prisma.RoomTypeScalarRelationFilter, Prisma.RoomTypeWhereInput>
-}, "id">
+}, "id" | "requestHash">
 
 export type ReservationOrderByWithAggregationInput = {
+  requestHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  payloadHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelUntilDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationTimezone?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   roomTypeId?: Prisma.SortOrder
   checkIn?: Prisma.SortOrder
@@ -327,6 +386,11 @@ export type ReservationScalarWhereWithAggregatesInput = {
   AND?: Prisma.ReservationScalarWhereWithAggregatesInput | Prisma.ReservationScalarWhereWithAggregatesInput[]
   OR?: Prisma.ReservationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReservationScalarWhereWithAggregatesInput | Prisma.ReservationScalarWhereWithAggregatesInput[]
+  requestHash?: Prisma.StringNullableWithAggregatesFilter<"Reservation"> | string | null
+  payloadHash?: Prisma.StringNullableWithAggregatesFilter<"Reservation"> | string | null
+  cancelUntilDate?: Prisma.StringNullableWithAggregatesFilter<"Reservation"> | string | null
+  cancellationTimezone?: Prisma.StringWithAggregatesFilter<"Reservation"> | string
+  version?: Prisma.IntWithAggregatesFilter<"Reservation"> | number
   id?: Prisma.UuidWithAggregatesFilter<"Reservation"> | string
   roomTypeId?: Prisma.UuidWithAggregatesFilter<"Reservation"> | string
   checkIn?: Prisma.DateTimeWithAggregatesFilter<"Reservation"> | Date | string
@@ -341,6 +405,11 @@ export type ReservationScalarWhereWithAggregatesInput = {
 }
 
 export type ReservationCreateInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   checkIn: Date | string
   checkOut: Date | string
@@ -355,6 +424,11 @@ export type ReservationCreateInput = {
 }
 
 export type ReservationUncheckedCreateInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   roomTypeId: string
   checkIn: Date | string
@@ -369,6 +443,11 @@ export type ReservationUncheckedCreateInput = {
 }
 
 export type ReservationUpdateInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checkOut?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,6 +462,11 @@ export type ReservationUpdateInput = {
 }
 
 export type ReservationUncheckedUpdateInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   roomTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -397,6 +481,11 @@ export type ReservationUncheckedUpdateInput = {
 }
 
 export type ReservationCreateManyInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   roomTypeId: string
   checkIn: Date | string
@@ -411,6 +500,11 @@ export type ReservationCreateManyInput = {
 }
 
 export type ReservationUpdateManyMutationInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checkOut?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -424,6 +518,11 @@ export type ReservationUpdateManyMutationInput = {
 }
 
 export type ReservationUncheckedUpdateManyInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   roomTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -448,6 +547,11 @@ export type ReservationOrderByRelationAggregateInput = {
 }
 
 export type ReservationCountOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntilDate?: Prisma.SortOrder
+  cancellationTimezone?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   roomTypeId?: Prisma.SortOrder
   checkIn?: Prisma.SortOrder
@@ -462,11 +566,17 @@ export type ReservationCountOrderByAggregateInput = {
 }
 
 export type ReservationAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   guests?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
 }
 
 export type ReservationMaxOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntilDate?: Prisma.SortOrder
+  cancellationTimezone?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   roomTypeId?: Prisma.SortOrder
   checkIn?: Prisma.SortOrder
@@ -481,6 +591,11 @@ export type ReservationMaxOrderByAggregateInput = {
 }
 
 export type ReservationMinOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntilDate?: Prisma.SortOrder
+  cancellationTimezone?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   roomTypeId?: Prisma.SortOrder
   checkIn?: Prisma.SortOrder
@@ -495,6 +610,7 @@ export type ReservationMinOrderByAggregateInput = {
 }
 
 export type ReservationSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   guests?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
 }
@@ -541,11 +657,20 @@ export type ReservationUncheckedUpdateManyWithoutRoomTypeNestedInput = {
   deleteMany?: Prisma.ReservationScalarWhereInput | Prisma.ReservationScalarWhereInput[]
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type EnumBookingStatusFieldUpdateOperationsInput = {
   set?: $Enums.BookingStatus
 }
 
 export type ReservationCreateWithoutRoomTypeInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   checkIn: Date | string
   checkOut: Date | string
@@ -559,6 +684,11 @@ export type ReservationCreateWithoutRoomTypeInput = {
 }
 
 export type ReservationUncheckedCreateWithoutRoomTypeInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   checkIn: Date | string
   checkOut: Date | string
@@ -601,6 +731,11 @@ export type ReservationScalarWhereInput = {
   AND?: Prisma.ReservationScalarWhereInput | Prisma.ReservationScalarWhereInput[]
   OR?: Prisma.ReservationScalarWhereInput[]
   NOT?: Prisma.ReservationScalarWhereInput | Prisma.ReservationScalarWhereInput[]
+  requestHash?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  payloadHash?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancelUntilDate?: Prisma.StringNullableFilter<"Reservation"> | string | null
+  cancellationTimezone?: Prisma.StringFilter<"Reservation"> | string
+  version?: Prisma.IntFilter<"Reservation"> | number
   id?: Prisma.UuidFilter<"Reservation"> | string
   roomTypeId?: Prisma.UuidFilter<"Reservation"> | string
   checkIn?: Prisma.DateTimeFilter<"Reservation"> | Date | string
@@ -615,6 +750,11 @@ export type ReservationScalarWhereInput = {
 }
 
 export type ReservationCreateManyRoomTypeInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntilDate?: string | null
+  cancellationTimezone?: string
+  version?: number
   id?: string
   checkIn: Date | string
   checkOut: Date | string
@@ -628,6 +768,11 @@ export type ReservationCreateManyRoomTypeInput = {
 }
 
 export type ReservationUpdateWithoutRoomTypeInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checkOut?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -641,6 +786,11 @@ export type ReservationUpdateWithoutRoomTypeInput = {
 }
 
 export type ReservationUncheckedUpdateWithoutRoomTypeInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checkOut?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -654,6 +804,11 @@ export type ReservationUncheckedUpdateWithoutRoomTypeInput = {
 }
 
 export type ReservationUncheckedUpdateManyWithoutRoomTypeInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntilDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationTimezone?: Prisma.StringFieldUpdateOperationsInput | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   checkIn?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checkOut?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -669,6 +824,11 @@ export type ReservationUncheckedUpdateManyWithoutRoomTypeInput = {
 
 
 export type ReservationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntilDate?: boolean
+  cancellationTimezone?: boolean
+  version?: boolean
   id?: boolean
   roomTypeId?: boolean
   checkIn?: boolean
@@ -684,6 +844,11 @@ export type ReservationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 }, ExtArgs["result"]["reservation"]>
 
 export type ReservationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntilDate?: boolean
+  cancellationTimezone?: boolean
+  version?: boolean
   id?: boolean
   roomTypeId?: boolean
   checkIn?: boolean
@@ -699,6 +864,11 @@ export type ReservationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 }, ExtArgs["result"]["reservation"]>
 
 export type ReservationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntilDate?: boolean
+  cancellationTimezone?: boolean
+  version?: boolean
   id?: boolean
   roomTypeId?: boolean
   checkIn?: boolean
@@ -714,6 +884,11 @@ export type ReservationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 }, ExtArgs["result"]["reservation"]>
 
 export type ReservationSelectScalar = {
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntilDate?: boolean
+  cancellationTimezone?: boolean
+  version?: boolean
   id?: boolean
   roomTypeId?: boolean
   checkIn?: boolean
@@ -727,7 +902,7 @@ export type ReservationSelectScalar = {
   createdAt?: boolean
 }
 
-export type ReservationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomTypeId" | "checkIn" | "checkOut" | "guests" | "name" | "email" | "totalAmount" | "currency" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
+export type ReservationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"requestHash" | "payloadHash" | "cancelUntilDate" | "cancellationTimezone" | "version" | "id" | "roomTypeId" | "checkIn" | "checkOut" | "guests" | "name" | "email" | "totalAmount" | "currency" | "status" | "createdAt", ExtArgs["result"]["reservation"]>
 export type ReservationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   roomType?: boolean | Prisma.RoomTypeDefaultArgs<ExtArgs>
 }
@@ -744,6 +919,11 @@ export type $ReservationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     roomType: Prisma.$RoomTypePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    requestHash: string | null
+    payloadHash: string | null
+    cancelUntilDate: string | null
+    cancellationTimezone: string
+    version: number
     id: string
     roomTypeId: string
     checkIn: Date
@@ -838,8 +1018,8 @@ export interface ReservationDelegate<ExtArgs extends runtime.Types.Extensions.In
    * // Get first 10 Reservations
    * const reservations = await prisma.reservation.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const reservationWithIdOnly = await prisma.reservation.findMany({ select: { id: true } })
+   * // Only select the `requestHash`
+   * const reservationWithRequestHashOnly = await prisma.reservation.findMany({ select: { requestHash: true } })
    * 
    */
   findMany<T extends ReservationFindManyArgs>(args?: Prisma.SelectSubset<T, ReservationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -883,9 +1063,9 @@ export interface ReservationDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Create many Reservations and only return the `id`
-   * const reservationWithIdOnly = await prisma.reservation.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Reservations and only return the `requestHash`
+   * const reservationWithRequestHashOnly = await prisma.reservation.createManyAndReturn({
+   *   select: { requestHash: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -974,9 +1154,9 @@ export interface ReservationDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Update zero or more Reservations and only return the `id`
-   * const reservationWithIdOnly = await prisma.reservation.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Reservations and only return the `requestHash`
+   * const reservationWithRequestHashOnly = await prisma.reservation.updateManyAndReturn({
+   *   select: { requestHash: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1179,6 +1359,11 @@ export interface Prisma__ReservationClient<T, Null = never, ExtArgs extends runt
  * Fields of the Reservation model
  */
 export interface ReservationFieldRefs {
+  readonly requestHash: Prisma.FieldRef<"Reservation", 'String'>
+  readonly payloadHash: Prisma.FieldRef<"Reservation", 'String'>
+  readonly cancelUntilDate: Prisma.FieldRef<"Reservation", 'String'>
+  readonly cancellationTimezone: Prisma.FieldRef<"Reservation", 'String'>
+  readonly version: Prisma.FieldRef<"Reservation", 'Int'>
   readonly id: Prisma.FieldRef<"Reservation", 'String'>
   readonly roomTypeId: Prisma.FieldRef<"Reservation", 'String'>
   readonly checkIn: Prisma.FieldRef<"Reservation", 'DateTime'>

@@ -1,3 +1,4 @@
+import { todayInTimezone } from '@nsheth/hospitality'
 import { createServerFn } from '@tanstack/react-start'
 import { getCookie, setCookie } from '@tanstack/react-start/server'
 import { hasPermission, hasRole, hashSessionToken } from '@nsheth/identity'
@@ -42,6 +43,7 @@ export const getAccount = createServerFn({ method: 'GET' })
           id: true,
           status: true,
           notes: true,
+          cancelUntil: true,
           slot: {
             select: { startsAt: true, service: { select: { name: true } } },
           },
@@ -52,6 +54,8 @@ export const getAccount = createServerFn({ method: 'GET' })
         select: {
           id: true,
           status: true,
+          cancelUntilDate: true,
+          cancellationTimezone: true,
           checkIn: true,
           checkOut: true,
           totalAmount: true,
@@ -137,4 +141,60 @@ export const updateAccess = createServerFn({ method: 'POST' })
       })
     })
     return { ok: true }
+  })
+
+export const cancelOwnRequest = createServerFn({ method: 'POST' })
+  .middleware([identityMiddleware])
+  .validator(
+    z.object({ id: z.uuid(), kind: z.enum(['booking', 'reservation']) }),
+  )
+  .handler(async ({ context, data }) => {
+    requireSameOrigin()
+    return getPrisma().$transaction(async (tx) => {
+      const where = { id: data.id, email: context.principal.email }
+      if (data.kind === 'booking') {
+        const row = await tx.bookingRequest.findFirst({ where })
+        if (!row) rejectRequest(404, 'Request not found')
+        if (row.status === 'CANCELLED') return { ok: true }
+        if (!row.cancelUntil || row.cancelUntil <= new Date())
+          rejectRequest(
+            409,
+            'The online cancellation window has closed. Contact the team.',
+          )
+        const changed = await tx.bookingRequest.updateMany({
+          where: { ...where, version: row.version },
+          data: { status: 'CANCELLED', version: { increment: 1 } },
+        })
+        if (!changed.count)
+          rejectRequest(409, 'Request changed. Refresh and retry.')
+      } else {
+        const row = await tx.reservation.findFirst({ where })
+        if (!row) rejectRequest(404, 'Request not found')
+        if (row.status === 'CANCELLED') return { ok: true }
+        if (
+          !row.cancelUntilDate ||
+          todayInTimezone(row.cancellationTimezone) >= row.cancelUntilDate
+        )
+          rejectRequest(
+            409,
+            'The online cancellation window has closed. Contact the team.',
+          )
+        const changed = await tx.reservation.updateMany({
+          where: { ...where, version: row.version },
+          data: { status: 'CANCELLED', version: { increment: 1 } },
+        })
+        if (!changed.count)
+          rejectRequest(409, 'Request changed. Refresh and retry.')
+      }
+      await tx.auditEvent.create({
+        data: {
+          entityType: data.kind,
+          entityId: data.id,
+          actorId: context.principal.userId,
+          action: 'cancelled',
+          summary: 'Cancelled by the customer; capacity released',
+        },
+      })
+      return { ok: true }
+    })
   })

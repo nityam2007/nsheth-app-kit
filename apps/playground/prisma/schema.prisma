@@ -8,6 +8,14 @@ datasource db {
 }
 
 model Service {
+  version Int @default(1)
+  timezone String @default("Asia/Kolkata")
+  location String @default("")
+  minLeadHours Int @default(0)
+  maxAdvanceDays Int @default(365)
+  cancelNoticeHours Int @default(24)
+  policy String @default("")
+
   id String @id @default(uuid()) @db.Uuid
   name String
   slug String @unique
@@ -21,6 +29,8 @@ model Service {
 }
 
 model AvailabilitySlot {
+  paused Boolean @default(false)
+
   id String @id @default(uuid()) @db.Uuid
   serviceId String @db.Uuid
   startsAt DateTime
@@ -38,6 +48,14 @@ enum BookingStatus {
 }
 
 model Property {
+  version Int @default(1)
+  address String @default("")
+  amenities String[] @default([])
+  checkInTime String @default("14:00")
+  checkOutTime String @default("11:00")
+  cancelNoticeDays Int @default(1)
+  policy String @default("")
+
   id String @id @default(uuid()) @db.Uuid
   name String
   slug String @unique
@@ -52,6 +70,11 @@ model Property {
 }
 
 model RoomType {
+  version Int @default(1)
+  minNights Int @default(1)
+  maxNights Int @default(30)
+  amenities String[] @default([])
+
   id String @id @default(uuid()) @db.Uuid
   propertyId String @db.Uuid
   name String
@@ -65,6 +88,12 @@ model RoomType {
 }
 
 model Reservation {
+  requestHash String? @unique
+  payloadHash String?
+  cancelUntilDate String?
+  cancellationTimezone String @default("UTC")
+  version Int @default(1)
+
   id String @id @default(uuid()) @db.Uuid
   roomTypeId String @db.Uuid
   checkIn DateTime @db.Date
@@ -81,6 +110,11 @@ model Reservation {
 }
 
 model BookingRequest {
+  requestHash String? @unique
+  payloadHash String?
+  cancelUntil DateTime?
+  version Int @default(1)
+
   id String @id @default(uuid()) @db.Uuid
   slotId String @db.Uuid
   name String

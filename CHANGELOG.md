@@ -1,3 +1,11 @@
+# 0.8.3 - Make booking and stay requests operational
+
+- Add service/arrival/cancellation policies, stay-length constraints and versioned operator edits.
+- Add retry-safe appointment and stay requests, quote validation and customer-owned cancellation.
+- Prevent overlapping slots; support pausing and audited rescheduling without losing capacity or history.
+- Add operator reasons, activity history and booking search; reject room changes below active commitments.
+- Verify concurrency, retry payload binding, stale room edits, paused slots, moves and cancellation through production HTTP tests.
+
 # 0.8.2 - Deepen product, inventory and order workflows
 
 - Add structured product media/specifications, SKU and metadata, draft copies, retirement, stale-edit protection and independently stocked options.

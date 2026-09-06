@@ -9,7 +9,8 @@ import {
   stayNights,
   todayInTimezone,
 } from '@nsheth/hospitality'
-import { hasPermission } from '@nsheth/identity'
+import { attachHistory } from './audit.server'
+import { hasPermission, hashSessionToken } from '@nsheth/identity'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { getPrisma } from './db'
@@ -36,15 +37,31 @@ export const getAdminProperty = createServerFn({ method: 'GET' })
   })
 export const saveProperty = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
-  .validator(propertyInputSchema.extend({ currentSlug: z.string().optional() }))
-  .handler(({ context, data: { currentSlug, ...data } }) => {
-    if (!hasPermission(context.principal, 'hospitality.write'))
-      rejectRequest(403, 'Forbidden')
-    requireSameOrigin()
-    return currentSlug
-      ? getPrisma().property.update({ where: { slug: currentSlug }, data })
-      : getPrisma().property.create({ data })
-  })
+  .validator(
+    propertyInputSchema.extend({
+      currentSlug: z.string().max(160).optional(),
+      expectedVersion: z.number().int().positive().optional(),
+    }),
+  )
+  .handler(
+    async ({ context, data: { currentSlug, expectedVersion, ...data } }) => {
+      if (!hasPermission(context.principal, 'hospitality.write'))
+        rejectRequest(403, 'Forbidden')
+      requireSameOrigin()
+      return getPrisma().$transaction(async (tx) => {
+        if (!currentSlug) return tx.property.create({ data })
+        if (!expectedVersion)
+          rejectRequest(400, 'Reload the property before editing')
+        const changed = await tx.property.updateMany({
+          where: { slug: currentSlug, version: expectedVersion },
+          data: { ...data, version: { increment: 1 } },
+        })
+        if (!changed.count)
+          rejectRequest(409, 'Property changed. Refresh before editing.')
+        return tx.property.findUniqueOrThrow({ where: { slug: data.slug } })
+      })
+    },
+  )
 export const deleteProperty = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
   .validator(z.object({ id: z.uuid() }))
@@ -58,14 +75,18 @@ export const deleteProperty = createServerFn({ method: 'POST' })
 export const saveRoom = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
   .validator(roomInputSchema)
-  .handler(async ({ context, data: { id, ...data } }) => {
+  .handler(async ({ context, data: { id, expectedVersion, ...data } }) => {
     if (!hasPermission(context.principal, 'hospitality.write'))
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
+    if (data.minNights > data.maxNights)
+      rejectRequest(400, 'Minimum nights cannot exceed maximum nights')
     return getPrisma().$transaction(async (tx) => {
       if (!id) return tx.roomType.create({ data })
       await tx.$queryRaw`SELECT id FROM "RoomType" WHERE id = ${id}::uuid FOR UPDATE`
       const current = await tx.roomType.findUniqueOrThrow({ where: { id } })
+      if (current.version !== expectedVersion)
+        rejectRequest(409, 'Room changed. Refresh before editing.')
       if (current.propertyId !== data.propertyId)
         rejectRequest(400, 'Cannot move a room type between properties')
       const stays = await tx.reservation.findMany({
@@ -89,7 +110,15 @@ export const saveRoom = createServerFn({ method: 'POST' })
       )
       if (data.inventory < peak)
         rejectRequest(409, 'Inventory cannot be below existing reservations')
-      return tx.roomType.update({ where: { id }, data })
+      if (stays.some((stay) => stay.guests > data.maxGuests))
+        rejectRequest(
+          409,
+          'Guest capacity cannot be below existing reservations',
+        )
+      return tx.roomType.update({
+        where: { id },
+        data: { ...data, version: { increment: 1 } },
+      })
     })
   })
 export const getProperties = createServerFn({ method: 'GET' }).handler(() =>
@@ -128,7 +157,9 @@ export const checkRoomAvailability = createServerFn({ method: 'GET' })
     if (
       !room ||
       data.checkIn < todayInTimezone(room.property.timezone) ||
-      data.guests > room.maxGuests
+      data.guests > room.maxGuests ||
+      stayNights(data.checkIn, data.checkOut).length < room.minNights ||
+      stayNights(data.checkIn, data.checkOut).length > room.maxNights
     )
       return { available: false, totalAmount: 0 }
     const stays = await getPrisma().reservation.findMany({
@@ -153,8 +184,27 @@ export const requestReservation = createServerFn({ method: 'POST' })
   .validator(reservationInputSchema)
   .handler(async ({ data }) => {
     requireSameOrigin()
-    await throttle('reservation', data.email)
+    const { key, expectedTotal, ...payload } = data
+    const requestHash = await hashSessionToken(key),
+      payloadHash = await hashSessionToken(
+        JSON.stringify({ ...payload, expectedTotal }),
+      )
     return getPrisma().$transaction(async (tx) => {
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${requestHash}, 3))`
+      const prior = await tx.reservation.findUnique({ where: { requestHash } })
+      if (prior) {
+        if (prior.payloadHash !== payloadHash)
+          rejectRequest(
+            409,
+            'This attempt already contains different details. Retry the original details to retrieve its reference.',
+          )
+        return {
+          reference: prior.id,
+          totalAmount: prior.totalAmount,
+          currency: prior.currency,
+        }
+      }
+      await throttle('reservation', data.email)
       await tx.$queryRaw`SELECT id FROM "RoomType" WHERE id = ${data.roomTypeId}::uuid FOR UPDATE`
       const room = await tx.roomType.findUnique({
         where: { id: data.roomTypeId },
@@ -186,12 +236,40 @@ export const requestReservation = createServerFn({ method: 'POST' })
         rejectRequest(409, 'No rooms available for these dates')
       const totalAmount =
         room.nightlyRate * stayNights(data.checkIn, data.checkOut).length
+      if (totalAmount !== expectedTotal)
+        rejectRequest(
+          409,
+          'The rate changed. Check availability and total again.',
+        )
+      const nights = stayNights(data.checkIn, data.checkOut).length
+      if (nights < room.minNights || nights > room.maxNights)
+        rejectRequest(
+          400,
+          `Choose a stay between ${room.minNights} and ${room.maxNights} nights`,
+        )
       const reservation = await tx.reservation.create({
         data: {
-          ...data,
+          ...payload,
+          requestHash,
+          payloadHash,
+          cancelUntilDate: new Date(
+            Date.parse(data.checkIn) -
+              room.property.cancelNoticeDays * 86400000,
+          )
+            .toISOString()
+            .slice(0, 10),
+          cancellationTimezone: room.property.timezone,
           checkIn: new Date(data.checkIn),
           checkOut: new Date(data.checkOut),
           totalAmount,
+        },
+      })
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'reservation',
+          entityId: reservation.id,
+          action: 'requested',
+          summary: 'Stay requested',
         },
       })
       return {
@@ -206,33 +284,55 @@ export const getReservations = createServerFn({ method: 'GET' })
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'hospitality.read'))
       rejectRequest(403, 'Forbidden')
-    return getPrisma().reservation.findMany({
-      include: {
-        roomType: { include: { property: { select: { name: true } } } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 500,
-    })
+    return getPrisma()
+      .reservation.findMany({
+        include: {
+          roomType: { include: { property: { select: { name: true } } } },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 500,
+      })
+      .then((rows) => attachHistory('reservation', rows))
   })
 export const updateReservation = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
   .validator(
-    z.object({ id: z.uuid(), status: z.enum(['CONFIRMED', 'CANCELLED']) }),
+    z.object({
+      id: z.uuid(),
+      status: z.enum(['CONFIRMED', 'CANCELLED']),
+      expectedVersion: z.number().int().positive(),
+      note: z.string().trim().min(5).max(300),
+    }),
   )
   .handler(async ({ context, data }) => {
     if (!hasPermission(context.principal, 'hospitality.write'))
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
-    const current = await getPrisma().reservation.findUniqueOrThrow({
-      where: { id: data.id },
+    return getPrisma().$transaction(async (tx) => {
+      const current = await tx.reservation.findUniqueOrThrow({
+        where: { id: data.id },
+      })
+      if (!canTransitionBooking(current.status, data.status))
+        rejectRequest(409, 'Invalid transition')
+      const result = await tx.reservation.updateMany({
+        where: {
+          id: data.id,
+          version: data.expectedVersion,
+          status: current.status,
+        },
+        data: { status: data.status, version: { increment: 1 } },
+      })
+      if (!result.count)
+        rejectRequest(409, 'Reservation changed. Refresh and retry.')
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'reservation',
+          entityId: data.id,
+          actorId: context.principal.userId,
+          action: data.status.toLowerCase(),
+          summary: data.note,
+        },
+      })
+      return { ok: true }
     })
-    if (!canTransitionBooking(current.status, data.status))
-      rejectRequest(409, 'Invalid transition')
-    const result = await getPrisma().reservation.updateMany({
-      where: { id: data.id, status: current.status },
-      data: { status: data.status },
-    })
-    if (!result.count)
-      rejectRequest(409, 'Reservation changed. Refresh and retry.')
-    return { ok: true }
   })

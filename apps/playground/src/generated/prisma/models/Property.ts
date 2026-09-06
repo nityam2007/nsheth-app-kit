@@ -20,11 +20,29 @@ export type PropertyModel = runtime.Types.Result.DefaultSelection<Prisma.$Proper
 
 export type AggregateProperty = {
   _count: PropertyCountAggregateOutputType | null
+  _avg: PropertyAvgAggregateOutputType | null
+  _sum: PropertySumAggregateOutputType | null
   _min: PropertyMinAggregateOutputType | null
   _max: PropertyMaxAggregateOutputType | null
 }
 
+export type PropertyAvgAggregateOutputType = {
+  version: number | null
+  cancelNoticeDays: number | null
+}
+
+export type PropertySumAggregateOutputType = {
+  version: number | null
+  cancelNoticeDays: number | null
+}
+
 export type PropertyMinAggregateOutputType = {
+  version: number | null
+  address: string | null
+  checkInTime: string | null
+  checkOutTime: string | null
+  cancelNoticeDays: number | null
+  policy: string | null
   id: string | null
   name: string | null
   slug: string | null
@@ -38,6 +56,12 @@ export type PropertyMinAggregateOutputType = {
 }
 
 export type PropertyMaxAggregateOutputType = {
+  version: number | null
+  address: string | null
+  checkInTime: string | null
+  checkOutTime: string | null
+  cancelNoticeDays: number | null
+  policy: string | null
   id: string | null
   name: string | null
   slug: string | null
@@ -51,6 +75,13 @@ export type PropertyMaxAggregateOutputType = {
 }
 
 export type PropertyCountAggregateOutputType = {
+  version: number
+  address: number
+  amenities: number
+  checkInTime: number
+  checkOutTime: number
+  cancelNoticeDays: number
+  policy: number
   id: number
   name: number
   slug: number
@@ -65,7 +96,23 @@ export type PropertyCountAggregateOutputType = {
 }
 
 
+export type PropertyAvgAggregateInputType = {
+  version?: true
+  cancelNoticeDays?: true
+}
+
+export type PropertySumAggregateInputType = {
+  version?: true
+  cancelNoticeDays?: true
+}
+
 export type PropertyMinAggregateInputType = {
+  version?: true
+  address?: true
+  checkInTime?: true
+  checkOutTime?: true
+  cancelNoticeDays?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -79,6 +126,12 @@ export type PropertyMinAggregateInputType = {
 }
 
 export type PropertyMaxAggregateInputType = {
+  version?: true
+  address?: true
+  checkInTime?: true
+  checkOutTime?: true
+  cancelNoticeDays?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -92,6 +145,13 @@ export type PropertyMaxAggregateInputType = {
 }
 
 export type PropertyCountAggregateInputType = {
+  version?: true
+  address?: true
+  amenities?: true
+  checkInTime?: true
+  checkOutTime?: true
+  cancelNoticeDays?: true
+  policy?: true
   id?: true
   name?: true
   slug?: true
@@ -143,6 +203,18 @@ export type PropertyAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PropertyAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PropertySumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PropertyMinAggregateInputType
@@ -173,11 +245,20 @@ export type PropertyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: PropertyCountAggregateInputType | true
+  _avg?: PropertyAvgAggregateInputType
+  _sum?: PropertySumAggregateInputType
   _min?: PropertyMinAggregateInputType
   _max?: PropertyMaxAggregateInputType
 }
 
 export type PropertyGroupByOutputType = {
+  version: number
+  address: string
+  amenities: string[]
+  checkInTime: string
+  checkOutTime: string
+  cancelNoticeDays: number
+  policy: string
   id: string
   name: string
   slug: string
@@ -189,6 +270,8 @@ export type PropertyGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: PropertyCountAggregateOutputType | null
+  _avg: PropertyAvgAggregateOutputType | null
+  _sum: PropertySumAggregateOutputType | null
   _min: PropertyMinAggregateOutputType | null
   _max: PropertyMaxAggregateOutputType | null
 }
@@ -212,6 +295,13 @@ export type PropertyWhereInput = {
   AND?: Prisma.PropertyWhereInput | Prisma.PropertyWhereInput[]
   OR?: Prisma.PropertyWhereInput[]
   NOT?: Prisma.PropertyWhereInput | Prisma.PropertyWhereInput[]
+  version?: Prisma.IntFilter<"Property"> | number
+  address?: Prisma.StringFilter<"Property"> | string
+  amenities?: Prisma.StringNullableListFilter<"Property">
+  checkInTime?: Prisma.StringFilter<"Property"> | string
+  checkOutTime?: Prisma.StringFilter<"Property"> | string
+  cancelNoticeDays?: Prisma.IntFilter<"Property"> | number
+  policy?: Prisma.StringFilter<"Property"> | string
   id?: Prisma.UuidFilter<"Property"> | string
   name?: Prisma.StringFilter<"Property"> | string
   slug?: Prisma.StringFilter<"Property"> | string
@@ -226,6 +316,13 @@ export type PropertyWhereInput = {
 }
 
 export type PropertyOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -245,6 +342,13 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PropertyWhereInput | Prisma.PropertyWhereInput[]
   OR?: Prisma.PropertyWhereInput[]
   NOT?: Prisma.PropertyWhereInput | Prisma.PropertyWhereInput[]
+  version?: Prisma.IntFilter<"Property"> | number
+  address?: Prisma.StringFilter<"Property"> | string
+  amenities?: Prisma.StringNullableListFilter<"Property">
+  checkInTime?: Prisma.StringFilter<"Property"> | string
+  checkOutTime?: Prisma.StringFilter<"Property"> | string
+  cancelNoticeDays?: Prisma.IntFilter<"Property"> | number
+  policy?: Prisma.StringFilter<"Property"> | string
   name?: Prisma.StringFilter<"Property"> | string
   summary?: Prisma.StringFilter<"Property"> | string
   description?: Prisma.StringFilter<"Property"> | string
@@ -257,6 +361,13 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
 }, "id" | "slug">
 
 export type PropertyOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -268,14 +379,23 @@ export type PropertyOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PropertyCountOrderByAggregateInput
+  _avg?: Prisma.PropertyAvgOrderByAggregateInput
   _max?: Prisma.PropertyMaxOrderByAggregateInput
   _min?: Prisma.PropertyMinOrderByAggregateInput
+  _sum?: Prisma.PropertySumOrderByAggregateInput
 }
 
 export type PropertyScalarWhereWithAggregatesInput = {
   AND?: Prisma.PropertyScalarWhereWithAggregatesInput | Prisma.PropertyScalarWhereWithAggregatesInput[]
   OR?: Prisma.PropertyScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PropertyScalarWhereWithAggregatesInput | Prisma.PropertyScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"Property"> | number
+  address?: Prisma.StringWithAggregatesFilter<"Property"> | string
+  amenities?: Prisma.StringNullableListFilter<"Property">
+  checkInTime?: Prisma.StringWithAggregatesFilter<"Property"> | string
+  checkOutTime?: Prisma.StringWithAggregatesFilter<"Property"> | string
+  cancelNoticeDays?: Prisma.IntWithAggregatesFilter<"Property"> | number
+  policy?: Prisma.StringWithAggregatesFilter<"Property"> | string
   id?: Prisma.UuidWithAggregatesFilter<"Property"> | string
   name?: Prisma.StringWithAggregatesFilter<"Property"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Property"> | string
@@ -289,6 +409,13 @@ export type PropertyScalarWhereWithAggregatesInput = {
 }
 
 export type PropertyCreateInput = {
+  version?: number
+  address?: string
+  amenities?: Prisma.PropertyCreateamenitiesInput | string[]
+  checkInTime?: string
+  checkOutTime?: string
+  cancelNoticeDays?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -303,6 +430,13 @@ export type PropertyCreateInput = {
 }
 
 export type PropertyUncheckedCreateInput = {
+  version?: number
+  address?: string
+  amenities?: Prisma.PropertyCreateamenitiesInput | string[]
+  checkInTime?: string
+  checkOutTime?: string
+  cancelNoticeDays?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -317,6 +451,13 @@ export type PropertyUncheckedCreateInput = {
 }
 
 export type PropertyUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -331,6 +472,13 @@ export type PropertyUpdateInput = {
 }
 
 export type PropertyUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -345,6 +493,13 @@ export type PropertyUncheckedUpdateInput = {
 }
 
 export type PropertyCreateManyInput = {
+  version?: number
+  address?: string
+  amenities?: Prisma.PropertyCreateamenitiesInput | string[]
+  checkInTime?: string
+  checkOutTime?: string
+  cancelNoticeDays?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -358,6 +513,13 @@ export type PropertyCreateManyInput = {
 }
 
 export type PropertyUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -371,6 +533,13 @@ export type PropertyUpdateManyMutationInput = {
 }
 
 export type PropertyUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -383,7 +552,22 @@ export type PropertyUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type PropertyCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -396,7 +580,18 @@ export type PropertyCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type PropertyAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+}
+
 export type PropertyMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -410,6 +605,12 @@ export type PropertyMaxOrderByAggregateInput = {
 }
 
 export type PropertyMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  checkInTime?: Prisma.SortOrder
+  checkOutTime?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+  policy?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -422,9 +623,23 @@ export type PropertyMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type PropertySumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  cancelNoticeDays?: Prisma.SortOrder
+}
+
 export type PropertyScalarRelationFilter = {
   is?: Prisma.PropertyWhereInput
   isNot?: Prisma.PropertyWhereInput
+}
+
+export type PropertyCreateamenitiesInput = {
+  set: string[]
+}
+
+export type PropertyUpdateamenitiesInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type PropertyCreateNestedOneWithoutRoomsInput = {
@@ -442,6 +657,13 @@ export type PropertyUpdateOneRequiredWithoutRoomsNestedInput = {
 }
 
 export type PropertyCreateWithoutRoomsInput = {
+  version?: number
+  address?: string
+  amenities?: Prisma.PropertyCreateamenitiesInput | string[]
+  checkInTime?: string
+  checkOutTime?: string
+  cancelNoticeDays?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -455,6 +677,13 @@ export type PropertyCreateWithoutRoomsInput = {
 }
 
 export type PropertyUncheckedCreateWithoutRoomsInput = {
+  version?: number
+  address?: string
+  amenities?: Prisma.PropertyCreateamenitiesInput | string[]
+  checkInTime?: string
+  checkOutTime?: string
+  cancelNoticeDays?: number
+  policy?: string
   id?: string
   name: string
   slug: string
@@ -484,6 +713,13 @@ export type PropertyUpdateToOneWithWhereWithoutRoomsInput = {
 }
 
 export type PropertyUpdateWithoutRoomsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -497,6 +733,13 @@ export type PropertyUpdateWithoutRoomsInput = {
 }
 
 export type PropertyUncheckedUpdateWithoutRoomsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  amenities?: Prisma.PropertyUpdateamenitiesInput | string[]
+  checkInTime?: Prisma.StringFieldUpdateOperationsInput | string
+  checkOutTime?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelNoticeDays?: Prisma.IntFieldUpdateOperationsInput | number
+  policy?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -541,6 +784,13 @@ export type PropertyCountOutputTypeCountRoomsArgs<ExtArgs extends runtime.Types.
 
 
 export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  address?: boolean
+  amenities?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  cancelNoticeDays?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -556,6 +806,13 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }, ExtArgs["result"]["property"]>
 
 export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  address?: boolean
+  amenities?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  cancelNoticeDays?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -569,6 +826,13 @@ export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["property"]>
 
 export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  address?: boolean
+  amenities?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  cancelNoticeDays?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -582,6 +846,13 @@ export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["property"]>
 
 export type PropertySelectScalar = {
+  version?: boolean
+  address?: boolean
+  amenities?: boolean
+  checkInTime?: boolean
+  checkOutTime?: boolean
+  cancelNoticeDays?: boolean
+  policy?: boolean
   id?: boolean
   name?: boolean
   slug?: boolean
@@ -594,7 +865,7 @@ export type PropertySelectScalar = {
   updatedAt?: boolean
 }
 
-export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "summary" | "description" | "location" | "timezone" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "address" | "amenities" | "checkInTime" | "checkOutTime" | "cancelNoticeDays" | "policy" | "id" | "name" | "slug" | "summary" | "description" | "location" | "timezone" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rooms?: boolean | Prisma.Property$roomsArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
@@ -608,6 +879,13 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     rooms: Prisma.$RoomTypePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
+    address: string
+    amenities: string[]
+    checkInTime: string
+    checkOutTime: string
+    cancelNoticeDays: number
+    policy: string
     id: string
     name: string
     slug: string
@@ -701,8 +979,8 @@ export interface PropertyDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 Properties
    * const properties = await prisma.property.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const propertyWithIdOnly = await prisma.property.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const propertyWithVersionOnly = await prisma.property.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends PropertyFindManyArgs>(args?: Prisma.SelectSubset<T, PropertyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -746,9 +1024,9 @@ export interface PropertyDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Create many Properties and only return the `id`
-   * const propertyWithIdOnly = await prisma.property.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Properties and only return the `version`
+   * const propertyWithVersionOnly = await prisma.property.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -837,9 +1115,9 @@ export interface PropertyDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Update zero or more Properties and only return the `id`
-   * const propertyWithIdOnly = await prisma.property.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Properties and only return the `version`
+   * const propertyWithVersionOnly = await prisma.property.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1042,6 +1320,13 @@ export interface Prisma__PropertyClient<T, Null = never, ExtArgs extends runtime
  * Fields of the Property model
  */
 export interface PropertyFieldRefs {
+  readonly version: Prisma.FieldRef<"Property", 'Int'>
+  readonly address: Prisma.FieldRef<"Property", 'String'>
+  readonly amenities: Prisma.FieldRef<"Property", 'String[]'>
+  readonly checkInTime: Prisma.FieldRef<"Property", 'String'>
+  readonly checkOutTime: Prisma.FieldRef<"Property", 'String'>
+  readonly cancelNoticeDays: Prisma.FieldRef<"Property", 'Int'>
+  readonly policy: Prisma.FieldRef<"Property", 'String'>
   readonly id: Prisma.FieldRef<"Property", 'String'>
   readonly name: Prisma.FieldRef<"Property", 'String'>
   readonly slug: Prisma.FieldRef<"Property", 'String'>

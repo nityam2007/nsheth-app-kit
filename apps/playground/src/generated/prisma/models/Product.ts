@@ -742,14 +742,6 @@ export type ProductUncheckedUpdateManyInput = {
   optionLabel?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type ProductNullableScalarRelationFilter = {
   is?: Prisma.ProductWhereInput | null
   isNot?: Prisma.ProductWhereInput | null
@@ -885,14 +877,6 @@ export type ProductUncheckedCreateNestedManyWithoutParentInput = {
   connectOrCreate?: Prisma.ProductCreateOrConnectWithoutParentInput | Prisma.ProductCreateOrConnectWithoutParentInput[]
   createMany?: Prisma.ProductCreateManyParentInputEnvelope
   connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[]
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type ProductUpdatetagsInput = {

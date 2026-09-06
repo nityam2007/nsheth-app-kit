@@ -20,11 +20,25 @@ export type BookingRequestModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateBookingRequest = {
   _count: BookingRequestCountAggregateOutputType | null
+  _avg: BookingRequestAvgAggregateOutputType | null
+  _sum: BookingRequestSumAggregateOutputType | null
   _min: BookingRequestMinAggregateOutputType | null
   _max: BookingRequestMaxAggregateOutputType | null
 }
 
+export type BookingRequestAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type BookingRequestSumAggregateOutputType = {
+  version: number | null
+}
+
 export type BookingRequestMinAggregateOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntil: Date | null
+  version: number | null
   id: string | null
   slotId: string | null
   name: string | null
@@ -35,6 +49,10 @@ export type BookingRequestMinAggregateOutputType = {
 }
 
 export type BookingRequestMaxAggregateOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntil: Date | null
+  version: number | null
   id: string | null
   slotId: string | null
   name: string | null
@@ -45,6 +63,10 @@ export type BookingRequestMaxAggregateOutputType = {
 }
 
 export type BookingRequestCountAggregateOutputType = {
+  requestHash: number
+  payloadHash: number
+  cancelUntil: number
+  version: number
   id: number
   slotId: number
   name: number
@@ -56,7 +78,19 @@ export type BookingRequestCountAggregateOutputType = {
 }
 
 
+export type BookingRequestAvgAggregateInputType = {
+  version?: true
+}
+
+export type BookingRequestSumAggregateInputType = {
+  version?: true
+}
+
 export type BookingRequestMinAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntil?: true
+  version?: true
   id?: true
   slotId?: true
   name?: true
@@ -67,6 +101,10 @@ export type BookingRequestMinAggregateInputType = {
 }
 
 export type BookingRequestMaxAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntil?: true
+  version?: true
   id?: true
   slotId?: true
   name?: true
@@ -77,6 +115,10 @@ export type BookingRequestMaxAggregateInputType = {
 }
 
 export type BookingRequestCountAggregateInputType = {
+  requestHash?: true
+  payloadHash?: true
+  cancelUntil?: true
+  version?: true
   id?: true
   slotId?: true
   name?: true
@@ -125,6 +167,18 @@ export type BookingRequestAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: BookingRequestAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: BookingRequestSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: BookingRequestMinAggregateInputType
@@ -155,11 +209,17 @@ export type BookingRequestGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: BookingRequestCountAggregateInputType | true
+  _avg?: BookingRequestAvgAggregateInputType
+  _sum?: BookingRequestSumAggregateInputType
   _min?: BookingRequestMinAggregateInputType
   _max?: BookingRequestMaxAggregateInputType
 }
 
 export type BookingRequestGroupByOutputType = {
+  requestHash: string | null
+  payloadHash: string | null
+  cancelUntil: Date | null
+  version: number
   id: string
   slotId: string
   name: string
@@ -168,6 +228,8 @@ export type BookingRequestGroupByOutputType = {
   status: $Enums.BookingStatus
   createdAt: Date
   _count: BookingRequestCountAggregateOutputType | null
+  _avg: BookingRequestAvgAggregateOutputType | null
+  _sum: BookingRequestSumAggregateOutputType | null
   _min: BookingRequestMinAggregateOutputType | null
   _max: BookingRequestMaxAggregateOutputType | null
 }
@@ -191,6 +253,10 @@ export type BookingRequestWhereInput = {
   AND?: Prisma.BookingRequestWhereInput | Prisma.BookingRequestWhereInput[]
   OR?: Prisma.BookingRequestWhereInput[]
   NOT?: Prisma.BookingRequestWhereInput | Prisma.BookingRequestWhereInput[]
+  requestHash?: Prisma.StringNullableFilter<"BookingRequest"> | string | null
+  payloadHash?: Prisma.StringNullableFilter<"BookingRequest"> | string | null
+  cancelUntil?: Prisma.DateTimeNullableFilter<"BookingRequest"> | Date | string | null
+  version?: Prisma.IntFilter<"BookingRequest"> | number
   id?: Prisma.UuidFilter<"BookingRequest"> | string
   slotId?: Prisma.UuidFilter<"BookingRequest"> | string
   name?: Prisma.StringFilter<"BookingRequest"> | string
@@ -202,6 +268,10 @@ export type BookingRequestWhereInput = {
 }
 
 export type BookingRequestOrderByWithRelationInput = {
+  requestHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  payloadHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   slotId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -213,10 +283,14 @@ export type BookingRequestOrderByWithRelationInput = {
 }
 
 export type BookingRequestWhereUniqueInput = Prisma.AtLeast<{
+  requestHash?: string
   id?: string
   AND?: Prisma.BookingRequestWhereInput | Prisma.BookingRequestWhereInput[]
   OR?: Prisma.BookingRequestWhereInput[]
   NOT?: Prisma.BookingRequestWhereInput | Prisma.BookingRequestWhereInput[]
+  payloadHash?: Prisma.StringNullableFilter<"BookingRequest"> | string | null
+  cancelUntil?: Prisma.DateTimeNullableFilter<"BookingRequest"> | Date | string | null
+  version?: Prisma.IntFilter<"BookingRequest"> | number
   slotId?: Prisma.UuidFilter<"BookingRequest"> | string
   name?: Prisma.StringFilter<"BookingRequest"> | string
   email?: Prisma.StringFilter<"BookingRequest"> | string
@@ -224,9 +298,13 @@ export type BookingRequestWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumBookingStatusFilter<"BookingRequest"> | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFilter<"BookingRequest"> | Date | string
   slot?: Prisma.XOR<Prisma.AvailabilitySlotScalarRelationFilter, Prisma.AvailabilitySlotWhereInput>
-}, "id">
+}, "id" | "requestHash">
 
 export type BookingRequestOrderByWithAggregationInput = {
+  requestHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  payloadHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelUntil?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   slotId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -235,14 +313,20 @@ export type BookingRequestOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.BookingRequestCountOrderByAggregateInput
+  _avg?: Prisma.BookingRequestAvgOrderByAggregateInput
   _max?: Prisma.BookingRequestMaxOrderByAggregateInput
   _min?: Prisma.BookingRequestMinOrderByAggregateInput
+  _sum?: Prisma.BookingRequestSumOrderByAggregateInput
 }
 
 export type BookingRequestScalarWhereWithAggregatesInput = {
   AND?: Prisma.BookingRequestScalarWhereWithAggregatesInput | Prisma.BookingRequestScalarWhereWithAggregatesInput[]
   OR?: Prisma.BookingRequestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BookingRequestScalarWhereWithAggregatesInput | Prisma.BookingRequestScalarWhereWithAggregatesInput[]
+  requestHash?: Prisma.StringNullableWithAggregatesFilter<"BookingRequest"> | string | null
+  payloadHash?: Prisma.StringNullableWithAggregatesFilter<"BookingRequest"> | string | null
+  cancelUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"BookingRequest"> | Date | string | null
+  version?: Prisma.IntWithAggregatesFilter<"BookingRequest"> | number
   id?: Prisma.UuidWithAggregatesFilter<"BookingRequest"> | string
   slotId?: Prisma.UuidWithAggregatesFilter<"BookingRequest"> | string
   name?: Prisma.StringWithAggregatesFilter<"BookingRequest"> | string
@@ -253,6 +337,10 @@ export type BookingRequestScalarWhereWithAggregatesInput = {
 }
 
 export type BookingRequestCreateInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   name: string
   email: string
@@ -263,6 +351,10 @@ export type BookingRequestCreateInput = {
 }
 
 export type BookingRequestUncheckedCreateInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   slotId: string
   name: string
@@ -273,6 +365,10 @@ export type BookingRequestUncheckedCreateInput = {
 }
 
 export type BookingRequestUpdateInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -283,6 +379,10 @@ export type BookingRequestUpdateInput = {
 }
 
 export type BookingRequestUncheckedUpdateInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slotId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -293,6 +393,10 @@ export type BookingRequestUncheckedUpdateInput = {
 }
 
 export type BookingRequestCreateManyInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   slotId: string
   name: string
@@ -303,6 +407,10 @@ export type BookingRequestCreateManyInput = {
 }
 
 export type BookingRequestUpdateManyMutationInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -312,6 +420,10 @@ export type BookingRequestUpdateManyMutationInput = {
 }
 
 export type BookingRequestUncheckedUpdateManyInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slotId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -332,6 +444,10 @@ export type BookingRequestOrderByRelationAggregateInput = {
 }
 
 export type BookingRequestCountOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntil?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   slotId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -341,7 +457,15 @@ export type BookingRequestCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type BookingRequestAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 export type BookingRequestMaxOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntil?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   slotId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -352,6 +476,10 @@ export type BookingRequestMaxOrderByAggregateInput = {
 }
 
 export type BookingRequestMinOrderByAggregateInput = {
+  requestHash?: Prisma.SortOrder
+  payloadHash?: Prisma.SortOrder
+  cancelUntil?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   slotId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -359,6 +487,10 @@ export type BookingRequestMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type BookingRequestSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type BookingRequestCreateNestedManyWithoutSlotInput = {
@@ -403,7 +535,15 @@ export type BookingRequestUncheckedUpdateManyWithoutSlotNestedInput = {
   deleteMany?: Prisma.BookingRequestScalarWhereInput | Prisma.BookingRequestScalarWhereInput[]
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type BookingRequestCreateWithoutSlotInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   name: string
   email: string
@@ -413,6 +553,10 @@ export type BookingRequestCreateWithoutSlotInput = {
 }
 
 export type BookingRequestUncheckedCreateWithoutSlotInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   name: string
   email: string
@@ -451,6 +595,10 @@ export type BookingRequestScalarWhereInput = {
   AND?: Prisma.BookingRequestScalarWhereInput | Prisma.BookingRequestScalarWhereInput[]
   OR?: Prisma.BookingRequestScalarWhereInput[]
   NOT?: Prisma.BookingRequestScalarWhereInput | Prisma.BookingRequestScalarWhereInput[]
+  requestHash?: Prisma.StringNullableFilter<"BookingRequest"> | string | null
+  payloadHash?: Prisma.StringNullableFilter<"BookingRequest"> | string | null
+  cancelUntil?: Prisma.DateTimeNullableFilter<"BookingRequest"> | Date | string | null
+  version?: Prisma.IntFilter<"BookingRequest"> | number
   id?: Prisma.UuidFilter<"BookingRequest"> | string
   slotId?: Prisma.UuidFilter<"BookingRequest"> | string
   name?: Prisma.StringFilter<"BookingRequest"> | string
@@ -461,6 +609,10 @@ export type BookingRequestScalarWhereInput = {
 }
 
 export type BookingRequestCreateManySlotInput = {
+  requestHash?: string | null
+  payloadHash?: string | null
+  cancelUntil?: Date | string | null
+  version?: number
   id?: string
   name: string
   email: string
@@ -470,6 +622,10 @@ export type BookingRequestCreateManySlotInput = {
 }
 
 export type BookingRequestUpdateWithoutSlotInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -479,6 +635,10 @@ export type BookingRequestUpdateWithoutSlotInput = {
 }
 
 export type BookingRequestUncheckedUpdateWithoutSlotInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -488,6 +648,10 @@ export type BookingRequestUncheckedUpdateWithoutSlotInput = {
 }
 
 export type BookingRequestUncheckedUpdateManyWithoutSlotInput = {
+  requestHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payloadHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -499,6 +663,10 @@ export type BookingRequestUncheckedUpdateManyWithoutSlotInput = {
 
 
 export type BookingRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntil?: boolean
+  version?: boolean
   id?: boolean
   slotId?: boolean
   name?: boolean
@@ -510,6 +678,10 @@ export type BookingRequestSelect<ExtArgs extends runtime.Types.Extensions.Intern
 }, ExtArgs["result"]["bookingRequest"]>
 
 export type BookingRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntil?: boolean
+  version?: boolean
   id?: boolean
   slotId?: boolean
   name?: boolean
@@ -521,6 +693,10 @@ export type BookingRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["bookingRequest"]>
 
 export type BookingRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntil?: boolean
+  version?: boolean
   id?: boolean
   slotId?: boolean
   name?: boolean
@@ -532,6 +708,10 @@ export type BookingRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["bookingRequest"]>
 
 export type BookingRequestSelectScalar = {
+  requestHash?: boolean
+  payloadHash?: boolean
+  cancelUntil?: boolean
+  version?: boolean
   id?: boolean
   slotId?: boolean
   name?: boolean
@@ -541,7 +721,7 @@ export type BookingRequestSelectScalar = {
   createdAt?: boolean
 }
 
-export type BookingRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slotId" | "name" | "email" | "notes" | "status" | "createdAt", ExtArgs["result"]["bookingRequest"]>
+export type BookingRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"requestHash" | "payloadHash" | "cancelUntil" | "version" | "id" | "slotId" | "name" | "email" | "notes" | "status" | "createdAt", ExtArgs["result"]["bookingRequest"]>
 export type BookingRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slot?: boolean | Prisma.AvailabilitySlotDefaultArgs<ExtArgs>
 }
@@ -558,6 +738,10 @@ export type $BookingRequestPayload<ExtArgs extends runtime.Types.Extensions.Inte
     slot: Prisma.$AvailabilitySlotPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    requestHash: string | null
+    payloadHash: string | null
+    cancelUntil: Date | null
+    version: number
     id: string
     slotId: string
     name: string
@@ -648,8 +832,8 @@ export interface BookingRequestDelegate<ExtArgs extends runtime.Types.Extensions
    * // Get first 10 BookingRequests
    * const bookingRequests = await prisma.bookingRequest.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const bookingRequestWithIdOnly = await prisma.bookingRequest.findMany({ select: { id: true } })
+   * // Only select the `requestHash`
+   * const bookingRequestWithRequestHashOnly = await prisma.bookingRequest.findMany({ select: { requestHash: true } })
    * 
    */
   findMany<T extends BookingRequestFindManyArgs>(args?: Prisma.SelectSubset<T, BookingRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -693,9 +877,9 @@ export interface BookingRequestDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Create many BookingRequests and only return the `id`
-   * const bookingRequestWithIdOnly = await prisma.bookingRequest.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many BookingRequests and only return the `requestHash`
+   * const bookingRequestWithRequestHashOnly = await prisma.bookingRequest.createManyAndReturn({
+   *   select: { requestHash: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -784,9 +968,9 @@ export interface BookingRequestDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Update zero or more BookingRequests and only return the `id`
-   * const bookingRequestWithIdOnly = await prisma.bookingRequest.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more BookingRequests and only return the `requestHash`
+   * const bookingRequestWithRequestHashOnly = await prisma.bookingRequest.updateManyAndReturn({
+   *   select: { requestHash: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -989,6 +1173,10 @@ export interface Prisma__BookingRequestClient<T, Null = never, ExtArgs extends r
  * Fields of the BookingRequest model
  */
 export interface BookingRequestFieldRefs {
+  readonly requestHash: Prisma.FieldRef<"BookingRequest", 'String'>
+  readonly payloadHash: Prisma.FieldRef<"BookingRequest", 'String'>
+  readonly cancelUntil: Prisma.FieldRef<"BookingRequest", 'DateTime'>
+  readonly version: Prisma.FieldRef<"BookingRequest", 'Int'>
   readonly id: Prisma.FieldRef<"BookingRequest", 'String'>
   readonly slotId: Prisma.FieldRef<"BookingRequest", 'String'>
   readonly name: Prisma.FieldRef<"BookingRequest", 'String'>

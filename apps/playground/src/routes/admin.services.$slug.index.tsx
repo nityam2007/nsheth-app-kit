@@ -3,6 +3,7 @@ import { useServerFn } from '@tanstack/react-start'
 import { Route as Parent } from './admin.services.$slug'
 import {
   addAvailability,
+  pauseAvailability,
   deleteAdminService,
   removeAvailability,
 } from '../booking.functions'
@@ -15,6 +16,7 @@ export const Route = createFileRoute('/admin/services/$slug/')({
 function Detail() {
   const service = Parent.useLoaderData()
   const add = useServerFn(addAvailability),
+    pause = useServerFn(pauseAvailability),
     remove = useServerFn(removeAvailability),
     destroy = useServerFn(deleteAdminService)
   return (
@@ -101,6 +103,18 @@ function Detail() {
                   {s.startsAt.toISOString().replace('T', ' ').slice(0, 16)} UTC
                   · {s.capacity} places · {s._count.bookings} requests
                 </p>
+                <ActionForm
+                  label={s.paused ? 'Reopen slot' : 'Pause new requests'}
+                  action={() =>
+                    pause({ data: { id: s.id, paused: !s.paused } })
+                  }
+                >
+                  <p className="text-sm text-tertiary">
+                    {s.paused
+                      ? 'Paused. Existing requests remain valid.'
+                      : 'Open for new requests.'}
+                  </p>
+                </ActionForm>
                 {s._count.bookings === 0 && (
                   <ActionForm
                     label="Remove slot"
@@ -127,7 +141,7 @@ function Detail() {
           label="Delete service"
           action={async () => {
             if (!window.confirm('Delete this service and its empty slots?'))
-              return
+              return false
             await destroy({ data: { slug: service.slug } })
             return '/admin/services'
           }}

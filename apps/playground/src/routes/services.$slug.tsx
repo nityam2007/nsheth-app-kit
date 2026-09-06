@@ -1,6 +1,7 @@
+import { newRequestKey } from '../request-key'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { getService, requestBooking } from '../booking.functions'
 import {
   ActionForm,
@@ -25,6 +26,7 @@ export const Route = createFileRoute('/services/$slug')({
 function Service() {
   const service = Route.useLoaderData(),
     request = useServerFn(requestBooking)
+  const key = useRef('')
   const [reference, setReference] = useState(''),
     [local, setLocal] = useState(false)
   useEffect(() => {
@@ -38,9 +40,30 @@ function Service() {
         description={service.summary}
       />
       <div className="grid gap-12 lg:grid-cols-2">
-        <p className="whitespace-pre-wrap leading-7 text-tertiary">
-          {service.description}
-        </p>
+        <div>
+          <p className="whitespace-pre-wrap leading-7 text-tertiary">
+            {service.description}
+          </p>
+          <dl className="mt-6 grid gap-3 text-secondary">
+            <dt>Where</dt>
+            <dd>
+              {service.location || 'The team will send meeting instructions.'}
+            </dd>
+            <dt>Booking window</dt>
+            <dd>
+              At least {service.minLeadHours} hours ahead; up to{' '}
+              {service.maxAdvanceDays} days.
+            </dd>
+            <dt>Online cancellation</dt>
+            <dd>
+              Until {service.cancelNoticeHours} hours before the appointment,
+              through your verified-email account.
+            </dd>
+          </dl>
+          <p className="mt-5 whitespace-pre-wrap text-tertiary">
+            {service.policy}
+          </p>
+        </div>
         <section className="rounded-xl border border-secondary bg-secondary p-6 sm:p-8">
           <h2 className="mb-5 text-xl font-semibold text-primary">
             Request an appointment
@@ -67,6 +90,7 @@ function Service() {
               action={async (form) => {
                 const result = await request({
                   data: {
+                    key: (key.current ||= newRequestKey()),
                     slotId: String(form.get('slotId')),
                     name: String(form.get('name')),
                     email: String(form.get('email')),

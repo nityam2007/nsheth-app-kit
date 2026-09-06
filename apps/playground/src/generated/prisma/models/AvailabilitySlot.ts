@@ -35,6 +35,7 @@ export type AvailabilitySlotSumAggregateOutputType = {
 }
 
 export type AvailabilitySlotMinAggregateOutputType = {
+  paused: boolean | null
   id: string | null
   serviceId: string | null
   startsAt: Date | null
@@ -43,6 +44,7 @@ export type AvailabilitySlotMinAggregateOutputType = {
 }
 
 export type AvailabilitySlotMaxAggregateOutputType = {
+  paused: boolean | null
   id: string | null
   serviceId: string | null
   startsAt: Date | null
@@ -51,6 +53,7 @@ export type AvailabilitySlotMaxAggregateOutputType = {
 }
 
 export type AvailabilitySlotCountAggregateOutputType = {
+  paused: number
   id: number
   serviceId: number
   startsAt: number
@@ -69,6 +72,7 @@ export type AvailabilitySlotSumAggregateInputType = {
 }
 
 export type AvailabilitySlotMinAggregateInputType = {
+  paused?: true
   id?: true
   serviceId?: true
   startsAt?: true
@@ -77,6 +81,7 @@ export type AvailabilitySlotMinAggregateInputType = {
 }
 
 export type AvailabilitySlotMaxAggregateInputType = {
+  paused?: true
   id?: true
   serviceId?: true
   startsAt?: true
@@ -85,6 +90,7 @@ export type AvailabilitySlotMaxAggregateInputType = {
 }
 
 export type AvailabilitySlotCountAggregateInputType = {
+  paused?: true
   id?: true
   serviceId?: true
   startsAt?: true
@@ -180,6 +186,7 @@ export type AvailabilitySlotGroupByArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 export type AvailabilitySlotGroupByOutputType = {
+  paused: boolean
   id: string
   serviceId: string
   startsAt: Date
@@ -211,6 +218,7 @@ export type AvailabilitySlotWhereInput = {
   AND?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
   OR?: Prisma.AvailabilitySlotWhereInput[]
   NOT?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
+  paused?: Prisma.BoolFilter<"AvailabilitySlot"> | boolean
   id?: Prisma.UuidFilter<"AvailabilitySlot"> | string
   serviceId?: Prisma.UuidFilter<"AvailabilitySlot"> | string
   startsAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
@@ -221,6 +229,7 @@ export type AvailabilitySlotWhereInput = {
 }
 
 export type AvailabilitySlotOrderByWithRelationInput = {
+  paused?: Prisma.SortOrder
   id?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
@@ -236,6 +245,7 @@ export type AvailabilitySlotWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
   OR?: Prisma.AvailabilitySlotWhereInput[]
   NOT?: Prisma.AvailabilitySlotWhereInput | Prisma.AvailabilitySlotWhereInput[]
+  paused?: Prisma.BoolFilter<"AvailabilitySlot"> | boolean
   serviceId?: Prisma.UuidFilter<"AvailabilitySlot"> | string
   startsAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
@@ -245,6 +255,7 @@ export type AvailabilitySlotWhereUniqueInput = Prisma.AtLeast<{
 }, "id" | "serviceId_startsAt">
 
 export type AvailabilitySlotOrderByWithAggregationInput = {
+  paused?: Prisma.SortOrder
   id?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
@@ -261,6 +272,7 @@ export type AvailabilitySlotScalarWhereWithAggregatesInput = {
   AND?: Prisma.AvailabilitySlotScalarWhereWithAggregatesInput | Prisma.AvailabilitySlotScalarWhereWithAggregatesInput[]
   OR?: Prisma.AvailabilitySlotScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AvailabilitySlotScalarWhereWithAggregatesInput | Prisma.AvailabilitySlotScalarWhereWithAggregatesInput[]
+  paused?: Prisma.BoolWithAggregatesFilter<"AvailabilitySlot"> | boolean
   id?: Prisma.UuidWithAggregatesFilter<"AvailabilitySlot"> | string
   serviceId?: Prisma.UuidWithAggregatesFilter<"AvailabilitySlot"> | string
   startsAt?: Prisma.DateTimeWithAggregatesFilter<"AvailabilitySlot"> | Date | string
@@ -269,6 +281,7 @@ export type AvailabilitySlotScalarWhereWithAggregatesInput = {
 }
 
 export type AvailabilitySlotCreateInput = {
+  paused?: boolean
   id?: string
   startsAt: Date | string
   endsAt: Date | string
@@ -278,6 +291,7 @@ export type AvailabilitySlotCreateInput = {
 }
 
 export type AvailabilitySlotUncheckedCreateInput = {
+  paused?: boolean
   id?: string
   serviceId: string
   startsAt: Date | string
@@ -287,6 +301,7 @@ export type AvailabilitySlotUncheckedCreateInput = {
 }
 
 export type AvailabilitySlotUpdateInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -296,6 +311,7 @@ export type AvailabilitySlotUpdateInput = {
 }
 
 export type AvailabilitySlotUncheckedUpdateInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -305,6 +321,7 @@ export type AvailabilitySlotUncheckedUpdateInput = {
 }
 
 export type AvailabilitySlotCreateManyInput = {
+  paused?: boolean
   id?: string
   serviceId: string
   startsAt: Date | string
@@ -313,6 +330,7 @@ export type AvailabilitySlotCreateManyInput = {
 }
 
 export type AvailabilitySlotUpdateManyMutationInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -320,6 +338,7 @@ export type AvailabilitySlotUpdateManyMutationInput = {
 }
 
 export type AvailabilitySlotUncheckedUpdateManyInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -343,6 +362,7 @@ export type AvailabilitySlotServiceIdStartsAtCompoundUniqueInput = {
 }
 
 export type AvailabilitySlotCountOrderByAggregateInput = {
+  paused?: Prisma.SortOrder
   id?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
@@ -355,6 +375,7 @@ export type AvailabilitySlotAvgOrderByAggregateInput = {
 }
 
 export type AvailabilitySlotMaxOrderByAggregateInput = {
+  paused?: Prisma.SortOrder
   id?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
@@ -363,6 +384,7 @@ export type AvailabilitySlotMaxOrderByAggregateInput = {
 }
 
 export type AvailabilitySlotMinOrderByAggregateInput = {
+  paused?: Prisma.SortOrder
   id?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
@@ -421,6 +443,10 @@ export type AvailabilitySlotUncheckedUpdateManyWithoutServiceNestedInput = {
   deleteMany?: Prisma.AvailabilitySlotScalarWhereInput | Prisma.AvailabilitySlotScalarWhereInput[]
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type AvailabilitySlotCreateNestedOneWithoutBookingsInput = {
   create?: Prisma.XOR<Prisma.AvailabilitySlotCreateWithoutBookingsInput, Prisma.AvailabilitySlotUncheckedCreateWithoutBookingsInput>
   connectOrCreate?: Prisma.AvailabilitySlotCreateOrConnectWithoutBookingsInput
@@ -436,6 +462,7 @@ export type AvailabilitySlotUpdateOneRequiredWithoutBookingsNestedInput = {
 }
 
 export type AvailabilitySlotCreateWithoutServiceInput = {
+  paused?: boolean
   id?: string
   startsAt: Date | string
   endsAt: Date | string
@@ -444,6 +471,7 @@ export type AvailabilitySlotCreateWithoutServiceInput = {
 }
 
 export type AvailabilitySlotUncheckedCreateWithoutServiceInput = {
+  paused?: boolean
   id?: string
   startsAt: Date | string
   endsAt: Date | string
@@ -481,6 +509,7 @@ export type AvailabilitySlotScalarWhereInput = {
   AND?: Prisma.AvailabilitySlotScalarWhereInput | Prisma.AvailabilitySlotScalarWhereInput[]
   OR?: Prisma.AvailabilitySlotScalarWhereInput[]
   NOT?: Prisma.AvailabilitySlotScalarWhereInput | Prisma.AvailabilitySlotScalarWhereInput[]
+  paused?: Prisma.BoolFilter<"AvailabilitySlot"> | boolean
   id?: Prisma.UuidFilter<"AvailabilitySlot"> | string
   serviceId?: Prisma.UuidFilter<"AvailabilitySlot"> | string
   startsAt?: Prisma.DateTimeFilter<"AvailabilitySlot"> | Date | string
@@ -489,6 +518,7 @@ export type AvailabilitySlotScalarWhereInput = {
 }
 
 export type AvailabilitySlotCreateWithoutBookingsInput = {
+  paused?: boolean
   id?: string
   startsAt: Date | string
   endsAt: Date | string
@@ -497,6 +527,7 @@ export type AvailabilitySlotCreateWithoutBookingsInput = {
 }
 
 export type AvailabilitySlotUncheckedCreateWithoutBookingsInput = {
+  paused?: boolean
   id?: string
   serviceId: string
   startsAt: Date | string
@@ -521,6 +552,7 @@ export type AvailabilitySlotUpdateToOneWithWhereWithoutBookingsInput = {
 }
 
 export type AvailabilitySlotUpdateWithoutBookingsInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -529,6 +561,7 @@ export type AvailabilitySlotUpdateWithoutBookingsInput = {
 }
 
 export type AvailabilitySlotUncheckedUpdateWithoutBookingsInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -537,6 +570,7 @@ export type AvailabilitySlotUncheckedUpdateWithoutBookingsInput = {
 }
 
 export type AvailabilitySlotCreateManyServiceInput = {
+  paused?: boolean
   id?: string
   startsAt: Date | string
   endsAt: Date | string
@@ -544,6 +578,7 @@ export type AvailabilitySlotCreateManyServiceInput = {
 }
 
 export type AvailabilitySlotUpdateWithoutServiceInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -552,6 +587,7 @@ export type AvailabilitySlotUpdateWithoutServiceInput = {
 }
 
 export type AvailabilitySlotUncheckedUpdateWithoutServiceInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -560,6 +596,7 @@ export type AvailabilitySlotUncheckedUpdateWithoutServiceInput = {
 }
 
 export type AvailabilitySlotUncheckedUpdateManyWithoutServiceInput = {
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -598,6 +635,7 @@ export type AvailabilitySlotCountOutputTypeCountBookingsArgs<ExtArgs extends run
 
 
 export type AvailabilitySlotSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  paused?: boolean
   id?: boolean
   serviceId?: boolean
   startsAt?: boolean
@@ -609,6 +647,7 @@ export type AvailabilitySlotSelect<ExtArgs extends runtime.Types.Extensions.Inte
 }, ExtArgs["result"]["availabilitySlot"]>
 
 export type AvailabilitySlotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  paused?: boolean
   id?: boolean
   serviceId?: boolean
   startsAt?: boolean
@@ -618,6 +657,7 @@ export type AvailabilitySlotSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 }, ExtArgs["result"]["availabilitySlot"]>
 
 export type AvailabilitySlotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  paused?: boolean
   id?: boolean
   serviceId?: boolean
   startsAt?: boolean
@@ -627,6 +667,7 @@ export type AvailabilitySlotSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 }, ExtArgs["result"]["availabilitySlot"]>
 
 export type AvailabilitySlotSelectScalar = {
+  paused?: boolean
   id?: boolean
   serviceId?: boolean
   startsAt?: boolean
@@ -634,7 +675,7 @@ export type AvailabilitySlotSelectScalar = {
   capacity?: boolean
 }
 
-export type AvailabilitySlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "serviceId" | "startsAt" | "endsAt" | "capacity", ExtArgs["result"]["availabilitySlot"]>
+export type AvailabilitySlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"paused" | "id" | "serviceId" | "startsAt" | "endsAt" | "capacity", ExtArgs["result"]["availabilitySlot"]>
 export type AvailabilitySlotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
   bookings?: boolean | Prisma.AvailabilitySlot$bookingsArgs<ExtArgs>
@@ -654,6 +695,7 @@ export type $AvailabilitySlotPayload<ExtArgs extends runtime.Types.Extensions.In
     bookings: Prisma.$BookingRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    paused: boolean
     id: string
     serviceId: string
     startsAt: Date
@@ -742,8 +784,8 @@ export interface AvailabilitySlotDelegate<ExtArgs extends runtime.Types.Extensio
    * // Get first 10 AvailabilitySlots
    * const availabilitySlots = await prisma.availabilitySlot.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const availabilitySlotWithIdOnly = await prisma.availabilitySlot.findMany({ select: { id: true } })
+   * // Only select the `paused`
+   * const availabilitySlotWithPausedOnly = await prisma.availabilitySlot.findMany({ select: { paused: true } })
    * 
    */
   findMany<T extends AvailabilitySlotFindManyArgs>(args?: Prisma.SelectSubset<T, AvailabilitySlotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AvailabilitySlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -787,9 +829,9 @@ export interface AvailabilitySlotDelegate<ExtArgs extends runtime.Types.Extensio
    *   ]
    * })
    * 
-   * // Create many AvailabilitySlots and only return the `id`
-   * const availabilitySlotWithIdOnly = await prisma.availabilitySlot.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many AvailabilitySlots and only return the `paused`
+   * const availabilitySlotWithPausedOnly = await prisma.availabilitySlot.createManyAndReturn({
+   *   select: { paused: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -878,9 +920,9 @@ export interface AvailabilitySlotDelegate<ExtArgs extends runtime.Types.Extensio
    *   ]
    * })
    * 
-   * // Update zero or more AvailabilitySlots and only return the `id`
-   * const availabilitySlotWithIdOnly = await prisma.availabilitySlot.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more AvailabilitySlots and only return the `paused`
+   * const availabilitySlotWithPausedOnly = await prisma.availabilitySlot.updateManyAndReturn({
+   *   select: { paused: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1084,6 +1126,7 @@ export interface Prisma__AvailabilitySlotClient<T, Null = never, ExtArgs extends
  * Fields of the AvailabilitySlot model
  */
 export interface AvailabilitySlotFieldRefs {
+  readonly paused: Prisma.FieldRef<"AvailabilitySlot", 'Boolean'>
   readonly id: Prisma.FieldRef<"AvailabilitySlot", 'String'>
   readonly serviceId: Prisma.FieldRef<"AvailabilitySlot", 'String'>
   readonly startsAt: Prisma.FieldRef<"AvailabilitySlot", 'DateTime'>

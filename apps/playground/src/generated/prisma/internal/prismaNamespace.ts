@@ -2256,6 +2256,13 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const ServiceScalarFieldEnum = {
+  version: 'version',
+  timezone: 'timezone',
+  location: 'location',
+  minLeadHours: 'minLeadHours',
+  maxAdvanceDays: 'maxAdvanceDays',
+  cancelNoticeHours: 'cancelNoticeHours',
+  policy: 'policy',
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -2271,6 +2278,7 @@ export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeo
 
 
 export const AvailabilitySlotScalarFieldEnum = {
+  paused: 'paused',
   id: 'id',
   serviceId: 'serviceId',
   startsAt: 'startsAt',
@@ -2282,6 +2290,13 @@ export type AvailabilitySlotScalarFieldEnum = (typeof AvailabilitySlotScalarFiel
 
 
 export const PropertyScalarFieldEnum = {
+  version: 'version',
+  address: 'address',
+  amenities: 'amenities',
+  checkInTime: 'checkInTime',
+  checkOutTime: 'checkOutTime',
+  cancelNoticeDays: 'cancelNoticeDays',
+  policy: 'policy',
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -2298,6 +2313,10 @@ export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typ
 
 
 export const RoomTypeScalarFieldEnum = {
+  version: 'version',
+  minNights: 'minNights',
+  maxNights: 'maxNights',
+  amenities: 'amenities',
   id: 'id',
   propertyId: 'propertyId',
   name: 'name',
@@ -2312,6 +2331,11 @@ export type RoomTypeScalarFieldEnum = (typeof RoomTypeScalarFieldEnum)[keyof typ
 
 
 export const ReservationScalarFieldEnum = {
+  requestHash: 'requestHash',
+  payloadHash: 'payloadHash',
+  cancelUntilDate: 'cancelUntilDate',
+  cancellationTimezone: 'cancellationTimezone',
+  version: 'version',
   id: 'id',
   roomTypeId: 'roomTypeId',
   checkIn: 'checkIn',
@@ -2329,6 +2353,10 @@ export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[key
 
 
 export const BookingRequestScalarFieldEnum = {
+  requestHash: 'requestHash',
+  payloadHash: 'payloadHash',
+  cancelUntil: 'cancelUntil',
+  version: 'version',
   id: 'id',
   slotId: 'slotId',
   name: 'name',
@@ -2602,6 +2630,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -2611,18 +2647,24 @@ export const JsonNullValueFilter = {
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
 
 /**
  * Field references
  */
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
 
 
 /**
@@ -2650,20 +2692,6 @@ export type EnumProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'ProductStatus[]'
  */
 export type ListEnumProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 

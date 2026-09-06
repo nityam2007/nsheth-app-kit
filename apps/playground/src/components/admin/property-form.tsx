@@ -7,7 +7,11 @@ import { saveProperty } from '../../hospitality.functions'
 import { slugify } from '../../slug'
 import type { PropertyInput } from '@nsheth/hospitality'
 
-export function PropertyForm({ initial }: { initial?: PropertyInput }) {
+export function PropertyForm({
+  initial,
+}: {
+  initial?: PropertyInput & { version: number }
+}) {
   const save = useServerFn(saveProperty)
   const [slug, setSlug] = useState(initial?.slug ?? '')
   const [edited, setEdited] = useState(Boolean(initial))
@@ -19,6 +23,17 @@ export function PropertyForm({ initial }: { initial?: PropertyInput }) {
         const property = await save({
           data: {
             currentSlug: initial?.slug,
+            expectedVersion: initial?.version,
+            address: String(form.get('address')),
+            checkInTime: String(form.get('checkInTime')),
+            checkOutTime: String(form.get('checkOutTime')),
+            policy: String(form.get('policy')),
+            cancelNoticeDays: Number(form.get('cancelNoticeDays')),
+            amenities: String(form.get('amenities'))
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean),
+
             name: String(form.get('name')),
             slug: String(form.get('slug')),
             summary: String(form.get('summary')),
@@ -84,6 +99,45 @@ export function PropertyForm({ initial }: { initial?: PropertyInput }) {
         isRequired
         defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
         hint="For example Asia/Kolkata or Europe/London. Arrival dates use the local day at this property."
+      />
+      <Input
+        name="address"
+        label="Street address"
+        maxLength={500}
+        defaultValue={initial?.address ?? ''}
+      />
+      <Input
+        name="checkInTime"
+        label="Check-in from (HH:MM)"
+        maxLength={5}
+        defaultValue={initial?.checkInTime ?? '14:00'}
+      />
+      <Input
+        name="checkOutTime"
+        label="Check-out by (HH:MM)"
+        maxLength={5}
+        defaultValue={initial?.checkOutTime ?? '11:00'}
+      />
+      <TextArea
+        name="policy"
+        label="House and cancellation rules"
+        maxLength={4000}
+        defaultValue={initial?.policy ?? ''}
+      />
+      <Input
+        name="cancelNoticeDays"
+        label="Cancellation notice (days before arrival)"
+        type="number"
+        min={0}
+        max={30}
+        isRequired
+        defaultValue={String(initial?.cancelNoticeDays ?? 1)}
+      />
+      <Input
+        name="amenities"
+        label="Amenities (comma separated)"
+        maxLength={1800}
+        defaultValue={initial?.amenities.join(', ')}
       />
       <SelectField
         label="Visibility"

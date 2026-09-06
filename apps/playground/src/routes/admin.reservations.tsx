@@ -1,3 +1,4 @@
+import { HistoryList } from '../components/history-list'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
@@ -67,6 +68,8 @@ function Reservations() {
                   update({
                     data: {
                       id: r.id,
+                      expectedVersion: r.version,
+                      note: String(f.get('note')),
                       status:
                         f.get('status') === 'CONFIRMED'
                           ? 'CONFIRMED'
@@ -75,6 +78,13 @@ function Reservations() {
                   })
                 }
               >
+                <Input
+                  name="note"
+                  label="Reason or confirmation note"
+                  minLength={5}
+                  maxLength={300}
+                  isRequired
+                />
                 <SelectField name="status" label="Next status">
                   {r.status === 'REQUESTED' && (
                     <option value="CONFIRMED">Confirm</option>
@@ -83,6 +93,7 @@ function Reservations() {
                 </SelectField>
               </ActionForm>
             )}
+            <HistoryList events={r.history} />
           </article>
         ))}
       </div>

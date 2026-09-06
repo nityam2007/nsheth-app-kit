@@ -27,18 +27,27 @@ export type AggregateRoomType = {
 }
 
 export type RoomTypeAvgAggregateOutputType = {
+  version: number | null
+  minNights: number | null
+  maxNights: number | null
   inventory: number | null
   maxGuests: number | null
   nightlyRate: number | null
 }
 
 export type RoomTypeSumAggregateOutputType = {
+  version: number | null
+  minNights: number | null
+  maxNights: number | null
   inventory: number | null
   maxGuests: number | null
   nightlyRate: number | null
 }
 
 export type RoomTypeMinAggregateOutputType = {
+  version: number | null
+  minNights: number | null
+  maxNights: number | null
   id: string | null
   propertyId: string | null
   name: string | null
@@ -50,6 +59,9 @@ export type RoomTypeMinAggregateOutputType = {
 }
 
 export type RoomTypeMaxAggregateOutputType = {
+  version: number | null
+  minNights: number | null
+  maxNights: number | null
   id: string | null
   propertyId: string | null
   name: string | null
@@ -61,6 +73,10 @@ export type RoomTypeMaxAggregateOutputType = {
 }
 
 export type RoomTypeCountAggregateOutputType = {
+  version: number
+  minNights: number
+  maxNights: number
+  amenities: number
   id: number
   propertyId: number
   name: number
@@ -74,18 +90,27 @@ export type RoomTypeCountAggregateOutputType = {
 
 
 export type RoomTypeAvgAggregateInputType = {
+  version?: true
+  minNights?: true
+  maxNights?: true
   inventory?: true
   maxGuests?: true
   nightlyRate?: true
 }
 
 export type RoomTypeSumAggregateInputType = {
+  version?: true
+  minNights?: true
+  maxNights?: true
   inventory?: true
   maxGuests?: true
   nightlyRate?: true
 }
 
 export type RoomTypeMinAggregateInputType = {
+  version?: true
+  minNights?: true
+  maxNights?: true
   id?: true
   propertyId?: true
   name?: true
@@ -97,6 +122,9 @@ export type RoomTypeMinAggregateInputType = {
 }
 
 export type RoomTypeMaxAggregateInputType = {
+  version?: true
+  minNights?: true
+  maxNights?: true
   id?: true
   propertyId?: true
   name?: true
@@ -108,6 +136,10 @@ export type RoomTypeMaxAggregateInputType = {
 }
 
 export type RoomTypeCountAggregateInputType = {
+  version?: true
+  minNights?: true
+  maxNights?: true
+  amenities?: true
   id?: true
   propertyId?: true
   name?: true
@@ -206,6 +238,10 @@ export type RoomTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type RoomTypeGroupByOutputType = {
+  version: number
+  minNights: number
+  maxNights: number
+  amenities: string[]
   id: string
   propertyId: string
   name: string
@@ -240,6 +276,10 @@ export type RoomTypeWhereInput = {
   AND?: Prisma.RoomTypeWhereInput | Prisma.RoomTypeWhereInput[]
   OR?: Prisma.RoomTypeWhereInput[]
   NOT?: Prisma.RoomTypeWhereInput | Prisma.RoomTypeWhereInput[]
+  version?: Prisma.IntFilter<"RoomType"> | number
+  minNights?: Prisma.IntFilter<"RoomType"> | number
+  maxNights?: Prisma.IntFilter<"RoomType"> | number
+  amenities?: Prisma.StringNullableListFilter<"RoomType">
   id?: Prisma.UuidFilter<"RoomType"> | string
   propertyId?: Prisma.UuidFilter<"RoomType"> | string
   name?: Prisma.StringFilter<"RoomType"> | string
@@ -253,6 +293,10 @@ export type RoomTypeWhereInput = {
 }
 
 export type RoomTypeOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
   id?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -270,6 +314,10 @@ export type RoomTypeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RoomTypeWhereInput | Prisma.RoomTypeWhereInput[]
   OR?: Prisma.RoomTypeWhereInput[]
   NOT?: Prisma.RoomTypeWhereInput | Prisma.RoomTypeWhereInput[]
+  version?: Prisma.IntFilter<"RoomType"> | number
+  minNights?: Prisma.IntFilter<"RoomType"> | number
+  maxNights?: Prisma.IntFilter<"RoomType"> | number
+  amenities?: Prisma.StringNullableListFilter<"RoomType">
   propertyId?: Prisma.UuidFilter<"RoomType"> | string
   name?: Prisma.StringFilter<"RoomType"> | string
   description?: Prisma.StringFilter<"RoomType"> | string
@@ -282,6 +330,10 @@ export type RoomTypeWhereUniqueInput = Prisma.AtLeast<{
 }, "id">
 
 export type RoomTypeOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
   id?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -301,6 +353,10 @@ export type RoomTypeScalarWhereWithAggregatesInput = {
   AND?: Prisma.RoomTypeScalarWhereWithAggregatesInput | Prisma.RoomTypeScalarWhereWithAggregatesInput[]
   OR?: Prisma.RoomTypeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RoomTypeScalarWhereWithAggregatesInput | Prisma.RoomTypeScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"RoomType"> | number
+  minNights?: Prisma.IntWithAggregatesFilter<"RoomType"> | number
+  maxNights?: Prisma.IntWithAggregatesFilter<"RoomType"> | number
+  amenities?: Prisma.StringNullableListFilter<"RoomType">
   id?: Prisma.UuidWithAggregatesFilter<"RoomType"> | string
   propertyId?: Prisma.UuidWithAggregatesFilter<"RoomType"> | string
   name?: Prisma.StringWithAggregatesFilter<"RoomType"> | string
@@ -312,6 +368,10 @@ export type RoomTypeScalarWhereWithAggregatesInput = {
 }
 
 export type RoomTypeCreateInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   name: string
   description: string
@@ -324,6 +384,10 @@ export type RoomTypeCreateInput = {
 }
 
 export type RoomTypeUncheckedCreateInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   propertyId: string
   name: string
@@ -336,6 +400,10 @@ export type RoomTypeUncheckedCreateInput = {
 }
 
 export type RoomTypeUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -348,6 +416,10 @@ export type RoomTypeUpdateInput = {
 }
 
 export type RoomTypeUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -360,6 +432,10 @@ export type RoomTypeUncheckedUpdateInput = {
 }
 
 export type RoomTypeCreateManyInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   propertyId: string
   name: string
@@ -371,6 +447,10 @@ export type RoomTypeCreateManyInput = {
 }
 
 export type RoomTypeUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -381,6 +461,10 @@ export type RoomTypeUpdateManyMutationInput = {
 }
 
 export type RoomTypeUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -402,6 +486,10 @@ export type RoomTypeOrderByRelationAggregateInput = {
 }
 
 export type RoomTypeCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
+  amenities?: Prisma.SortOrder
   id?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -413,12 +501,18 @@ export type RoomTypeCountOrderByAggregateInput = {
 }
 
 export type RoomTypeAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
   inventory?: Prisma.SortOrder
   maxGuests?: Prisma.SortOrder
   nightlyRate?: Prisma.SortOrder
 }
 
 export type RoomTypeMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
   id?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -430,6 +524,9 @@ export type RoomTypeMaxOrderByAggregateInput = {
 }
 
 export type RoomTypeMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
   id?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -441,6 +538,9 @@ export type RoomTypeMinOrderByAggregateInput = {
 }
 
 export type RoomTypeSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  minNights?: Prisma.SortOrder
+  maxNights?: Prisma.SortOrder
   inventory?: Prisma.SortOrder
   maxGuests?: Prisma.SortOrder
   nightlyRate?: Prisma.SortOrder
@@ -493,8 +593,13 @@ export type RoomTypeUncheckedUpdateManyWithoutPropertyNestedInput = {
   deleteMany?: Prisma.RoomTypeScalarWhereInput | Prisma.RoomTypeScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type RoomTypeCreateamenitiesInput = {
+  set: string[]
+}
+
+export type RoomTypeUpdateamenitiesInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type RoomTypeCreateNestedOneWithoutReservationsInput = {
@@ -512,6 +617,10 @@ export type RoomTypeUpdateOneRequiredWithoutReservationsNestedInput = {
 }
 
 export type RoomTypeCreateWithoutPropertyInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   name: string
   description: string
@@ -523,6 +632,10 @@ export type RoomTypeCreateWithoutPropertyInput = {
 }
 
 export type RoomTypeUncheckedCreateWithoutPropertyInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   name: string
   description: string
@@ -563,6 +676,10 @@ export type RoomTypeScalarWhereInput = {
   AND?: Prisma.RoomTypeScalarWhereInput | Prisma.RoomTypeScalarWhereInput[]
   OR?: Prisma.RoomTypeScalarWhereInput[]
   NOT?: Prisma.RoomTypeScalarWhereInput | Prisma.RoomTypeScalarWhereInput[]
+  version?: Prisma.IntFilter<"RoomType"> | number
+  minNights?: Prisma.IntFilter<"RoomType"> | number
+  maxNights?: Prisma.IntFilter<"RoomType"> | number
+  amenities?: Prisma.StringNullableListFilter<"RoomType">
   id?: Prisma.UuidFilter<"RoomType"> | string
   propertyId?: Prisma.UuidFilter<"RoomType"> | string
   name?: Prisma.StringFilter<"RoomType"> | string
@@ -574,6 +691,10 @@ export type RoomTypeScalarWhereInput = {
 }
 
 export type RoomTypeCreateWithoutReservationsInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   name: string
   description: string
@@ -585,6 +706,10 @@ export type RoomTypeCreateWithoutReservationsInput = {
 }
 
 export type RoomTypeUncheckedCreateWithoutReservationsInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   propertyId: string
   name: string
@@ -612,6 +737,10 @@ export type RoomTypeUpdateToOneWithWhereWithoutReservationsInput = {
 }
 
 export type RoomTypeUpdateWithoutReservationsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -623,6 +752,10 @@ export type RoomTypeUpdateWithoutReservationsInput = {
 }
 
 export type RoomTypeUncheckedUpdateWithoutReservationsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -634,6 +767,10 @@ export type RoomTypeUncheckedUpdateWithoutReservationsInput = {
 }
 
 export type RoomTypeCreateManyPropertyInput = {
+  version?: number
+  minNights?: number
+  maxNights?: number
+  amenities?: Prisma.RoomTypeCreateamenitiesInput | string[]
   id?: string
   name: string
   description: string
@@ -644,6 +781,10 @@ export type RoomTypeCreateManyPropertyInput = {
 }
 
 export type RoomTypeUpdateWithoutPropertyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -655,6 +796,10 @@ export type RoomTypeUpdateWithoutPropertyInput = {
 }
 
 export type RoomTypeUncheckedUpdateWithoutPropertyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -666,6 +811,10 @@ export type RoomTypeUncheckedUpdateWithoutPropertyInput = {
 }
 
 export type RoomTypeUncheckedUpdateManyWithoutPropertyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  minNights?: Prisma.IntFieldUpdateOperationsInput | number
+  maxNights?: Prisma.IntFieldUpdateOperationsInput | number
+  amenities?: Prisma.RoomTypeUpdateamenitiesInput | string[]
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -707,6 +856,10 @@ export type RoomTypeCountOutputTypeCountReservationsArgs<ExtArgs extends runtime
 
 
 export type RoomTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  minNights?: boolean
+  maxNights?: boolean
+  amenities?: boolean
   id?: boolean
   propertyId?: boolean
   name?: boolean
@@ -721,6 +874,10 @@ export type RoomTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 }, ExtArgs["result"]["roomType"]>
 
 export type RoomTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  minNights?: boolean
+  maxNights?: boolean
+  amenities?: boolean
   id?: boolean
   propertyId?: boolean
   name?: boolean
@@ -733,6 +890,10 @@ export type RoomTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["roomType"]>
 
 export type RoomTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  minNights?: boolean
+  maxNights?: boolean
+  amenities?: boolean
   id?: boolean
   propertyId?: boolean
   name?: boolean
@@ -745,6 +906,10 @@ export type RoomTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 }, ExtArgs["result"]["roomType"]>
 
 export type RoomTypeSelectScalar = {
+  version?: boolean
+  minNights?: boolean
+  maxNights?: boolean
+  amenities?: boolean
   id?: boolean
   propertyId?: boolean
   name?: boolean
@@ -755,7 +920,7 @@ export type RoomTypeSelectScalar = {
   active?: boolean
 }
 
-export type RoomTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "name" | "description" | "inventory" | "maxGuests" | "nightlyRate" | "active", ExtArgs["result"]["roomType"]>
+export type RoomTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "minNights" | "maxNights" | "amenities" | "id" | "propertyId" | "name" | "description" | "inventory" | "maxGuests" | "nightlyRate" | "active", ExtArgs["result"]["roomType"]>
 export type RoomTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   reservations?: boolean | Prisma.RoomType$reservationsArgs<ExtArgs>
@@ -775,6 +940,10 @@ export type $RoomTypePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     reservations: Prisma.$ReservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
+    minNights: number
+    maxNights: number
+    amenities: string[]
     id: string
     propertyId: string
     name: string
@@ -866,8 +1035,8 @@ export interface RoomTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 RoomTypes
    * const roomTypes = await prisma.roomType.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const roomTypeWithIdOnly = await prisma.roomType.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const roomTypeWithVersionOnly = await prisma.roomType.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends RoomTypeFindManyArgs>(args?: Prisma.SelectSubset<T, RoomTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -911,9 +1080,9 @@ export interface RoomTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Create many RoomTypes and only return the `id`
-   * const roomTypeWithIdOnly = await prisma.roomType.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many RoomTypes and only return the `version`
+   * const roomTypeWithVersionOnly = await prisma.roomType.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1002,9 +1171,9 @@ export interface RoomTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Update zero or more RoomTypes and only return the `id`
-   * const roomTypeWithIdOnly = await prisma.roomType.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more RoomTypes and only return the `version`
+   * const roomTypeWithVersionOnly = await prisma.roomType.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1208,6 +1377,10 @@ export interface Prisma__RoomTypeClient<T, Null = never, ExtArgs extends runtime
  * Fields of the RoomType model
  */
 export interface RoomTypeFieldRefs {
+  readonly version: Prisma.FieldRef<"RoomType", 'Int'>
+  readonly minNights: Prisma.FieldRef<"RoomType", 'Int'>
+  readonly maxNights: Prisma.FieldRef<"RoomType", 'Int'>
+  readonly amenities: Prisma.FieldRef<"RoomType", 'String[]'>
   readonly id: Prisma.FieldRef<"RoomType", 'String'>
   readonly propertyId: Prisma.FieldRef<"RoomType", 'String'>
   readonly name: Prisma.FieldRef<"RoomType", 'String'>

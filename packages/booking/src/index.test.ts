@@ -5,6 +5,7 @@ import {
   canTransitionBooking,
   hasCapacity,
   slotInputSchema,
+  withinBookingWindow,
 } from './index'
 
 test('capacity includes pending requests and rejects invalid quantities', () => {
@@ -33,6 +34,23 @@ test('validate contact and absolute slot timestamps', () => {
       startsAt: '2027-01-01T10:00',
       capacity: 1,
     }).success,
+    false,
+  )
+})
+
+test('lead time and booking horizon use absolute instants', () => {
+  const now = new Date('2030-01-01T00:00:00Z'),
+    policy = { minLeadHours: 2, maxAdvanceDays: 30 }
+  assert.equal(
+    withinBookingWindow(new Date('2030-01-01T01:59:00Z'), policy, now),
+    false,
+  )
+  assert.equal(
+    withinBookingWindow(new Date('2030-01-01T03:00:00Z'), policy, now),
+    true,
+  )
+  assert.equal(
+    withinBookingWindow(new Date('2030-02-02T03:00:00Z'), policy, now),
     false,
   )
 })

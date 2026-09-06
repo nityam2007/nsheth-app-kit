@@ -66,6 +66,7 @@ export const ModelName = {
   OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
   Post: 'Post',
+  PostRevision: 'PostRevision',
   User: 'User',
   Session: 'Session',
   Role: 'Role',
@@ -324,6 +325,9 @@ export type OrderLineScalarFieldEnum = (typeof OrderLineScalarFieldEnum)[keyof t
 
 
 export const EnquiryScalarFieldEnum = {
+  version: 'version',
+  assigneeId: 'assigneeId',
+  followUpAt: 'followUpAt',
   id: 'id',
   productId: 'productId',
   name: 'name',
@@ -338,6 +342,13 @@ export type EnquiryScalarFieldEnum = (typeof EnquiryScalarFieldEnum)[keyof typeo
 
 
 export const PostScalarFieldEnum = {
+  version: 'version',
+  author: 'author',
+  coverUrl: 'coverUrl',
+  coverAlt: 'coverAlt',
+  tags: 'tags',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
   id: 'id',
   title: 'title',
   slug: 'slug',
@@ -350,6 +361,18 @@ export const PostScalarFieldEnum = {
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostRevisionScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  version: 'version',
+  snapshot: 'snapshot',
+  actorId: 'actorId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostRevisionScalarFieldEnum = (typeof PostRevisionScalarFieldEnum)[keyof typeof PostRevisionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -416,6 +439,9 @@ export type RequestThrottleScalarFieldEnum = (typeof RequestThrottleScalarFieldE
 
 
 export const PrivacyRequestScalarFieldEnum = {
+  version: 'version',
+  assigneeId: 'assigneeId',
+  followUpAt: 'followUpAt',
   id: 'id',
   name: 'name',
   email: 'email',

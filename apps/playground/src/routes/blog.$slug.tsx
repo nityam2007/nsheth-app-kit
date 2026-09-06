@@ -1,3 +1,4 @@
+import { ArticleBody } from '../components/article-body'
 import { ArrowLeft } from '@untitledui/icons'
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 
@@ -14,8 +15,13 @@ export const Route = createFileRoute('/blog/$slug')({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.title} | NSheth App Kit` },
-          { name: 'description', content: loaderData.excerpt },
+          {
+            title: `${loaderData.seoTitle || loaderData.title} | NSheth App Kit`,
+          },
+          {
+            name: 'description',
+            content: loaderData.seoDescription || loaderData.excerpt,
+          },
         ]
       : [],
   }),
@@ -42,6 +48,11 @@ function BlogPost() {
           >
             Published {post.publishedAt.replaceAll('-', '.')}
           </time>
+          <p className="mt-2 text-sm text-tertiary">
+            {post.author} ·{' '}
+            {Math.max(1, Math.ceil(post.body.split(/\s+/).length / 200))} min
+            read
+          </p>
           <h1 className="mt-3 text-display-md font-semibold text-primary sm:text-display-lg">
             {post.title}
           </h1>
@@ -49,8 +60,16 @@ function BlogPost() {
             {post.excerpt}
           </p>
         </header>
+        {post.coverUrl && (
+          <img
+            src={post.coverUrl}
+            alt={post.coverAlt}
+            referrerPolicy="no-referrer"
+            className="mx-auto mt-8 aspect-video w-full max-w-4xl rounded-lg object-cover"
+          />
+        )}
         <div className="mx-auto mt-10 max-w-3xl whitespace-pre-wrap text-md leading-8 text-secondary sm:mt-14 sm:text-lg">
-          {post.body}
+          <ArticleBody body={post.body} />
         </div>
       </Container>
     </article>

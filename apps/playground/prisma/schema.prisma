@@ -253,6 +253,10 @@ model OrderLine {
 }
 
 model Enquiry {
+  version Int @default(1)
+  assigneeId String?
+  followUpAt DateTime?
+
   id        String   @id @default(uuid()) @db.Uuid
   productId String   @db.Uuid
   name      String
@@ -267,6 +271,15 @@ model Enquiry {
 }
 
 model Post {
+  version Int @default(1)
+  author String @default("")
+  coverUrl String @default("")
+  coverAlt String @default("")
+  tags String[] @default([])
+  seoTitle String @default("")
+  seoDescription String @default("")
+  revisions PostRevision[]
+
   id          String     @id @default(uuid()) @db.Uuid
   title       String
   slug        String     @unique
@@ -278,6 +291,17 @@ model Post {
   updatedAt   DateTime   @updatedAt
 
   @@index([status, publishedAt])
+}
+
+model PostRevision {
+  id String @id @default(uuid()) @db.Uuid
+  postId String @db.Uuid
+  version Int
+  snapshot Json
+  actorId String?
+  createdAt DateTime @default(now())
+  post Post @relation(fields:[postId],references:[id],onDelete:Cascade)
+  @@unique([postId,version])
 }
 
 model User {
@@ -336,6 +360,10 @@ model RequestThrottle {
 }
 
 model PrivacyRequest {
+  version Int @default(1)
+  assigneeId String?
+  followUpAt DateTime?
+
   id String @id @default(uuid()) @db.Uuid
   name String
   email String

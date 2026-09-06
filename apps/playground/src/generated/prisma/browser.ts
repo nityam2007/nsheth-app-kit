@@ -93,6 +93,11 @@ export type Enquiry = Prisma.EnquiryModel
  */
 export type Post = Prisma.PostModel
 /**
+ * Model PostRevision
+ * 
+ */
+export type PostRevision = Prisma.PostRevisionModel
+/**
  * Model User
  * 
  */

@@ -412,6 +412,7 @@ export const ModelName = {
   OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
   Post: 'Post',
+  PostRevision: 'PostRevision',
   User: 'User',
   Session: 'Session',
   Role: 'Role',
@@ -436,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "inventoryMovement" | "auditEvent" | "order" | "closedCheckoutKey" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
+    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "inventoryMovement" | "auditEvent" | "order" | "closedCheckoutKey" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "postRevision" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1550,6 +1551,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PostRevision: {
+      payload: Prisma.$PostRevisionPayload<ExtArgs>
+      fields: Prisma.PostRevisionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostRevisionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostRevisionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        findFirst: {
+          args: Prisma.PostRevisionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostRevisionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        findMany: {
+          args: Prisma.PostRevisionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>[]
+        }
+        create: {
+          args: Prisma.PostRevisionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        createMany: {
+          args: Prisma.PostRevisionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostRevisionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>[]
+        }
+        delete: {
+          args: Prisma.PostRevisionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        update: {
+          args: Prisma.PostRevisionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostRevisionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostRevisionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostRevisionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostRevisionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostRevisionPayload>
+        }
+        aggregate: {
+          args: Prisma.PostRevisionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostRevision>
+        }
+        groupBy: {
+          args: Prisma.PostRevisionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostRevisionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostRevisionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostRevisionCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -2486,6 +2561,9 @@ export type OrderLineScalarFieldEnum = (typeof OrderLineScalarFieldEnum)[keyof t
 
 
 export const EnquiryScalarFieldEnum = {
+  version: 'version',
+  assigneeId: 'assigneeId',
+  followUpAt: 'followUpAt',
   id: 'id',
   productId: 'productId',
   name: 'name',
@@ -2500,6 +2578,13 @@ export type EnquiryScalarFieldEnum = (typeof EnquiryScalarFieldEnum)[keyof typeo
 
 
 export const PostScalarFieldEnum = {
+  version: 'version',
+  author: 'author',
+  coverUrl: 'coverUrl',
+  coverAlt: 'coverAlt',
+  tags: 'tags',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
   id: 'id',
   title: 'title',
   slug: 'slug',
@@ -2512,6 +2597,18 @@ export const PostScalarFieldEnum = {
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostRevisionScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  version: 'version',
+  snapshot: 'snapshot',
+  actorId: 'actorId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostRevisionScalarFieldEnum = (typeof PostRevisionScalarFieldEnum)[keyof typeof PostRevisionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -2578,6 +2675,9 @@ export type RequestThrottleScalarFieldEnum = (typeof RequestThrottleScalarFieldE
 
 
 export const PrivacyRequestScalarFieldEnum = {
+  version: 'version',
+  assigneeId: 'assigneeId',
+  followUpAt: 'followUpAt',
   id: 'id',
   name: 'name',
   email: 'email',
@@ -2951,6 +3051,7 @@ export type GlobalOmitConfig = {
   orderLine?: Prisma.OrderLineOmit
   enquiry?: Prisma.EnquiryOmit
   post?: Prisma.PostOmit
+  postRevision?: Prisma.PostRevisionOmit
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   role?: Prisma.RoleOmit

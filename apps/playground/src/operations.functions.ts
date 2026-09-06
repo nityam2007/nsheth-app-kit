@@ -1,3 +1,4 @@
+import { attachHistory } from './audit.server'
 import { createServerFn } from '@tanstack/react-start'
 import { hasPermission } from '@nsheth/identity'
 import { z } from 'zod'
@@ -11,25 +12,64 @@ export const getEnquiries = createServerFn({ method: 'GET' })
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'operations.read'))
       rejectRequest(403, 'Forbidden')
-    return getPrisma().enquiry.findMany({
-      include: { product: { select: { name: true } } },
-      orderBy: { createdAt: 'desc' },
-      take: 500,
-    })
+    return getPrisma()
+      .enquiry.findMany({
+        include: { product: { select: { name: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 500,
+      })
+      .then((rows) => attachHistory('enquiry', rows))
   })
+const triageFields = {
+  expectedVersion: z.number().int().positive(),
+  note: z.string().trim().min(5).max(2000),
+  ownership: z.enum(['keep', 'claim', 'release']),
+  followUpAt: z.union([z.literal(''), z.iso.datetime()]),
+}
 export const updateEnquiry = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
   .validator(
     z.object({
       id: z.uuid(),
       status: z.enum(['NEW', 'IN_PROGRESS', 'CLOSED']),
+      ...triageFields,
     }),
   )
-  .handler(({ context, data: { id, status } }) => {
+  .handler(async ({ context, data }) => {
     if (!hasPermission(context.principal, 'operations.write'))
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
-    return getPrisma().enquiry.update({ where: { id }, data: { status } })
+    return getPrisma().$transaction(async (tx) => {
+      const current = await tx.enquiry.findUniqueOrThrow({
+        where: { id: data.id },
+      })
+      const result = await tx.enquiry.updateMany({
+        where: { id: data.id, version: data.expectedVersion },
+        data: {
+          status: data.status,
+          assigneeId:
+            data.ownership === 'claim'
+              ? context.principal.userId
+              : data.ownership === 'release'
+                ? null
+                : current.assigneeId,
+          followUpAt: data.followUpAt ? new Date(data.followUpAt) : null,
+          version: { increment: 1 },
+        },
+      })
+      if (!result.count)
+        rejectRequest(409, 'Enquiry changed. Refresh before saving.')
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'enquiry',
+          entityId: data.id,
+          action: data.status.toLowerCase(),
+          actorId: context.principal.userId,
+          summary: data.note,
+        },
+      })
+      return { ok: true }
+    })
   })
 export const submitPrivacyRequest = createServerFn({ method: 'POST' })
   .validator(
@@ -50,22 +90,55 @@ export const getPrivacyRequests = createServerFn({ method: 'GET' })
   .handler(({ context }) => {
     if (!hasPermission(context.principal, 'operations.read'))
       rejectRequest(403, 'Forbidden')
-    return getPrisma().privacyRequest.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 500,
-    })
+    return getPrisma()
+      .privacyRequest.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 500,
+      })
+      .then((rows) => attachHistory('privacy', rows))
   })
 export const updatePrivacyRequest = createServerFn({ method: 'POST' })
   .middleware([identityMiddleware])
   .validator(
-    z.object({ id: z.uuid(), status: z.enum(['OPEN', 'REVIEWED', 'CLOSED']) }),
+    z.object({
+      id: z.uuid(),
+      status: z.enum(['OPEN', 'REVIEWED', 'CLOSED']),
+      ...triageFields,
+    }),
   )
-  .handler(({ context, data: { id, status } }) => {
+  .handler(async ({ context, data }) => {
     if (!hasPermission(context.principal, 'operations.write'))
       rejectRequest(403, 'Forbidden')
     requireSameOrigin()
-    return getPrisma().privacyRequest.update({
-      where: { id },
-      data: { status },
+    return getPrisma().$transaction(async (tx) => {
+      const current = await tx.privacyRequest.findUniqueOrThrow({
+        where: { id: data.id },
+      })
+      const result = await tx.privacyRequest.updateMany({
+        where: { id: data.id, version: data.expectedVersion },
+        data: {
+          status: data.status,
+          assigneeId:
+            data.ownership === 'claim'
+              ? context.principal.userId
+              : data.ownership === 'release'
+                ? null
+                : current.assigneeId,
+          followUpAt: data.followUpAt ? new Date(data.followUpAt) : null,
+          version: { increment: 1 },
+        },
+      })
+      if (!result.count)
+        rejectRequest(409, 'Case changed. Refresh before saving.')
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'privacy',
+          entityId: data.id,
+          action: data.status.toLowerCase(),
+          actorId: context.principal.userId,
+          summary: data.note,
+        },
+      })
+      return { ok: true }
     })
   })

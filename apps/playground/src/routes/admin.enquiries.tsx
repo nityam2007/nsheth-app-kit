@@ -1,3 +1,6 @@
+import { Route as AdminRoute } from './admin'
+import { TriageFields, triageData } from '../components/triage-fields'
+import { HistoryList } from '../components/history-list'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useQueryClient } from '@tanstack/react-query'
@@ -18,16 +21,17 @@ export const Route = createFileRoute('/admin/enquiries')({
   component: Enquiries,
 })
 function Enquiries() {
+  const { principal } = AdminRoute.useRouteContext()
   const queryClient = useQueryClient(),
     update = useServerFn(updateEnquiry)
   const [collection] = useState(() =>
     createCollection(
       queryCollectionOptions({
         queryClient,
-        queryKey: ['enquiry-inbox'],
+        queryKey: ['enquiry-inbox', principal.userId],
         queryFn: () => getEnquiries(),
         getKey: (row) => row.id,
-        refetchInterval: 30000,
+        refetchOnWindowFocus: false,
       }),
     ),
   )
@@ -43,7 +47,7 @@ function Enquiries() {
       <PageHeading
         eyebrow="Operations"
         title="Enquiry inbox"
-        description="Latest 500 product enquiries. The inbox refreshes every 30 seconds."
+        description="Latest 500 product enquiries. Refresh the page to load newer enquiries; your follow-up notes stay put while editing."
       />
       <div className="mb-6 max-w-md">
         <Input label="Search enquiries" value={search} onChange={setSearch} />
@@ -72,6 +76,17 @@ function Enquiries() {
             <p className="mb-5 whitespace-pre-wrap text-secondary">
               {e.message}
             </p>
+            <p className="mb-4 text-sm text-tertiary">
+              {e.assigneeId === principal.userId
+                ? 'Assigned to you'
+                : e.assigneeId
+                  ? 'Assigned to another operator'
+                  : 'Unassigned'}{' '}
+              ·{' '}
+              {e.followUpAt
+                ? `Follow up ${e.followUpAt.toISOString().slice(0, 10)}`
+                : 'No follow-up scheduled'}
+            </p>
             <ActionForm
               label="Update enquiry"
               action={async (f) => {
@@ -79,6 +94,8 @@ function Enquiries() {
                 await update({
                   data: {
                     id: e.id,
+                    expectedVersion: e.version,
+                    ...triageData(f),
                     status:
                       status === 'CLOSED'
                         ? 'CLOSED'
@@ -88,16 +105,21 @@ function Enquiries() {
                   },
                 })
                 await queryClient.invalidateQueries({
-                  queryKey: ['enquiry-inbox'],
+                  queryKey: ['enquiry-inbox', principal.userId],
                 })
               }}
             >
+              <TriageFields
+                followUpAt={e.followUpAt}
+                assigned={Boolean(e.assigneeId)}
+              />
               <SelectField label="Status" name="status" defaultValue={e.status}>
                 <option value="NEW">New</option>
                 <option value="IN_PROGRESS">In progress</option>
                 <option value="CLOSED">Closed</option>
               </SelectField>
             </ActionForm>
+            <HistoryList events={e.history} />
           </article>
         ))}
       </div>

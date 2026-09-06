@@ -1,3 +1,5 @@
+import { TriageFields, triageData } from '../components/triage-fields'
+import { HistoryList } from '../components/history-list'
 import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import {
@@ -48,6 +50,8 @@ function Requests() {
                 return update({
                   data: {
                     id: r.id,
+                    expectedVersion: r.version,
+                    ...triageData(f),
                     status:
                       s === 'CLOSED'
                         ? 'CLOSED'
@@ -58,12 +62,17 @@ function Requests() {
                 })
               }}
             >
+              <TriageFields
+                followUpAt={r.followUpAt}
+                assigned={Boolean(r.assigneeId)}
+              />
               <SelectField name="status" label="Status" defaultValue={r.status}>
                 <option value="OPEN">Open</option>
                 <option value="REVIEWED">Reviewed</option>
                 <option value="CLOSED">Closed</option>
               </SelectField>
             </ActionForm>
+            <HistoryList events={r.history} />
           </article>
         ))}
       </div>

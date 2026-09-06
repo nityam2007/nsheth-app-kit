@@ -1,3 +1,12 @@
+# 0.8.4 - Add editorial recovery and accountable follow-up
+
+- Add authors, covers, tags, search metadata, scheduled publication, safe article blocks and editor preview.
+- Preserve revisions and restore older content to a draft with stale-edit protection.
+- Add enquiry/privacy responsibility, follow-up dates, internal notes and activity history.
+- Add active-session visibility and revocation; isolate inbox caches and clear private queries on sign-out.
+- Serialize and revalidate administrator access changes; record access history and revoke affected sessions.
+- Verify scheduled visibility, escaped article HTML, restoration, stale triage, session ownership and concurrent cross-demotions in production HTTP tests.
+
 # 0.8.3 - Make booking and stay requests operational
 
 - Add service/arrival/cancellation policies, stay-length constraints and versioned operator edits.

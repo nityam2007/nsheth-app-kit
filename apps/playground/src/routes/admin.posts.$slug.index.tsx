@@ -1,3 +1,11 @@
+import { ArticleBody } from '../components/article-body'
+import { ActionForm, SelectField } from '../components/workflow'
+import { errorMessage } from '../errors'
+import {
+  restorePostRevision,
+  deleteAdminPost,
+  getAdminPost,
+} from '../content.functions'
 import {
   Link,
   createFileRoute,
@@ -8,8 +16,6 @@ import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
 
 import { Button } from '@/components/base/buttons/button'
-
-import { deleteAdminPost, getAdminPost } from '../content.functions'
 
 export const Route = createFileRoute('/admin/posts/$slug/')({
   loader: async ({ params }) => {
@@ -22,6 +28,7 @@ export const Route = createFileRoute('/admin/posts/$slug/')({
 
 function PostDetail() {
   const post = Route.useLoaderData()
+  const restore = useServerFn(restorePostRevision)
   const removePost = useServerFn(deleteAdminPost)
   const navigate = useNavigate()
   const [error, setError] = useState('')
@@ -34,10 +41,12 @@ function PostDetail() {
     setError('')
     setIsDeleting(true)
     try {
-      await removePost({ data: { slug: post.slug } })
+      await removePost({
+        data: { slug: post.slug, expectedVersion: post.version },
+      })
       await navigate({ to: '/admin/posts' })
-    } catch {
-      setError('Could not delete this post.')
+    } catch (failure) {
+      setError(errorMessage(failure))
       setIsDeleting(false)
     }
   }
@@ -85,14 +94,14 @@ function PostDetail() {
         <div className="rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-8">
           <p className="text-lg text-tertiary">{post.excerpt}</p>
           <div className="mt-8 whitespace-pre-wrap border-t border-secondary pt-8 text-md leading-8 text-secondary">
-            {post.body}
+            <ArticleBody body={post.body} />
           </div>
         </div>
         <aside className="space-y-6">
           <dl className="divide-y divide-secondary rounded-xl bg-primary px-5 shadow-xs ring-1 ring-secondary">
             {[
               ['Status', post.status === 'PUBLISHED' ? 'Published' : 'Draft'],
-              ['Published', post.publishedAt ?? 'Not published'],
+              ['Published', post.publishedAt || 'Not published'],
               ['Created', post.createdAt],
               ['Updated', post.updatedAt],
             ].map(([term, value]) => (
@@ -127,6 +136,38 @@ function PostDetail() {
           </div>
         </aside>
       </div>
+      {post.revisions.length > 0 && (
+        <section className="mt-10 max-w-2xl">
+          <h2 className="mb-4 text-xl font-semibold text-primary">
+            Restore an earlier revision
+          </h2>
+          <p className="mb-4 text-tertiary">
+            The current content is saved, the URL is preserved, and the restored
+            article becomes a draft.
+          </p>
+          <ActionForm
+            label="Restore selected revision"
+            action={(f) =>
+              restore({
+                data: {
+                  postId: post.id,
+                  revisionId: String(f.get('revisionId')),
+                  expectedVersion: post.version,
+                },
+              })
+            }
+          >
+            <SelectField name="revisionId" label="Previous version">
+              {post.revisions.map((revision) => (
+                <option key={revision.id} value={revision.id}>
+                  Version {revision.version} · saved{' '}
+                  {revision.createdAt.toISOString()}
+                </option>
+              ))}
+            </SelectField>
+          </ActionForm>
+        </section>
+      )}
     </article>
   )
 }

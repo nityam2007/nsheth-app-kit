@@ -20,11 +20,24 @@ export type PrivacyRequestModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregatePrivacyRequest = {
   _count: PrivacyRequestCountAggregateOutputType | null
+  _avg: PrivacyRequestAvgAggregateOutputType | null
+  _sum: PrivacyRequestSumAggregateOutputType | null
   _min: PrivacyRequestMinAggregateOutputType | null
   _max: PrivacyRequestMaxAggregateOutputType | null
 }
 
+export type PrivacyRequestAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type PrivacyRequestSumAggregateOutputType = {
+  version: number | null
+}
+
 export type PrivacyRequestMinAggregateOutputType = {
+  version: number | null
+  assigneeId: string | null
+  followUpAt: Date | null
   id: string | null
   name: string | null
   email: string | null
@@ -34,6 +47,9 @@ export type PrivacyRequestMinAggregateOutputType = {
 }
 
 export type PrivacyRequestMaxAggregateOutputType = {
+  version: number | null
+  assigneeId: string | null
+  followUpAt: Date | null
   id: string | null
   name: string | null
   email: string | null
@@ -43,6 +59,9 @@ export type PrivacyRequestMaxAggregateOutputType = {
 }
 
 export type PrivacyRequestCountAggregateOutputType = {
+  version: number
+  assigneeId: number
+  followUpAt: number
   id: number
   name: number
   email: number
@@ -53,7 +72,18 @@ export type PrivacyRequestCountAggregateOutputType = {
 }
 
 
+export type PrivacyRequestAvgAggregateInputType = {
+  version?: true
+}
+
+export type PrivacyRequestSumAggregateInputType = {
+  version?: true
+}
+
 export type PrivacyRequestMinAggregateInputType = {
+  version?: true
+  assigneeId?: true
+  followUpAt?: true
   id?: true
   name?: true
   email?: true
@@ -63,6 +93,9 @@ export type PrivacyRequestMinAggregateInputType = {
 }
 
 export type PrivacyRequestMaxAggregateInputType = {
+  version?: true
+  assigneeId?: true
+  followUpAt?: true
   id?: true
   name?: true
   email?: true
@@ -72,6 +105,9 @@ export type PrivacyRequestMaxAggregateInputType = {
 }
 
 export type PrivacyRequestCountAggregateInputType = {
+  version?: true
+  assigneeId?: true
+  followUpAt?: true
   id?: true
   name?: true
   email?: true
@@ -119,6 +155,18 @@ export type PrivacyRequestAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PrivacyRequestAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PrivacyRequestSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PrivacyRequestMinAggregateInputType
@@ -149,11 +197,16 @@ export type PrivacyRequestGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: PrivacyRequestCountAggregateInputType | true
+  _avg?: PrivacyRequestAvgAggregateInputType
+  _sum?: PrivacyRequestSumAggregateInputType
   _min?: PrivacyRequestMinAggregateInputType
   _max?: PrivacyRequestMaxAggregateInputType
 }
 
 export type PrivacyRequestGroupByOutputType = {
+  version: number
+  assigneeId: string | null
+  followUpAt: Date | null
   id: string
   name: string
   email: string
@@ -161,6 +214,8 @@ export type PrivacyRequestGroupByOutputType = {
   status: string
   createdAt: Date
   _count: PrivacyRequestCountAggregateOutputType | null
+  _avg: PrivacyRequestAvgAggregateOutputType | null
+  _sum: PrivacyRequestSumAggregateOutputType | null
   _min: PrivacyRequestMinAggregateOutputType | null
   _max: PrivacyRequestMaxAggregateOutputType | null
 }
@@ -184,6 +239,9 @@ export type PrivacyRequestWhereInput = {
   AND?: Prisma.PrivacyRequestWhereInput | Prisma.PrivacyRequestWhereInput[]
   OR?: Prisma.PrivacyRequestWhereInput[]
   NOT?: Prisma.PrivacyRequestWhereInput | Prisma.PrivacyRequestWhereInput[]
+  version?: Prisma.IntFilter<"PrivacyRequest"> | number
+  assigneeId?: Prisma.StringNullableFilter<"PrivacyRequest"> | string | null
+  followUpAt?: Prisma.DateTimeNullableFilter<"PrivacyRequest"> | Date | string | null
   id?: Prisma.UuidFilter<"PrivacyRequest"> | string
   name?: Prisma.StringFilter<"PrivacyRequest"> | string
   email?: Prisma.StringFilter<"PrivacyRequest"> | string
@@ -193,6 +251,9 @@ export type PrivacyRequestWhereInput = {
 }
 
 export type PrivacyRequestOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
+  assigneeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  followUpAt?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -206,6 +267,9 @@ export type PrivacyRequestWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PrivacyRequestWhereInput | Prisma.PrivacyRequestWhereInput[]
   OR?: Prisma.PrivacyRequestWhereInput[]
   NOT?: Prisma.PrivacyRequestWhereInput | Prisma.PrivacyRequestWhereInput[]
+  version?: Prisma.IntFilter<"PrivacyRequest"> | number
+  assigneeId?: Prisma.StringNullableFilter<"PrivacyRequest"> | string | null
+  followUpAt?: Prisma.DateTimeNullableFilter<"PrivacyRequest"> | Date | string | null
   name?: Prisma.StringFilter<"PrivacyRequest"> | string
   email?: Prisma.StringFilter<"PrivacyRequest"> | string
   request?: Prisma.StringFilter<"PrivacyRequest"> | string
@@ -214,6 +278,9 @@ export type PrivacyRequestWhereUniqueInput = Prisma.AtLeast<{
 }, "id">
 
 export type PrivacyRequestOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
+  assigneeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  followUpAt?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -221,14 +288,19 @@ export type PrivacyRequestOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PrivacyRequestCountOrderByAggregateInput
+  _avg?: Prisma.PrivacyRequestAvgOrderByAggregateInput
   _max?: Prisma.PrivacyRequestMaxOrderByAggregateInput
   _min?: Prisma.PrivacyRequestMinOrderByAggregateInput
+  _sum?: Prisma.PrivacyRequestSumOrderByAggregateInput
 }
 
 export type PrivacyRequestScalarWhereWithAggregatesInput = {
   AND?: Prisma.PrivacyRequestScalarWhereWithAggregatesInput | Prisma.PrivacyRequestScalarWhereWithAggregatesInput[]
   OR?: Prisma.PrivacyRequestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PrivacyRequestScalarWhereWithAggregatesInput | Prisma.PrivacyRequestScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"PrivacyRequest"> | number
+  assigneeId?: Prisma.StringNullableWithAggregatesFilter<"PrivacyRequest"> | string | null
+  followUpAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PrivacyRequest"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"PrivacyRequest"> | string
   name?: Prisma.StringWithAggregatesFilter<"PrivacyRequest"> | string
   email?: Prisma.StringWithAggregatesFilter<"PrivacyRequest"> | string
@@ -238,6 +310,9 @@ export type PrivacyRequestScalarWhereWithAggregatesInput = {
 }
 
 export type PrivacyRequestCreateInput = {
+  version?: number
+  assigneeId?: string | null
+  followUpAt?: Date | string | null
   id?: string
   name: string
   email: string
@@ -247,6 +322,9 @@ export type PrivacyRequestCreateInput = {
 }
 
 export type PrivacyRequestUncheckedCreateInput = {
+  version?: number
+  assigneeId?: string | null
+  followUpAt?: Date | string | null
   id?: string
   name: string
   email: string
@@ -256,6 +334,9 @@ export type PrivacyRequestUncheckedCreateInput = {
 }
 
 export type PrivacyRequestUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  assigneeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -265,6 +346,9 @@ export type PrivacyRequestUpdateInput = {
 }
 
 export type PrivacyRequestUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  assigneeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -274,6 +358,9 @@ export type PrivacyRequestUncheckedUpdateInput = {
 }
 
 export type PrivacyRequestCreateManyInput = {
+  version?: number
+  assigneeId?: string | null
+  followUpAt?: Date | string | null
   id?: string
   name: string
   email: string
@@ -283,6 +370,9 @@ export type PrivacyRequestCreateManyInput = {
 }
 
 export type PrivacyRequestUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  assigneeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -292,6 +382,9 @@ export type PrivacyRequestUpdateManyMutationInput = {
 }
 
 export type PrivacyRequestUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  assigneeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  followUpAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -301,6 +394,9 @@ export type PrivacyRequestUncheckedUpdateManyInput = {
 }
 
 export type PrivacyRequestCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  assigneeId?: Prisma.SortOrder
+  followUpAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -309,7 +405,14 @@ export type PrivacyRequestCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type PrivacyRequestAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 export type PrivacyRequestMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  assigneeId?: Prisma.SortOrder
+  followUpAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -319,6 +422,9 @@ export type PrivacyRequestMaxOrderByAggregateInput = {
 }
 
 export type PrivacyRequestMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  assigneeId?: Prisma.SortOrder
+  followUpAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -327,9 +433,16 @@ export type PrivacyRequestMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type PrivacyRequestSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 
 
 export type PrivacyRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  assigneeId?: boolean
+  followUpAt?: boolean
   id?: boolean
   name?: boolean
   email?: boolean
@@ -339,6 +452,9 @@ export type PrivacyRequestSelect<ExtArgs extends runtime.Types.Extensions.Intern
 }, ExtArgs["result"]["privacyRequest"]>
 
 export type PrivacyRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  assigneeId?: boolean
+  followUpAt?: boolean
   id?: boolean
   name?: boolean
   email?: boolean
@@ -348,6 +464,9 @@ export type PrivacyRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["privacyRequest"]>
 
 export type PrivacyRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  assigneeId?: boolean
+  followUpAt?: boolean
   id?: boolean
   name?: boolean
   email?: boolean
@@ -357,6 +476,9 @@ export type PrivacyRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 }, ExtArgs["result"]["privacyRequest"]>
 
 export type PrivacyRequestSelectScalar = {
+  version?: boolean
+  assigneeId?: boolean
+  followUpAt?: boolean
   id?: boolean
   name?: boolean
   email?: boolean
@@ -365,12 +487,15 @@ export type PrivacyRequestSelectScalar = {
   createdAt?: boolean
 }
 
-export type PrivacyRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "request" | "status" | "createdAt", ExtArgs["result"]["privacyRequest"]>
+export type PrivacyRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "assigneeId" | "followUpAt" | "id" | "name" | "email" | "request" | "status" | "createdAt", ExtArgs["result"]["privacyRequest"]>
 
 export type $PrivacyRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PrivacyRequest"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
+    assigneeId: string | null
+    followUpAt: Date | null
     id: string
     name: string
     email: string
@@ -460,8 +585,8 @@ export interface PrivacyRequestDelegate<ExtArgs extends runtime.Types.Extensions
    * // Get first 10 PrivacyRequests
    * const privacyRequests = await prisma.privacyRequest.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const privacyRequestWithIdOnly = await prisma.privacyRequest.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const privacyRequestWithVersionOnly = await prisma.privacyRequest.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends PrivacyRequestFindManyArgs>(args?: Prisma.SelectSubset<T, PrivacyRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivacyRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -505,9 +630,9 @@ export interface PrivacyRequestDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Create many PrivacyRequests and only return the `id`
-   * const privacyRequestWithIdOnly = await prisma.privacyRequest.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many PrivacyRequests and only return the `version`
+   * const privacyRequestWithVersionOnly = await prisma.privacyRequest.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -596,9 +721,9 @@ export interface PrivacyRequestDelegate<ExtArgs extends runtime.Types.Extensions
    *   ]
    * })
    * 
-   * // Update zero or more PrivacyRequests and only return the `id`
-   * const privacyRequestWithIdOnly = await prisma.privacyRequest.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more PrivacyRequests and only return the `version`
+   * const privacyRequestWithVersionOnly = await prisma.privacyRequest.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -800,6 +925,9 @@ export interface Prisma__PrivacyRequestClient<T, Null = never, ExtArgs extends r
  * Fields of the PrivacyRequest model
  */
 export interface PrivacyRequestFieldRefs {
+  readonly version: Prisma.FieldRef<"PrivacyRequest", 'Int'>
+  readonly assigneeId: Prisma.FieldRef<"PrivacyRequest", 'String'>
+  readonly followUpAt: Prisma.FieldRef<"PrivacyRequest", 'DateTime'>
   readonly id: Prisma.FieldRef<"PrivacyRequest", 'String'>
   readonly name: Prisma.FieldRef<"PrivacyRequest", 'String'>
   readonly email: Prisma.FieldRef<"PrivacyRequest", 'String'>

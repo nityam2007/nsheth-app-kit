@@ -1,3 +1,5 @@
+import { ArticleBody } from '../article-body'
+import { errorMessage } from '../../errors'
 import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useEffect, useRef, useState } from 'react'
@@ -13,7 +15,7 @@ import type { PostInput } from '@nsheth/content'
 
 interface PostFormProps {
   currentSlug?: string
-  initial?: PostInput
+  initial?: PostInput & { version: number }
 }
 
 export function PostForm({ currentSlug, initial }: PostFormProps) {
@@ -22,6 +24,8 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
   const navigate = useNavigate()
   const [error, setError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [body, setBody] = useState(initial?.body ?? '')
+  const [preview, setPreview] = useState(false)
   const [title, setTitle] = useState(initial?.title ?? '')
   const [slug, setSlug] = useState(initial?.slug ?? '')
   const [slugEdited, setSlugEdited] = useState(Boolean(initial))
@@ -49,6 +53,16 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
       slug: String(formData.get('slug') ?? ''),
       excerpt: String(formData.get('excerpt') ?? ''),
       body: String(formData.get('body') ?? ''),
+      author: String(formData.get('author')),
+      coverUrl: String(formData.get('coverUrl')),
+      coverAlt: String(formData.get('coverAlt')),
+      tags: String(formData.get('tags'))
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
+      seoTitle: String(formData.get('seoTitle')),
+      seoDescription: String(formData.get('seoDescription')),
+      publishedAt: String(formData.get('publishedAt') ?? ''),
       status: formData.get('status') === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
     }
 
@@ -57,13 +71,19 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
 
     try {
       const post = currentSlug
-        ? await updatePost({ data: { ...data, currentSlug } })
+        ? await updatePost({
+            data: {
+              ...data,
+              currentSlug,
+              expectedVersion: initial?.version ?? 0,
+            },
+          })
         : await createPost({ data })
       bypassBlocker.current = true
       await navigate({ to: '/admin/posts/$slug', params: { slug: post.slug } })
-    } catch {
+    } catch (failure) {
       bypassBlocker.current = false
-      setError('Could not save this post. Check the fields and slug.')
+      setError(errorMessage(failure))
     } finally {
       setIsSaving(false)
     }
@@ -110,12 +130,73 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
         rows={3}
       />
       <TextArea
-        defaultValue={initial?.body}
+        value={body}
+        onChange={setBody}
         isRequired
         label="Body"
         maxLength={100000}
         name="body"
         rows={16}
+      />
+      <p className="text-sm text-tertiary">
+        Separate blocks with blank lines. Use ## headings, ### subheadings, -
+        list items and &gt; quotations. HTML and inline markup are displayed as
+        text.
+      </p>
+      <Button color="secondary" onPress={() => setPreview(!preview)}>
+        {preview ? 'Hide preview' : 'Preview article'}
+      </Button>
+      {preview && (
+        <section
+          aria-label="Article preview"
+          className="border-y border-secondary py-6"
+        >
+          <ArticleBody body={body} />
+        </section>
+      )}
+      <Input
+        name="author"
+        label="Author or byline"
+        maxLength={120}
+        defaultValue={initial?.author}
+      />
+      <Input
+        name="coverUrl"
+        label="Cover image URL (HTTPS)"
+        type="url"
+        maxLength={2000}
+        defaultValue={initial?.coverUrl}
+      />
+      <Input
+        name="coverAlt"
+        label="Cover alternative text"
+        maxLength={200}
+        defaultValue={initial?.coverAlt}
+      />
+      <Input
+        name="tags"
+        label="Tags (comma separated)"
+        maxLength={600}
+        defaultValue={initial?.tags.join(', ')}
+      />
+      <Input
+        name="seoTitle"
+        label="Search title (optional)"
+        maxLength={70}
+        defaultValue={initial?.seoTitle}
+      />
+      <Input
+        name="seoDescription"
+        label="Search description (optional)"
+        maxLength={180}
+        defaultValue={initial?.seoDescription}
+      />
+      <Input
+        name="publishedAt"
+        label="Publication instant (UTC)"
+        placeholder="2030-01-01T09:00:00Z"
+        defaultValue={initial?.publishedAt}
+        hint="Leave empty to publish now. Use an ISO UTC timestamp to schedule; drafts remain hidden."
       />
       <label
         className="grid gap-1.5 text-sm font-medium text-secondary"

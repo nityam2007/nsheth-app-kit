@@ -155,3 +155,5 @@ Turborepo is reliable and incrementally adoptable, but it does not reduce mainte
 Implement one vertical slice per phase. Update this file as scope becomes concrete.
 
 Booking/hospitality workflow depth delivered in 0.8.3; next: content revisions and identity/operations hardening.
+
+Content/identity/operations hardening delivered in 0.8.4. Next: existing-block selection/copy contracts and final runtime/security verification.

@@ -114,6 +114,16 @@ export const updateAccess = createServerFn({ method: 'POST' })
       rejectRequest(409, 'You cannot change your own access')
     await ensureRoles()
     await getPrisma().$transaction(async (tx) => {
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(784013, 1)`
+      const actor = await tx.user.findFirst({
+        where: {
+          id: context.principal.userId,
+          disabledAt: null,
+          roles: { some: { role: { key: 'admin' } } },
+        },
+      })
+      if (!actor)
+        rejectRequest(403, 'Your administrator access changed. Sign in again.')
       const user = await tx.user.findUniqueOrThrow({
         where: { id: data.userId },
       })
@@ -134,6 +144,23 @@ export const updateAccess = createServerFn({ method: 'POST' })
       await tx.user.update({
         where: { id: user.id },
         data: { disabledAt: data.disabled ? new Date() : null },
+      })
+      const remaining = await tx.user.count({
+        where: {
+          disabledAt: null,
+          roles: { some: { role: { key: 'admin' } } },
+        },
+      })
+      if (!remaining)
+        rejectRequest(409, 'At least one enabled administrator is required')
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'access',
+          entityId: user.id,
+          actorId: context.principal.userId,
+          action: 'access-changed',
+          summary: `Role: ${data.role}; ${data.disabled ? 'disabled' : 'enabled'}`,
+        },
       })
       await tx.session.updateMany({
         where: { userId: user.id, revokedAt: null },
@@ -197,4 +224,44 @@ export const cancelOwnRequest = createServerFn({ method: 'POST' })
       })
       return { ok: true }
     })
+  })
+
+export const getOwnSessions = createServerFn({ method: 'GET' })
+  .middleware([identityMiddleware])
+  .handler(async ({ context }) => {
+    const token = getCookie(sessionCookieName()),
+      hash = token ? await hashSessionToken(token) : ''
+    const rows = await getPrisma().session.findMany({
+      where: {
+        userId: context.principal.userId,
+        revokedAt: null,
+        expiresAt: { gt: new Date() },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100,
+      select: { id: true, tokenHash: true, createdAt: true, expiresAt: true },
+    })
+    return rows.map(({ tokenHash, ...session }) => ({
+      ...session,
+      current: tokenHash === hash,
+    }))
+  })
+export const revokeOwnSession = createServerFn({ method: 'POST' })
+  .middleware([identityMiddleware])
+  .validator(z.object({ id: z.uuid() }))
+  .handler(async ({ context, data }) => {
+    requireSameOrigin()
+    const token = getCookie(sessionCookieName()),
+      hash = token ? await hashSessionToken(token) : ''
+    const result = await getPrisma().session.updateMany({
+      where: {
+        id: data.id,
+        userId: context.principal.userId,
+        tokenHash: { not: hash },
+      },
+      data: { revokedAt: new Date() },
+    })
+    if (!result.count)
+      rejectRequest(404, 'Session not found, or use Sign out for this session')
+    return { ok: true }
   })

@@ -1,7 +1,14 @@
+import { useQueryClient } from '@tanstack/react-query'
+import {
+  getOwnSessions,
+  revokeOwnSession,
+  getAccount,
+  signOut,
+  cancelOwnRequest,
+} from '../account.functions'
 import { errorStatus } from '../errors'
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import { getAccount, signOut, cancelOwnRequest } from '../account.functions'
 import { Container } from '../components/container'
 import { ActionForm, PageHeading } from '../components/workflow'
 import { Button } from '../components/base/buttons/button'
@@ -10,7 +17,11 @@ import { money } from '../money'
 export const Route = createFileRoute('/account')({
   loader: async () => {
     try {
-      return await getAccount()
+      const [account, sessions] = await Promise.all([
+        getAccount(),
+        getOwnSessions(),
+      ])
+      return { ...account, sessions }
     } catch (error) {
       if (errorStatus(error) !== 401) throw error
       throw redirect({ to: '/login' })
@@ -19,7 +30,9 @@ export const Route = createFileRoute('/account')({
   component: Account,
 })
 function Account() {
+  const queryClient = useQueryClient()
   const data = Route.useLoaderData(),
+    revoke = useServerFn(revokeOwnSession),
     cancel = useServerFn(cancelOwnRequest),
     logout = useServerFn(signOut)
   return (
@@ -59,12 +72,40 @@ function Account() {
           label="Sign out"
           action={async () => {
             await logout()
+            queryClient.clear()
             return '/login'
           }}
         >
           {null}
         </ActionForm>
       </div>
+      <section className="mb-10">
+        <h2 className="mb-4 text-xl font-semibold text-primary">
+          Active sessions
+        </h2>
+        <ul className="grid gap-4">
+          {data.sessions.map((session) => (
+            <li
+              key={session.id}
+              className="flex flex-wrap items-center gap-5 text-tertiary"
+            >
+              <p>
+                {session.current ? 'This session' : 'Other session'} · started{' '}
+                {session.createdAt.toISOString().slice(0, 16)} UTC · expires{' '}
+                {session.expiresAt.toISOString().slice(0, 10)}
+              </p>
+              {!session.current && (
+                <ActionForm
+                  label="Revoke session"
+                  action={() => revoke({ data: { id: session.id } })}
+                >
+                  {null}
+                </ActionForm>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
       <div className="grid gap-10 md:grid-cols-2">
         <section>
           <h2 className="mb-4 text-xl font-semibold text-primary">Orders</h2>

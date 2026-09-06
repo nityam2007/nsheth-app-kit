@@ -18,10 +18,17 @@ function PostsIndex() {
   const deferredQuery = useDeferredValue(query.trim().toLowerCase())
   const visiblePosts = posts.filter(
     (post) =>
-      (status === 'ALL' || post.status === status) &&
+      (status === 'ALL' ||
+        (status === 'SCHEDULED'
+          ? Boolean(
+              post.publishedAt && post.publishedAt > new Date().toISOString(),
+            )
+          : post.status === status)) &&
       (!deferredQuery ||
         post.title.toLowerCase().includes(deferredQuery) ||
-        post.slug.includes(deferredQuery)),
+        `${post.slug} ${post.author} ${post.tags.join(' ')}`
+          .toLowerCase()
+          .includes(deferredQuery)),
   )
   const isFiltered = Boolean(query) || status !== 'ALL'
 
@@ -37,7 +44,7 @@ function PostsIndex() {
             Posts
           </h1>
           <p className="mt-2 text-md text-tertiary">
-            Manage draft and published notes.
+            Manage drafts, scheduled and published notes. Latest 500 posts.
           </p>
         </div>
         <Link
@@ -68,6 +75,7 @@ function PostsIndex() {
             onChange={(event) => setStatus(event.currentTarget.value)}
           >
             <option value="ALL">All statuses</option>
+            <option value="SCHEDULED">Scheduled</option>
             <option value="DRAFT">Draft</option>
             <option value="PUBLISHED">Published</option>
           </select>

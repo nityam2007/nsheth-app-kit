@@ -20,11 +20,27 @@ export type PostModel = runtime.Types.Result.DefaultSelection<Prisma.$PostPayloa
 
 export type AggregatePost = {
   _count: PostCountAggregateOutputType | null
+  _avg: PostAvgAggregateOutputType | null
+  _sum: PostSumAggregateOutputType | null
   _min: PostMinAggregateOutputType | null
   _max: PostMaxAggregateOutputType | null
 }
 
+export type PostAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type PostSumAggregateOutputType = {
+  version: number | null
+}
+
 export type PostMinAggregateOutputType = {
+  version: number | null
+  author: string | null
+  coverUrl: string | null
+  coverAlt: string | null
+  seoTitle: string | null
+  seoDescription: string | null
   id: string | null
   title: string | null
   slug: string | null
@@ -37,6 +53,12 @@ export type PostMinAggregateOutputType = {
 }
 
 export type PostMaxAggregateOutputType = {
+  version: number | null
+  author: string | null
+  coverUrl: string | null
+  coverAlt: string | null
+  seoTitle: string | null
+  seoDescription: string | null
   id: string | null
   title: string | null
   slug: string | null
@@ -49,6 +71,13 @@ export type PostMaxAggregateOutputType = {
 }
 
 export type PostCountAggregateOutputType = {
+  version: number
+  author: number
+  coverUrl: number
+  coverAlt: number
+  tags: number
+  seoTitle: number
+  seoDescription: number
   id: number
   title: number
   slug: number
@@ -62,7 +91,21 @@ export type PostCountAggregateOutputType = {
 }
 
 
+export type PostAvgAggregateInputType = {
+  version?: true
+}
+
+export type PostSumAggregateInputType = {
+  version?: true
+}
+
 export type PostMinAggregateInputType = {
+  version?: true
+  author?: true
+  coverUrl?: true
+  coverAlt?: true
+  seoTitle?: true
+  seoDescription?: true
   id?: true
   title?: true
   slug?: true
@@ -75,6 +118,12 @@ export type PostMinAggregateInputType = {
 }
 
 export type PostMaxAggregateInputType = {
+  version?: true
+  author?: true
+  coverUrl?: true
+  coverAlt?: true
+  seoTitle?: true
+  seoDescription?: true
   id?: true
   title?: true
   slug?: true
@@ -87,6 +136,13 @@ export type PostMaxAggregateInputType = {
 }
 
 export type PostCountAggregateInputType = {
+  version?: true
+  author?: true
+  coverUrl?: true
+  coverAlt?: true
+  tags?: true
+  seoTitle?: true
+  seoDescription?: true
   id?: true
   title?: true
   slug?: true
@@ -137,6 +193,18 @@ export type PostAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PostAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PostSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PostMinAggregateInputType
@@ -167,11 +235,20 @@ export type PostGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: PostCountAggregateInputType | true
+  _avg?: PostAvgAggregateInputType
+  _sum?: PostSumAggregateInputType
   _min?: PostMinAggregateInputType
   _max?: PostMaxAggregateInputType
 }
 
 export type PostGroupByOutputType = {
+  version: number
+  author: string
+  coverUrl: string
+  coverAlt: string
+  tags: string[]
+  seoTitle: string
+  seoDescription: string
   id: string
   title: string
   slug: string
@@ -182,6 +259,8 @@ export type PostGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: PostCountAggregateOutputType | null
+  _avg: PostAvgAggregateOutputType | null
+  _sum: PostSumAggregateOutputType | null
   _min: PostMinAggregateOutputType | null
   _max: PostMaxAggregateOutputType | null
 }
@@ -205,6 +284,13 @@ export type PostWhereInput = {
   AND?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   OR?: Prisma.PostWhereInput[]
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
+  version?: Prisma.IntFilter<"Post"> | number
+  author?: Prisma.StringFilter<"Post"> | string
+  coverUrl?: Prisma.StringFilter<"Post"> | string
+  coverAlt?: Prisma.StringFilter<"Post"> | string
+  tags?: Prisma.StringNullableListFilter<"Post">
+  seoTitle?: Prisma.StringFilter<"Post"> | string
+  seoDescription?: Prisma.StringFilter<"Post"> | string
   id?: Prisma.UuidFilter<"Post"> | string
   title?: Prisma.StringFilter<"Post"> | string
   slug?: Prisma.StringFilter<"Post"> | string
@@ -214,9 +300,17 @@ export type PostWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+  revisions?: Prisma.PostRevisionListRelationFilter
 }
 
 export type PostOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverAlt?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -226,6 +320,7 @@ export type PostOrderByWithRelationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  revisions?: Prisma.PostRevisionOrderByRelationAggregateInput
 }
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -234,6 +329,13 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   OR?: Prisma.PostWhereInput[]
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
+  version?: Prisma.IntFilter<"Post"> | number
+  author?: Prisma.StringFilter<"Post"> | string
+  coverUrl?: Prisma.StringFilter<"Post"> | string
+  coverAlt?: Prisma.StringFilter<"Post"> | string
+  tags?: Prisma.StringNullableListFilter<"Post">
+  seoTitle?: Prisma.StringFilter<"Post"> | string
+  seoDescription?: Prisma.StringFilter<"Post"> | string
   title?: Prisma.StringFilter<"Post"> | string
   excerpt?: Prisma.StringFilter<"Post"> | string
   body?: Prisma.StringFilter<"Post"> | string
@@ -241,9 +343,17 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   publishedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+  revisions?: Prisma.PostRevisionListRelationFilter
 }, "id" | "slug">
 
 export type PostOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverAlt?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -254,14 +364,23 @@ export type PostOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
+  _avg?: Prisma.PostAvgOrderByAggregateInput
   _max?: Prisma.PostMaxOrderByAggregateInput
   _min?: Prisma.PostMinOrderByAggregateInput
+  _sum?: Prisma.PostSumOrderByAggregateInput
 }
 
 export type PostScalarWhereWithAggregatesInput = {
   AND?: Prisma.PostScalarWhereWithAggregatesInput | Prisma.PostScalarWhereWithAggregatesInput[]
   OR?: Prisma.PostScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PostScalarWhereWithAggregatesInput | Prisma.PostScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  author?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  coverUrl?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  coverAlt?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  tags?: Prisma.StringNullableListFilter<"Post">
+  seoTitle?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  seoDescription?: Prisma.StringWithAggregatesFilter<"Post"> | string
   id?: Prisma.UuidWithAggregatesFilter<"Post"> | string
   title?: Prisma.StringWithAggregatesFilter<"Post"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Post"> | string
@@ -274,6 +393,13 @@ export type PostScalarWhereWithAggregatesInput = {
 }
 
 export type PostCreateInput = {
+  version?: number
+  author?: string
+  coverUrl?: string
+  coverAlt?: string
+  tags?: Prisma.PostCreatetagsInput | string[]
+  seoTitle?: string
+  seoDescription?: string
   id?: string
   title: string
   slug: string
@@ -283,9 +409,17 @@ export type PostCreateInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.PostRevisionCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateInput = {
+  version?: number
+  author?: string
+  coverUrl?: string
+  coverAlt?: string
+  tags?: Prisma.PostCreatetagsInput | string[]
+  seoTitle?: string
+  seoDescription?: string
   id?: string
   title: string
   slug: string
@@ -295,9 +429,17 @@ export type PostUncheckedCreateInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  revisions?: Prisma.PostRevisionUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -307,9 +449,17 @@ export type PostUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.PostRevisionUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -319,9 +469,17 @@ export type PostUncheckedUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  revisions?: Prisma.PostRevisionUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyInput = {
+  version?: number
+  author?: string
+  coverUrl?: string
+  coverAlt?: string
+  tags?: Prisma.PostCreatetagsInput | string[]
+  seoTitle?: string
+  seoDescription?: string
   id?: string
   title: string
   slug: string
@@ -334,6 +492,13 @@ export type PostCreateManyInput = {
 }
 
 export type PostUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -346,6 +511,13 @@ export type PostUpdateManyMutationInput = {
 }
 
 export type PostUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -358,6 +530,13 @@ export type PostUncheckedUpdateManyInput = {
 }
 
 export type PostCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverAlt?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -369,7 +548,17 @@ export type PostCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type PostAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 export type PostMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverAlt?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -382,6 +571,12 @@ export type PostMaxOrderByAggregateInput = {
 }
 
 export type PostMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverAlt?: Prisma.SortOrder
+  seoTitle?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -393,13 +588,173 @@ export type PostMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type PostSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
+export type PostScalarRelationFilter = {
+  is?: Prisma.PostWhereInput
+  isNot?: Prisma.PostWhereInput
+}
+
+export type PostCreatetagsInput = {
+  set: string[]
+}
+
+export type PostUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type EnumPostStatusFieldUpdateOperationsInput = {
   set?: $Enums.PostStatus
 }
 
+export type PostCreateNestedOneWithoutRevisionsInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutRevisionsInput, Prisma.PostUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutRevisionsInput
+  connect?: Prisma.PostWhereUniqueInput
+}
+
+export type PostUpdateOneRequiredWithoutRevisionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutRevisionsInput, Prisma.PostUncheckedCreateWithoutRevisionsInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutRevisionsInput
+  upsert?: Prisma.PostUpsertWithoutRevisionsInput
+  connect?: Prisma.PostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutRevisionsInput, Prisma.PostUpdateWithoutRevisionsInput>, Prisma.PostUncheckedUpdateWithoutRevisionsInput>
+}
+
+export type PostCreateWithoutRevisionsInput = {
+  version?: number
+  author?: string
+  coverUrl?: string
+  coverAlt?: string
+  tags?: Prisma.PostCreatetagsInput | string[]
+  seoTitle?: string
+  seoDescription?: string
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  body: string
+  status?: $Enums.PostStatus
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PostUncheckedCreateWithoutRevisionsInput = {
+  version?: number
+  author?: string
+  coverUrl?: string
+  coverAlt?: string
+  tags?: Prisma.PostCreatetagsInput | string[]
+  seoTitle?: string
+  seoDescription?: string
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  body: string
+  status?: $Enums.PostStatus
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PostCreateOrConnectWithoutRevisionsInput = {
+  where: Prisma.PostWhereUniqueInput
+  create: Prisma.XOR<Prisma.PostCreateWithoutRevisionsInput, Prisma.PostUncheckedCreateWithoutRevisionsInput>
+}
+
+export type PostUpsertWithoutRevisionsInput = {
+  update: Prisma.XOR<Prisma.PostUpdateWithoutRevisionsInput, Prisma.PostUncheckedUpdateWithoutRevisionsInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutRevisionsInput, Prisma.PostUncheckedCreateWithoutRevisionsInput>
+  where?: Prisma.PostWhereInput
+}
+
+export type PostUpdateToOneWithWhereWithoutRevisionsInput = {
+  where?: Prisma.PostWhereInput
+  data: Prisma.XOR<Prisma.PostUpdateWithoutRevisionsInput, Prisma.PostUncheckedUpdateWithoutRevisionsInput>
+}
+
+export type PostUpdateWithoutRevisionsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  body?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PostUncheckedUpdateWithoutRevisionsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  coverUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  coverAlt?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.PostUpdatetagsInput | string[]
+  seoTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  body?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type PostCountOutputType
+ */
+
+export type PostCountOutputType = {
+  revisions: number
+}
+
+export type PostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  revisions?: boolean | PostCountOutputTypeCountRevisionsArgs
+}
+
+/**
+ * PostCountOutputType without action
+ */
+export type PostCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostCountOutputType
+   */
+  select?: Prisma.PostCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * PostCountOutputType without action
+ */
+export type PostCountOutputTypeCountRevisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostRevisionWhereInput
+}
 
 
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  author?: boolean
+  coverUrl?: boolean
+  coverAlt?: boolean
+  tags?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -409,9 +764,18 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  revisions?: boolean | Prisma.Post$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  author?: boolean
+  coverUrl?: boolean
+  coverAlt?: boolean
+  tags?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -424,6 +788,13 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
+  author?: boolean
+  coverUrl?: boolean
+  coverAlt?: boolean
+  tags?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -436,6 +807,13 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectScalar = {
+  version?: boolean
+  author?: boolean
+  coverUrl?: boolean
+  coverAlt?: boolean
+  tags?: boolean
+  seoTitle?: boolean
+  seoDescription?: boolean
   id?: boolean
   title?: boolean
   slug?: boolean
@@ -447,12 +825,27 @@ export type PostSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "body" | "status" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "author" | "coverUrl" | "coverAlt" | "tags" | "seoTitle" | "seoDescription" | "id" | "title" | "slug" | "excerpt" | "body" | "status" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  revisions?: boolean | Prisma.Post$revisionsArgs<ExtArgs>
+  _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type PostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PostIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Post"
-  objects: {}
+  objects: {
+    revisions: Prisma.$PostRevisionPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
+    author: string
+    coverUrl: string
+    coverAlt: string
+    tags: string[]
+    seoTitle: string
+    seoDescription: string
     id: string
     title: string
     slug: string
@@ -545,8 +938,8 @@ export interface PostDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * // Get first 10 Posts
    * const posts = await prisma.post.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const postWithIdOnly = await prisma.post.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const postWithVersionOnly = await prisma.post.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends PostFindManyArgs>(args?: Prisma.SelectSubset<T, PostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -590,9 +983,9 @@ export interface PostDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Create many Posts and only return the `id`
-   * const postWithIdOnly = await prisma.post.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many Posts and only return the `version`
+   * const postWithVersionOnly = await prisma.post.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -681,9 +1074,9 @@ export interface PostDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Update zero or more Posts and only return the `id`
-   * const postWithIdOnly = await prisma.post.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more Posts and only return the `version`
+   * const postWithVersionOnly = await prisma.post.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -856,6 +1249,7 @@ readonly fields: PostFieldRefs;
  */
 export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  revisions<T extends Prisma.Post$revisionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$revisionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostRevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -885,6 +1279,13 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Post model
  */
 export interface PostFieldRefs {
+  readonly version: Prisma.FieldRef<"Post", 'Int'>
+  readonly author: Prisma.FieldRef<"Post", 'String'>
+  readonly coverUrl: Prisma.FieldRef<"Post", 'String'>
+  readonly coverAlt: Prisma.FieldRef<"Post", 'String'>
+  readonly tags: Prisma.FieldRef<"Post", 'String[]'>
+  readonly seoTitle: Prisma.FieldRef<"Post", 'String'>
+  readonly seoDescription: Prisma.FieldRef<"Post", 'String'>
   readonly id: Prisma.FieldRef<"Post", 'String'>
   readonly title: Prisma.FieldRef<"Post", 'String'>
   readonly slug: Prisma.FieldRef<"Post", 'String'>
@@ -911,6 +1312,10 @@ export type PostFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * Filter, which Post to fetch.
    */
   where: Prisma.PostWhereUniqueInput
@@ -929,6 +1334,10 @@ export type PostFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * Filter, which Post to fetch.
    */
   where: Prisma.PostWhereUniqueInput
@@ -946,6 +1355,10 @@ export type PostFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Post
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
   /**
    * Filter, which Post to fetch.
    */
@@ -995,6 +1408,10 @@ export type PostFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * Filter, which Post to fetch.
    */
   where?: Prisma.PostWhereInput
@@ -1042,6 +1459,10 @@ export type PostFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Post
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
   /**
    * Filter, which Posts to fetch.
    */
@@ -1091,6 +1512,10 @@ export type PostCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * The data needed to create a Post.
    */
   data: Prisma.XOR<Prisma.PostCreateInput, Prisma.PostUncheckedCreateInput>
@@ -1138,6 +1563,10 @@ export type PostUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the Post
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
   /**
    * The data needed to update a Post.
    */
@@ -1205,6 +1634,10 @@ export type PostUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * The filter to search for the Post to update in case it exists.
    */
   where: Prisma.PostWhereUniqueInput
@@ -1231,6 +1664,10 @@ export type PostDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  /**
    * Filter which Post to delete.
    */
   where: Prisma.PostWhereUniqueInput
@@ -1251,6 +1688,30 @@ export type PostDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Post.revisions
+ */
+export type Post$revisionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostRevision
+   */
+  select?: Prisma.PostRevisionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PostRevision
+   */
+  omit?: Prisma.PostRevisionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostRevisionInclude<ExtArgs> | null
+  where?: Prisma.PostRevisionWhereInput
+  orderBy?: Prisma.PostRevisionOrderByWithRelationInput | Prisma.PostRevisionOrderByWithRelationInput[]
+  cursor?: Prisma.PostRevisionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostRevisionScalarFieldEnum | Prisma.PostRevisionScalarFieldEnum[]
+}
+
+/**
  * Post without action
  */
 export type PostDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1262,4 +1723,8 @@ export type PostDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Post
    */
   omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
 }

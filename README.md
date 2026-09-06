@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.8.3`
+**Current version:** `0.8.4`
 
 > **Project status:** Existing-module hardening. Version 0.8.0 demonstrates basic workflows; it is not a complete production product kit. Follow [MODULE_READINESS.md](docs/MODULE_READINESS.md). New modules and templates are paused.
 
@@ -158,3 +158,5 @@ Use `npm run doctor` for database/migration diagnostics and `npm run dev:local` 
 Product and commerce now include option SKUs, media/specifications, inventory history, checkout recovery and payment-aware fulfilment. See [scope and boundaries](docs/modules/PRODUCT_COMMERCE.md). Other existing modules remain under active hardening.
 
 Booking and hospitality now include policy configuration, retry-safe requests, quote checks, appointment moves and customer cancellation. [Scope and acceptance](docs/modules/BOOKING_HOSPITALITY.md).
+
+Publishing includes safe article blocks, metadata, scheduling and draft revision recovery. Operator cases include responsibility, notes and follow-up dates. Accounts include session controls. [Scope and acceptance](docs/modules/CONTENT_IDENTITY_OPERATIONS.md).

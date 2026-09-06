@@ -18,10 +18,16 @@ function ProductsIndex() {
   const deferredQuery = useDeferredValue(query.trim().toLowerCase())
   const visibleProducts = products.filter(
     (product) =>
-      (status === 'ALL' || product.status === status) &&
+      (status === 'ALL' ||
+        (status === 'RETIRED'
+          ? Boolean(product.archivedAt)
+          : !product.archivedAt && product.status === status)) &&
       (!deferredQuery ||
         product.name.toLowerCase().includes(deferredQuery) ||
-        product.slug.includes(deferredQuery)),
+        product.slug.includes(deferredQuery) ||
+        `${product.sku ?? ''} ${product.category}`
+          .toLowerCase()
+          .includes(deferredQuery)),
   )
   const isFiltered = Boolean(query) || status !== 'ALL'
 
@@ -39,7 +45,8 @@ function ProductsIndex() {
             Products
           </h1>
           <p className="mt-2 text-md text-tertiary">
-            Manage draft and published catalogue entries.
+            Manage product families, SKUs, publication, and stock. Showing the
+            latest 500 records.
           </p>
         </div>
         <Link
@@ -54,7 +61,7 @@ function ProductsIndex() {
         <Input
           autoComplete="off"
           label="Search products"
-          placeholder="Name or slug…"
+          placeholder="Name, SKU, collection or slug…"
           value={query}
           onChange={setQuery}
         />
@@ -70,6 +77,7 @@ function ProductsIndex() {
             onChange={(event) => setStatus(event.currentTarget.value)}
           >
             <option value="ALL">All statuses</option>
+            <option value="RETIRED">Retired</option>
             <option value="DRAFT">Draft</option>
             <option value="PUBLISHED">Published</option>
           </select>
@@ -149,7 +157,8 @@ function ProductsIndex() {
                       {product.name}
                     </Link>
                     <span className="mt-1 hidden truncate text-xs text-tertiary sm:block">
-                      /catalogue/{product.slug}
+                      {product.sku ?? 'No SKU'} · {product.stock} available
+                      {product.parentId ? ' · Option' : ''}
                     </span>
                   </th>
                   <td className="px-4 py-4 text-sm text-tertiary">
@@ -160,7 +169,11 @@ function ProductsIndex() {
                           : 'inline-flex rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary'
                       }
                     >
-                      {product.status === 'PUBLISHED' ? 'Published' : 'Draft'}
+                      {product.archivedAt
+                        ? 'Retired'
+                        : product.status === 'PUBLISHED'
+                          ? 'Published'
+                          : 'Draft'}
                     </span>
                   </td>
                   <td className="hidden px-4 py-4 text-sm text-tertiary md:table-cell">

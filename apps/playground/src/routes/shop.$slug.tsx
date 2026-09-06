@@ -1,3 +1,8 @@
+import {
+  ProductGallery,
+  ProductSpecifications,
+} from '../components/product-information'
+import { controlClass } from '../components/workflow'
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
 import { getStoreProduct } from '../commerce.functions'
@@ -23,6 +28,8 @@ function Product() {
   const p = Route.useLoaderData(),
     cart = useCart()
   const [added, setAdded] = useState(false)
+  const [optionId, setOptionId] = useState(p.options[0]?.id ?? p.id)
+  const selection = p.options.find((option) => option.id === optionId) ?? p
   return (
     <section>
       <Link
@@ -32,21 +39,16 @@ function Product() {
         ← The collection
       </Link>
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        {p.imageUrl ? (
-          <img
-            src={p.imageUrl}
-            alt={p.name}
-            className="aspect-square w-full rounded-xl bg-secondary object-cover"
-            referrerPolicy="no-referrer"
-          />
-        ) : (
-          <div
-            className="flex aspect-square items-center justify-center rounded-xl bg-secondary text-display-xl text-quaternary"
-            aria-hidden="true"
-          >
-            {p.name[0]}
-          </div>
-        )}
+        <ProductGallery
+          images={
+            p.gallery.length
+              ? p.gallery
+              : p.imageUrl
+                ? [{ url: p.imageUrl, alt: p.name }]
+                : []
+          }
+          name={p.name}
+        />
         <div>
           <p className="text-sm font-semibold text-brand-secondary">
             {p.category}
@@ -56,19 +58,39 @@ function Product() {
           </h1>
           <p className="text-xl text-tertiary">{p.summary}</p>
           <p className="my-6 text-display-xs font-semibold text-primary">
-            {money(p.price)}
+            {money(selection.price)}
           </p>
           <p className="mb-5 text-sm text-tertiary">
-            {p.stock ? `${p.stock} in stock` : 'Sold out'}
+            {selection.stock ? `${selection.stock} in stock` : 'Sold out'}
           </p>
+          {p.options.length > 0 && (
+            <label className="mb-5 grid gap-2 text-sm font-medium text-secondary">
+              Choose an option
+              <select
+                className={controlClass}
+                value={optionId}
+                onChange={(event) => {
+                  setOptionId(event.target.value)
+                  setAdded(false)
+                }}
+              >
+                {p.options.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.optionLabel} · {money(option.price)}
+                    {!option.stock ? ' · Sold out' : ''}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <Button
-            isDisabled={!p.stock}
+            isDisabled={!selection.stock}
             onPress={() => {
               cart.add({
-                productId: p.id,
-                name: p.name,
-                slug: p.slug,
-                price: p.price,
+                productId: selection.id,
+                name: selection.name,
+                slug: selection.slug,
+                price: selection.price,
               })
               setAdded(true)
             }}
@@ -83,6 +105,7 @@ function Product() {
               </Link>
             </p>
           )}
+          <ProductSpecifications {...p} sku={selection.sku} />
           <p className="mt-10 whitespace-pre-wrap leading-7 text-tertiary">
             {p.description}
           </p>

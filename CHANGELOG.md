@@ -1,3 +1,11 @@
+# 0.8.2 - Deepen product, inventory and order workflows
+
+- Add structured product media/specifications, SKU and metadata, draft copies, retirement, stale-edit protection and independently stocked options.
+- Record inventory adjustments, orders and cancellations in a movement ledger; preserve related history.
+- Require payment before fulfilment, record offline payment and tracking, and show order history.
+- Snapshot configurable shipping/tax totals and safely recover interrupted checkout attempts.
+- Add isolated local production integration tests covering concurrency, history, option visibility and retry recovery.
+
 # 0.8.1 - Repair local runtime and safe error handling
 
 - Add working PostgreSQL diagnostics and managed Windows/WSL loopback connectivity.

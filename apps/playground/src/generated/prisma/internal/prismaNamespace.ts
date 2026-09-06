@@ -404,7 +404,10 @@ export const ModelName = {
   Reservation: 'Reservation',
   BookingRequest: 'BookingRequest',
   Product: 'Product',
+  InventoryMovement: 'InventoryMovement',
+  AuditEvent: 'AuditEvent',
   Order: 'Order',
+  ClosedCheckoutKey: 'ClosedCheckoutKey',
   PaymentEvent: 'PaymentEvent',
   OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
@@ -433,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "order" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
+    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "inventoryMovement" | "auditEvent" | "order" | "closedCheckoutKey" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -955,6 +958,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InventoryMovement: {
+      payload: Prisma.$InventoryMovementPayload<ExtArgs>
+      fields: Prisma.InventoryMovementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InventoryMovementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InventoryMovementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        findFirst: {
+          args: Prisma.InventoryMovementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InventoryMovementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        findMany: {
+          args: Prisma.InventoryMovementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>[]
+        }
+        create: {
+          args: Prisma.InventoryMovementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        createMany: {
+          args: Prisma.InventoryMovementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InventoryMovementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>[]
+        }
+        delete: {
+          args: Prisma.InventoryMovementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        update: {
+          args: Prisma.InventoryMovementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        deleteMany: {
+          args: Prisma.InventoryMovementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InventoryMovementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InventoryMovementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>[]
+        }
+        upsert: {
+          args: Prisma.InventoryMovementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InventoryMovementPayload>
+        }
+        aggregate: {
+          args: Prisma.InventoryMovementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventoryMovement>
+        }
+        groupBy: {
+          args: Prisma.InventoryMovementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryMovementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InventoryMovementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InventoryMovementCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuditEvent: {
+      payload: Prisma.$AuditEventPayload<ExtArgs>
+      fields: Prisma.AuditEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        findFirst: {
+          args: Prisma.AuditEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        findMany: {
+          args: Prisma.AuditEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>[]
+        }
+        create: {
+          args: Prisma.AuditEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        createMany: {
+          args: Prisma.AuditEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>[]
+        }
+        delete: {
+          args: Prisma.AuditEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        update: {
+          args: Prisma.AuditEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEventPayload>
+        }
+        aggregate: {
+          args: Prisma.AuditEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditEvent>
+        }
+        groupBy: {
+          args: Prisma.AuditEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditEventCountAggregateOutputType> | number
+        }
+      }
+    }
     Order: {
       payload: Prisma.$OrderPayload<ExtArgs>
       fields: Prisma.OrderFieldRefs
@@ -1026,6 +1177,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrderCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrderCountAggregateOutputType> | number
+        }
+      }
+    }
+    ClosedCheckoutKey: {
+      payload: Prisma.$ClosedCheckoutKeyPayload<ExtArgs>
+      fields: Prisma.ClosedCheckoutKeyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClosedCheckoutKeyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClosedCheckoutKeyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        findFirst: {
+          args: Prisma.ClosedCheckoutKeyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClosedCheckoutKeyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        findMany: {
+          args: Prisma.ClosedCheckoutKeyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>[]
+        }
+        create: {
+          args: Prisma.ClosedCheckoutKeyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        createMany: {
+          args: Prisma.ClosedCheckoutKeyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClosedCheckoutKeyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>[]
+        }
+        delete: {
+          args: Prisma.ClosedCheckoutKeyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        update: {
+          args: Prisma.ClosedCheckoutKeyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClosedCheckoutKeyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClosedCheckoutKeyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClosedCheckoutKeyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClosedCheckoutKeyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClosedCheckoutKeyPayload>
+        }
+        aggregate: {
+          args: Prisma.ClosedCheckoutKeyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClosedCheckoutKey>
+        }
+        groupBy: {
+          args: Prisma.ClosedCheckoutKeyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClosedCheckoutKeyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClosedCheckoutKeyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClosedCheckoutKeyCountAggregateOutputType> | number
         }
       }
     }
@@ -2130,10 +2355,49 @@ export const ProductScalarFieldEnum = {
   stock: 'stock',
   forSale: 'forSale',
   category: 'category',
-  imageUrl: 'imageUrl'
+  imageUrl: 'imageUrl',
+  sku: 'sku',
+  brand: 'brand',
+  unit: 'unit',
+  tags: 'tags',
+  gallery: 'gallery',
+  specifications: 'specifications',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  version: 'version',
+  archivedAt: 'archivedAt',
+  parentId: 'parentId',
+  optionLabel: 'optionLabel'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const InventoryMovementScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  delta: 'delta',
+  balance: 'balance',
+  reason: 'reason',
+  actorId: 'actorId',
+  reference: 'reference',
+  createdAt: 'createdAt'
+} as const
+
+export type InventoryMovementScalarFieldEnum = (typeof InventoryMovementScalarFieldEnum)[keyof typeof InventoryMovementScalarFieldEnum]
+
+
+export const AuditEventScalarFieldEnum = {
+  id: 'id',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  action: 'action',
+  actorId: 'actorId',
+  summary: 'summary',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditEventScalarFieldEnum = (typeof AuditEventScalarFieldEnum)[keyof typeof AuditEventScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {
@@ -2144,16 +2408,31 @@ export const OrderScalarFieldEnum = {
   email: 'email',
   address: 'address',
   totalAmount: 'totalAmount',
+  subtotal: 'subtotal',
+  shippingFee: 'shippingFee',
+  taxAmount: 'taxAmount',
   currency: 'currency',
   status: 'status',
   paid: 'paid',
   paymentPending: 'paymentPending',
   paymentStartedAt: 'paymentStartedAt',
   paymentSessionId: 'paymentSessionId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  carrier: 'carrier',
+  trackingNumber: 'trackingNumber',
+  fulfilledAt: 'fulfilledAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const ClosedCheckoutKeyScalarFieldEnum = {
+  requestHash: 'requestHash',
+  createdAt: 'createdAt'
+} as const
+
+export type ClosedCheckoutKeyScalarFieldEnum = (typeof ClosedCheckoutKeyScalarFieldEnum)[keyof typeof ClosedCheckoutKeyScalarFieldEnum]
 
 
 export const PaymentEventScalarFieldEnum = {
@@ -2308,12 +2587,28 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -2404,6 +2699,20 @@ export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'BookingStatus[]'
  */
 export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -2606,7 +2915,10 @@ export type GlobalOmitConfig = {
   reservation?: Prisma.ReservationOmit
   bookingRequest?: Prisma.BookingRequestOmit
   product?: Prisma.ProductOmit
+  inventoryMovement?: Prisma.InventoryMovementOmit
+  auditEvent?: Prisma.AuditEventOmit
   order?: Prisma.OrderOmit
+  closedCheckoutKey?: Prisma.ClosedCheckoutKeyOmit
   paymentEvent?: Prisma.PaymentEventOmit
   orderLine?: Prisma.OrderLineOmit
   enquiry?: Prisma.EnquiryOmit

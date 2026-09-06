@@ -22,6 +22,9 @@ export const checkoutSchema = z.object({
 })
 export const saleInputSchema = z.object({
   productId: z.uuid(),
+  expectedVersion: z.number().int().min(1),
+  expectedStock: z.number().int().min(0),
+  reason: z.string().trim().min(5).max(200),
   price: z.number().int().min(0).max(10_000_000),
   stock: z.number().int().min(0).max(1_000_000),
   forSale: z.boolean(),
@@ -49,3 +52,21 @@ export function canTransitionOrder(from: string, to: string) {
   return from === 'PLACED' && (to === 'FULFILLED' || to === 'CANCELLED')
 }
 export type CartLine = z.infer<typeof cartLineSchema>
+
+export function checkoutTotals(
+  subtotal: number,
+  shippingFee: number,
+  taxBasisPoints: number,
+) {
+  for (const value of [subtotal, shippingFee, taxBasisPoints])
+    if (!Number.isSafeInteger(value) || value < 0)
+      throw new Error('Invalid pricing policy')
+  if (taxBasisPoints > 10000) throw new Error('Invalid tax rate')
+  const taxAmount = Math.round((subtotal * taxBasisPoints) / 10000),
+    totalAmount = orderTotal([
+      { quantity: 1, price: subtotal },
+      { quantity: 1, price: shippingFee },
+      { quantity: 1, price: taxAmount },
+    ])
+  return { subtotal, shippingFee, taxAmount, totalAmount }
+}

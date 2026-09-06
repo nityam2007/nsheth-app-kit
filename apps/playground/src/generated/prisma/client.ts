@@ -77,10 +77,25 @@ export type BookingRequest = Prisma.BookingRequestModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model InventoryMovement
+ * 
+ */
+export type InventoryMovement = Prisma.InventoryMovementModel
+/**
+ * Model AuditEvent
+ * 
+ */
+export type AuditEvent = Prisma.AuditEventModel
+/**
  * Model Order
  * 
  */
 export type Order = Prisma.OrderModel
+/**
+ * Model ClosedCheckoutKey
+ * 
+ */
+export type ClosedCheckoutKey = Prisma.ClosedCheckoutKeyModel
 /**
  * Model PaymentEvent
  * 

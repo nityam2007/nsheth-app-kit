@@ -20,6 +20,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const parsed = z
         .array(storedLine)
         .max(50)
+        .refine(
+          (lines) =>
+            new Set(lines.map((line) => line.productId)).size === lines.length,
+        )
         .safeParse(JSON.parse(localStorage.getItem('nsheth-cart') ?? '[]'))
       if (parsed.success) store.setState(() => parsed.data)
     } catch {

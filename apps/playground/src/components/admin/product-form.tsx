@@ -1,3 +1,5 @@
+import { StructuredRows } from '../structured-rows'
+import { errorMessage } from '../../errors'
 import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useEffect, useRef, useState } from 'react'
@@ -13,7 +15,7 @@ import type { ProductInput } from '@nsheth/product'
 
 interface ProductFormProps {
   currentSlug?: string
-  initial?: ProductInput
+  initial?: ProductInput & { version?: number }
 }
 
 export function ProductForm({ currentSlug, initial }: ProductFormProps) {
@@ -50,6 +52,24 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
       summary: String(formData.get('summary') ?? ''),
       description: String(formData.get('description') ?? ''),
       status: formData.get('status') === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
+      sku: String(formData.get('sku') ?? ''),
+      brand: String(formData.get('brand') ?? ''),
+      unit: String(formData.get('unit') ?? 'piece'),
+      category: String(formData.get('category') ?? ''),
+      tags: [
+        ...new Set(
+          String(formData.get('tags') ?? '')
+            .split(',')
+            .map((value) => value.trim())
+            .filter(Boolean),
+        ),
+      ],
+      gallery: JSON.parse(String(formData.get('gallery') ?? '[]')),
+      specifications: JSON.parse(
+        String(formData.get('specifications') ?? '[]'),
+      ),
+      seoTitle: String(formData.get('seoTitle') ?? ''),
+      seoDescription: String(formData.get('seoDescription') ?? ''),
     }
 
     setError('')
@@ -57,16 +77,27 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
 
     try {
       const product = currentSlug
-        ? await updateProduct({ data: { ...data, currentSlug } })
+        ? await updateProduct({
+            data: {
+              ...data,
+              currentSlug,
+              expectedVersion: initial?.version ?? 1,
+            },
+          })
         : await createProduct({ data })
       bypassBlocker.current = true
       await navigate({
         to: '/admin/products/$slug',
         params: { slug: product.slug },
       })
-    } catch {
+    } catch (failure) {
       bypassBlocker.current = false
-      setError('Could not save this product. Check the fields and slug.')
+      setError(
+        errorMessage(
+          error,
+          'Could not save this product. Check the fields and slug.',
+        ),
+      )
     } finally {
       setIsSaving(false)
     }
@@ -120,6 +151,89 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
         name="description"
         rows={16}
       />
+      <fieldset className="grid gap-5 rounded-xl border border-secondary p-5">
+        <legend className="px-2 font-semibold text-primary">
+          Identity & classification
+        </legend>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Input
+            name="sku"
+            label="SKU"
+            defaultValue={initial?.sku}
+            maxLength={80}
+            hint="Unique across products and options."
+          />
+          <Input
+            name="brand"
+            label="Brand"
+            defaultValue={initial?.brand}
+            maxLength={100}
+          />
+          <Input
+            name="unit"
+            label="Selling unit"
+            defaultValue={initial?.unit ?? 'piece'}
+            isRequired
+            maxLength={30}
+          />
+          <Input
+            name="category"
+            label="Collection"
+            defaultValue={initial?.category}
+            maxLength={100}
+          />
+        </div>
+        <Input
+          name="tags"
+          label="Tags"
+          defaultValue={initial?.tags.join(', ')}
+          hint="Comma-separated; up to 15 tags."
+          maxLength={650}
+        />
+      </fieldset>
+      <StructuredRows
+        name="gallery"
+        title="Gallery"
+        initial={initial?.gallery}
+        fields={[
+          {
+            key: 'url',
+            label: 'HTTPS image URL',
+            type: 'url',
+            maxLength: 2000,
+          },
+          { key: 'alt', label: 'Image description', maxLength: 200 },
+        ]}
+      />
+      <StructuredRows
+        name="specifications"
+        title="Specifications"
+        initial={initial?.specifications}
+        limit={30}
+        fields={[
+          { key: 'label', label: 'Specification', maxLength: 80 },
+          { key: 'value', label: 'Value', maxLength: 300 },
+        ]}
+      />
+      <fieldset className="grid gap-5 rounded-xl border border-secondary p-5">
+        <legend className="px-2 font-semibold text-primary">
+          Search appearance
+        </legend>
+        <Input
+          name="seoTitle"
+          label="Search title"
+          defaultValue={initial?.seoTitle}
+          maxLength={70}
+          hint="Leave empty to use the product name."
+        />
+        <TextArea
+          name="seoDescription"
+          label="Search description"
+          defaultValue={initial?.seoDescription}
+          maxLength={170}
+          rows={3}
+        />
+      </fieldset>
       <label
         className="grid gap-1.5 text-sm font-medium text-secondary"
         htmlFor="product-status"

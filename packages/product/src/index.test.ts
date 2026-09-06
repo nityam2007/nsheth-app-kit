@@ -35,3 +35,31 @@ test('validates and normalizes enquiry input', () => {
     false,
   )
 })
+
+test('reject unsafe media and duplicate specification labels', () => {
+  assert.equal(
+    productInputSchema.safeParse({
+      name: 'Product',
+      slug: 'product',
+      summary: 'Test',
+      description: 'Test',
+      status: 'DRAFT',
+      gallery: [{ url: 'javascript:alert(1)', alt: 'Example' }],
+    }).success,
+    false,
+  )
+  assert.equal(
+    productInputSchema.safeParse({
+      name: 'Product',
+      slug: 'product',
+      summary: 'Test',
+      description: 'Test',
+      status: 'DRAFT',
+      specifications: [
+        { label: 'Size', value: 'Large' },
+        { label: 'size', value: 'Small' },
+      ],
+    }).success,
+    false,
+  )
+})

@@ -4,6 +4,8 @@
 
 Follow [MODULE_READINESS.md](MODULE_READINESS.md). Historical completed sections describe demonstrated slices, not complete product modules. New modules and templates are paused. Browser use is prohibited.
 
+Product/commerce workflow depth is implemented in 0.8.2; see [its plan and boundaries](modules/PRODUCT_COMMERCE.md). Next: booking/hospitality workflow depth. Keep repairs in the 0.8.x series.
+
 ## Completed: Foundation Scaffold
 
 - [x] Read the original brief and NSheth brand source.

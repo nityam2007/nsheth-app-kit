@@ -1,3 +1,7 @@
+import {
+  ProductGallery,
+  ProductSpecifications,
+} from '../components/product-information'
 import { ArrowLeft } from '@untitledui/icons'
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
@@ -19,8 +23,13 @@ export const Route = createFileRoute('/catalogue/$slug')({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.name} | NSheth App Kit` },
-          { name: 'description', content: loaderData.summary },
+          {
+            title: `${loaderData.seoTitle || loaderData.name} | NSheth App Kit`,
+          },
+          {
+            name: 'description',
+            content: loaderData.seoDescription || loaderData.summary,
+          },
         ]
       : [],
   }),
@@ -32,7 +41,7 @@ function ProductDetail() {
   const submitEnquiry = useServerFn(submitProductEnquiry)
   const [error, setError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState('')
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -40,11 +49,11 @@ function ProductDetail() {
     const formData = new FormData(form)
 
     setError('')
-    setSubmitted(false)
+    setSubmitted('')
     setIsSaving(true)
 
     try {
-      await submitEnquiry({
+      const result = await submitEnquiry({
         data: {
           productId: product.id,
           name: String(formData.get('name') ?? ''),
@@ -54,7 +63,7 @@ function ProductDetail() {
         },
       })
       form.reset()
-      setSubmitted(true)
+      setSubmitted(result.reference)
     } catch {
       setError('Could not send this request. Check the fields and try again.')
     } finally {
@@ -75,7 +84,17 @@ function ProductDetail() {
 
         <div className="mt-10 grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_25rem] lg:gap-20">
           <div>
-            <header className="border-b border-secondary pb-10">
+            <ProductGallery
+              images={
+                product.gallery.length
+                  ? product.gallery
+                  : product.imageUrl
+                    ? [{ url: product.imageUrl, alt: product.name }]
+                    : []
+              }
+              name={product.name}
+            />
+            <header className="mt-8 border-b border-secondary pb-10">
               <p className="text-sm font-semibold text-brand-secondary">
                 Product
               </p>
@@ -86,6 +105,25 @@ function ProductDetail() {
                 {product.summary}
               </p>
             </header>
+            <ProductSpecifications {...product} />
+            {product.options.length > 0 && (
+              <section className="mt-6">
+                <h2 className="font-semibold text-primary">
+                  Available options
+                </h2>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {product.options.map((option) => (
+                    <a
+                      className="rounded-lg border border-secondary px-4 py-3 text-brand-secondary"
+                      key={option.slug}
+                      href={`/catalogue/${option.slug}`}
+                    >
+                      {option.optionLabel}
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
             <div className="mt-10 max-w-3xl whitespace-pre-wrap text-md leading-8 text-secondary sm:text-lg">
               {product.description}
             </div>
@@ -149,7 +187,7 @@ function ProductDetail() {
                 ) : null}
                 {submitted ? (
                   <p className="m-0 text-sm font-medium text-success-primary">
-                    Request received.
+                    Request received. Reference: {submitted}
                   </p>
                 ) : null}
               </div>

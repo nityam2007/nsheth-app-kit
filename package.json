@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -21,7 +21,8 @@
     "dev:local": "node scripts/dev-local.mjs",
     "doctor": "node --import tsx scripts/doctor.mts",
     "db:local": "node scripts/db-local.mjs",
-    "test:http": "node --import tsx scripts/http-smoke.mts"
+    "test:http": "node --import tsx scripts/http-smoke.mts",
+    "test:integration:local": "node scripts/integration-local.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

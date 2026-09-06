@@ -19,12 +19,16 @@ function Sale() {
         description="Only published products marked for sale appear in the shop. Stock is the remaining sellable quantity."
       />
       <ActionForm
+        key={p.version}
         guard
         label="Save commerce settings"
         action={(f) =>
           save({
             data: {
               productId: p.id,
+              expectedVersion: p.version,
+              expectedStock: p.stock,
+              reason: String(f.get('reason')),
               price: Math.round(Number(f.get('price')) * 100),
               stock: Number(f.get('stock')),
               forSale: f.get('forSale') === 'true',
@@ -52,6 +56,14 @@ function Sale() {
           max={1000000}
           defaultValue={String(p.stock)}
           isRequired
+        />
+        <Input
+          name="reason"
+          label="Reason for this change"
+          hint="For example: Goods received, stock count, or price correction."
+          isRequired
+          minLength={5}
+          maxLength={200}
         />
         <Input
           name="category"

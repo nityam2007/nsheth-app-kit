@@ -137,6 +137,14 @@ export async function receivePaymentEvent(request: Request) {
           ...(paid ? { paid: true } : {}),
         },
       })
+      await tx.auditEvent.create({
+        data: {
+          entityType: 'order',
+          entityId: orderId,
+          action: paid ? 'payment-settled' : 'payment-expired',
+          summary: paid ? 'Stripe payment settled' : 'Stripe checkout expired',
+        },
+      })
       await tx.paymentEvent.create({
         data: { id: event.id, type: event.type, orderId },
       })

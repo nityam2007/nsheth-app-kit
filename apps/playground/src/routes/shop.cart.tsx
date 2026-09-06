@@ -1,3 +1,4 @@
+import { Button } from '../components/base/buttons/button'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useServerFn } from '@tanstack/react-start'
@@ -11,7 +12,7 @@ import {
 } from '../components/workflow'
 import { Input } from '../components/base/input/input'
 import { TextArea } from '../components/base/textarea/textarea'
-import { placeOrder, quoteCart } from '../commerce.functions'
+import { placeOrder, quoteCart, recoverCheckout } from '../commerce.functions'
 import { money } from '../money'
 import { startPayment } from '../payments.functions'
 
@@ -19,8 +20,11 @@ export const Route = createFileRoute('/shop/cart')({ component: Cart })
 function Cart() {
   const { lines, setQuantity, clear } = useCart(),
     place = useServerFn(placeOrder),
-    pay = useServerFn(startPayment)
+    pay = useServerFn(startPayment),
+    recover = useServerFn(recoverCheckout)
   const key = useRef('')
+  const [attempted, setAttempted] = useState(false)
+  const [recoveryMessage, setRecoveryMessage] = useState('')
   const [onlinePayment, setOnlinePayment] = useState(false)
   const [receipt, setReceipt] = useState<{
     reference: string
@@ -155,10 +159,49 @@ function Cart() {
                   : 'Checking prices and stock…'}
               </p>
             )}
-            <p className="text-sm text-tertiary">
-              Listed prices include delivery and applicable taxes for this demo.
-              Configure your store’s pricing policy before launch.
-            </p>
+            {quote.data && (
+              <dl className="mb-5 grid grid-cols-2 gap-3 text-sm text-tertiary">
+                <dt>Items</dt>
+                <dd>{money(quote.data.subtotal)}</dd>
+                <dt>Delivery</dt>
+                <dd>{money(quote.data.shippingFee)}</dd>
+                <dt>Tax</dt>
+                <dd>{money(quote.data.taxAmount)}</dd>
+              </dl>
+            )}
+            <Button color="secondary" onPress={() => void quote.refetch()}>
+              Refresh prices & availability
+            </Button>
+            {attempted && (
+              <div className="mt-5">
+                <ActionForm
+                  label="Recover last checkout"
+                  action={async () => {
+                    const found = await recover({ data: { key: key.current } })
+                    if (found) {
+                      setReceipt(found)
+                      clear()
+                    } else {
+                      key.current = ''
+                      setAttempted(false)
+                      setRecoveryMessage(
+                        'No order was created. You can edit your details and place a new order.',
+                      )
+                    }
+                  }}
+                >
+                  <p className="text-sm text-tertiary">
+                    If checkout was interrupted, recover the original order
+                    before starting again.
+                  </p>
+                </ActionForm>
+              </div>
+            )}
+            {recoveryMessage && (
+              <p role="status" className="mt-4 text-brand-secondary">
+                {recoveryMessage}
+              </p>
+            )}
           </section>
           <section className="rounded-xl border border-secondary bg-secondary p-6">
             <h2 className="mb-6 text-xl font-semibold text-primary">
@@ -173,6 +216,7 @@ function Cart() {
                   crypto.getRandomValues(new Uint8Array(32)),
                   (b) => b.toString(16).padStart(2, '0'),
                 ).join('')
+                setAttempted(true)
                 const result = await place({
                   data: {
                     key: key.current,

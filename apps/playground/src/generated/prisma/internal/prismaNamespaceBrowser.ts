@@ -58,7 +58,10 @@ export const ModelName = {
   Reservation: 'Reservation',
   BookingRequest: 'BookingRequest',
   Product: 'Product',
+  InventoryMovement: 'InventoryMovement',
+  AuditEvent: 'AuditEvent',
   Order: 'Order',
+  ClosedCheckoutKey: 'ClosedCheckoutKey',
   PaymentEvent: 'PaymentEvent',
   OrderLine: 'OrderLine',
   Enquiry: 'Enquiry',
@@ -190,10 +193,49 @@ export const ProductScalarFieldEnum = {
   stock: 'stock',
   forSale: 'forSale',
   category: 'category',
-  imageUrl: 'imageUrl'
+  imageUrl: 'imageUrl',
+  sku: 'sku',
+  brand: 'brand',
+  unit: 'unit',
+  tags: 'tags',
+  gallery: 'gallery',
+  specifications: 'specifications',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  version: 'version',
+  archivedAt: 'archivedAt',
+  parentId: 'parentId',
+  optionLabel: 'optionLabel'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const InventoryMovementScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  delta: 'delta',
+  balance: 'balance',
+  reason: 'reason',
+  actorId: 'actorId',
+  reference: 'reference',
+  createdAt: 'createdAt'
+} as const
+
+export type InventoryMovementScalarFieldEnum = (typeof InventoryMovementScalarFieldEnum)[keyof typeof InventoryMovementScalarFieldEnum]
+
+
+export const AuditEventScalarFieldEnum = {
+  id: 'id',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  action: 'action',
+  actorId: 'actorId',
+  summary: 'summary',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditEventScalarFieldEnum = (typeof AuditEventScalarFieldEnum)[keyof typeof AuditEventScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {
@@ -204,16 +246,31 @@ export const OrderScalarFieldEnum = {
   email: 'email',
   address: 'address',
   totalAmount: 'totalAmount',
+  subtotal: 'subtotal',
+  shippingFee: 'shippingFee',
+  taxAmount: 'taxAmount',
   currency: 'currency',
   status: 'status',
   paid: 'paid',
   paymentPending: 'paymentPending',
   paymentStartedAt: 'paymentStartedAt',
   paymentSessionId: 'paymentSessionId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  carrier: 'carrier',
+  trackingNumber: 'trackingNumber',
+  fulfilledAt: 'fulfilledAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const ClosedCheckoutKeyScalarFieldEnum = {
+  requestHash: 'requestHash',
+  createdAt: 'createdAt'
+} as const
+
+export type ClosedCheckoutKeyScalarFieldEnum = (typeof ClosedCheckoutKeyScalarFieldEnum)[keyof typeof ClosedCheckoutKeyScalarFieldEnum]
 
 
 export const PaymentEventScalarFieldEnum = {
@@ -368,12 +425,28 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {

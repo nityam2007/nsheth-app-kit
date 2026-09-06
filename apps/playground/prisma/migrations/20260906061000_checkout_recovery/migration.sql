@@ -1,0 +1,3 @@
+ALTER TABLE "Order" ADD COLUMN "subtotal" INTEGER NOT NULL DEFAULT 0, ADD COLUMN "shippingFee" INTEGER NOT NULL DEFAULT 0, ADD COLUMN "taxAmount" INTEGER NOT NULL DEFAULT 0;
+UPDATE "Order" SET "subtotal"="totalAmount";
+CREATE TABLE "ClosedCheckoutKey" ("requestHash" TEXT NOT NULL,"createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,CONSTRAINT "ClosedCheckoutKey_pkey" PRIMARY KEY ("requestHash"));

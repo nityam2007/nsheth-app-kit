@@ -1,4 +1,8 @@
-import { createStart, createMiddleware } from '@tanstack/react-start'
+import {
+  createStart,
+  createMiddleware,
+  createCsrfMiddleware,
+} from '@tanstack/react-start'
 import { isRedirect, isNotFound } from '@tanstack/react-router'
 import {
   setResponseHeader,
@@ -51,5 +55,10 @@ const securityHeaders = createMiddleware().server(async ({ next }) => {
 })
 export const startInstance = createStart(() => ({
   functionMiddleware: [safeErrors],
-  requestMiddleware: [securityHeaders],
+  requestMiddleware: [
+    securityHeaders,
+    createCsrfMiddleware({
+      filter: (context) => context.handlerType === 'serverFn',
+    }),
+  ],
 }))

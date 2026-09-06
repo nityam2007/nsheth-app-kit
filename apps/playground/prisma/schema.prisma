@@ -119,8 +119,48 @@ model Product {
   category String @default("")
   imageUrl String @default("")
   orderLines OrderLine[]
+  sku String? @unique
+  brand String @default("")
+  unit String @default("piece")
+  tags String[] @default([])
+  gallery Json @default("[]")
+  specifications Json @default("[]")
+  seoTitle String @default("")
+  seoDescription String @default("")
+  version Int @default(1)
+  archivedAt DateTime?
+  parentId String? @db.Uuid
+  optionLabel String @default("")
+  parent Product? @relation("ProductOptions", fields:[parentId], references:[id], onDelete:Restrict)
+  options Product[] @relation("ProductOptions")
+  movements InventoryMovement[]
 
   @@index([status, publishedAt])
+  @@index([parentId])
+}
+
+model InventoryMovement {
+  id String @id @default(uuid()) @db.Uuid
+  productId String @db.Uuid
+  delta Int
+  balance Int
+  reason String
+  actorId String?
+  reference String?
+  createdAt DateTime @default(now())
+  product Product @relation(fields:[productId],references:[id],onDelete:Restrict)
+  @@index([productId,createdAt])
+}
+
+model AuditEvent {
+  id String @id @default(uuid()) @db.Uuid
+  entityType String
+  entityId String
+  action String
+  actorId String?
+  summary String
+  createdAt DateTime @default(now())
+  @@index([entityType,entityId,createdAt])
 }
 
 enum OrderStatus {
@@ -137,6 +177,9 @@ model Order {
   email String
   address String
   totalAmount Int
+  subtotal Int @default(0)
+  shippingFee Int @default(0)
+  taxAmount Int @default(0)
   currency String @default("INR")
   status OrderStatus @default(PLACED)
   paid Boolean @default(false)
@@ -145,6 +188,15 @@ model Order {
   paymentSessionId String? @unique
   createdAt DateTime @default(now())
   lines OrderLine[]
+  carrier String @default("")
+  trackingNumber String @default("")
+  fulfilledAt DateTime?
+  updatedAt DateTime @updatedAt
+}
+
+model ClosedCheckoutKey {
+  requestHash String @id
+  createdAt DateTime @default(now())
 }
 
 model PaymentEvent {

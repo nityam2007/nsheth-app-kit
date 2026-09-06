@@ -1,3 +1,10 @@
+# 0.8.1 - Repair local runtime and safe error handling
+
+- Add working PostgreSQL diagnostics and managed Windows/WSL loopback connectivity.
+- Add safe server errors, actionable form feedback, retry/loading/not-found boundaries, and security headers; outages no longer masquerade as login failures.
+- Add direct HTTP route and signed-in module checks. Disable development console forwarding.
+- Establish the no-browser policy and existing-module readiness plan; defer new modules and templates.
+
 # 0.8.0 - Deployment adapters and production integration checks
 
 - Add streaming Node/VPS server and Docker deployment, Cloudflare request-scoped database adapter, and native Vercel configuration.

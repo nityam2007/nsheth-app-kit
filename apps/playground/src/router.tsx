@@ -1,3 +1,8 @@
+import {
+  RouteError,
+  RouteNotFound,
+  RoutePending,
+} from './components/route-feedback'
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 
@@ -9,6 +14,9 @@ export function getRouter() {
 
   const router = createTanStackRouter({
     routeTree,
+    defaultErrorComponent: RouteError,
+    defaultNotFoundComponent: RouteNotFound,
+    defaultPendingComponent: RoutePending,
     context,
     scrollRestoration: true,
     defaultPreload: 'intent',

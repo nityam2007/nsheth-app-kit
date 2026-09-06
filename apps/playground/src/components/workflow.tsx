@@ -1,3 +1,4 @@
+import { errorMessage } from '../errors'
 import { useEffect, useRef, useState } from 'react'
 import { useBlocker, useRouter } from '@tanstack/react-router'
 import { Button } from './base/buttons/button'
@@ -76,6 +77,7 @@ export function ActionForm({
         setFailed(false)
         try {
           const destination = await action(new FormData(form))
+          if (destination === false) return
           saved.current = true
           setDirty(false)
           setMessage(success)
@@ -83,10 +85,13 @@ export function ActionForm({
           await router.invalidate()
           if (typeof destination === 'string')
             await router.navigate({ href: destination })
-        } catch {
+        } catch (error) {
           setFailed(true)
           setMessage(
-            'Could not complete this action. Check the fields and availability, then retry.',
+            errorMessage(
+              error,
+              'Could not complete this action. Check the fields and availability, then retry.',
+            ),
           )
         } finally {
           setPending(false)

@@ -1,3 +1,4 @@
+import { errorStatus } from '../errors'
 import {
   File06,
   Home01,
@@ -26,7 +27,8 @@ export const Route = createFileRoute('/admin')({
   beforeLoad: async () => {
     try {
       return await getAdminContext()
-    } catch {
+    } catch (error) {
+      if (errorStatus(error) !== 401) throw error
       throw redirect({ to: '/login' })
     }
   },

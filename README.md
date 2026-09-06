@@ -2,9 +2,9 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.8.0`
+**Current version:** `0.8.1`
 
-> **Project status:** Active development. Identity, admin, CMS/blog, catalogue/RFQ, and service booking are working. Hospitality and commerce are next.
+> **Project status:** Existing-module hardening. Version 0.8.0 demonstrates basic workflows; it is not a complete production product kit. Follow [MODULE_READINESS.md](docs/MODULE_READINESS.md). New modules and templates are paused.
 
 ![NSheth App Kit social preview](<./Social Preview.png>)
 
@@ -61,7 +61,7 @@ npm run dev
 
 Use **Run identity check** in the playground. In development, it creates a demo admin with identity, content, and product permissions, stores only a hash of the opaque session token, sets an HTTP-only cookie, and calls a protected server function. The server function independently verifies both the role and permission before returning identity data. That session also grants access to `/admin/posts` and `/admin/products`.
 
-The bootstrap endpoint is unavailable in production. A real OAuth or password provider is intentionally not selected until an application requires one.
+The bootstrap endpoint is unavailable in production. GitHub OAuth is implemented; configure and verify it using [AUTH.md](docs/AUTH.md).
 
 ## Repository
 
@@ -105,7 +105,7 @@ Reserved directories are not prebuilt modules. Functionality is added only when 
 - npm workspaces
 - ESLint and Prettier
 
-Hotkeys, Pacer, Turborepo, and optional domain packages remain unused until a real feature needs them. Turborepo becomes useful when a second runnable app or measured CI time justifies task orchestration and caching; npm workspaces are simpler today.
+Hotkeys and Pacer support workspace navigation and storefront search. Turborepo remains deferred until multiple apps or measured CI cost justify it.
 
 ## Architecture Principles
 
@@ -152,3 +152,5 @@ This is a custom source-available license, not an OSI-approved open-source licen
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md): licenses for adapted upstream source
 
 Deployment instructions: [Node/VPS, Vercel, and Cloudflare](docs/DEPLOYMENT.md). Run production database checks with `ALLOW_INTEGRATION_TESTS=1 npm run test:integration` against a disposable database after building.
+
+Use `npm run doctor` for database/migration diagnostics and `npm run dev:local` for managed local PostgreSQL connectivity, including Windows/WSL. See [local development](docs/LOCAL_DEVELOPMENT.md). Browser use is prohibited for this repository.

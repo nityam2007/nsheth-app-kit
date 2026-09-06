@@ -1,3 +1,4 @@
+import { errorStatus } from '../errors'
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { getAccount, signOut } from '../account.functions'
@@ -10,7 +11,8 @@ export const Route = createFileRoute('/account')({
   loader: async () => {
     try {
       return await getAccount()
-    } catch {
+    } catch (error) {
+      if (errorStatus(error) !== 401) throw error
       throw redirect({ to: '/login' })
     }
   },

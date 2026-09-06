@@ -35,7 +35,7 @@ Untitled UI React is cloned at `reference/repos/github.com/untitleduico/react/`.
 
 ## Known Gotchas
 
-- Browser regression tests: `npx playwright install firefox`, then `npx playwright test`; `TEST_URL` defaults to `http://localhost:3001`. Standalone browsers failed to launch on the development Windows host; use the in-app browser or CI for runtime checks.
+- Browser use and browser tests are prohibited by repository policy. Verify via direct HTTP, server integration tests, unit tests, and source inspection. Legacy Playwright files are not an approved verification path.
 
 - `npm audit` currently reports four high-severity transitive advisories under the Prisma CLI toolchain. Its automated fix downgrades Prisma across a major version, so it was not applied. Recheck after Prisma publishes a compatible fix.
 - npm may report pending install-script approvals for Prisma, esbuild, and `unrs-resolver`. Route and client generation currently succeed; review with `npm approve-scripts --allow-scripts-pending` if a clean-machine install blocks binaries.

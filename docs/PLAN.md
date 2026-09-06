@@ -1,5 +1,9 @@
 # Plan
 
+## Active: Existing-module readiness
+
+Follow [MODULE_READINESS.md](MODULE_READINESS.md). Historical completed sections describe demonstrated slices, not complete product modules. New modules and templates are paused. Browser use is prohibited.
+
 ## Completed: Foundation Scaffold
 
 - [x] Read the original brief and NSheth brand source.
@@ -131,9 +135,9 @@ Working resource modules use `/admin/<resource>` for the list, `/new` for creati
 - [x] Production integration checks and CI with disposable PostgreSQL.
 - [ ] Verify live host provisioning and provider callbacks with operator credentials.
 
-## Next Task: Reusable Templates
+## Deferred: Reusable Templates
 
-Compile seven runnable compositions and document customization.
+Complete existing-module readiness first, as requested by the owner.
 
 ## Tooling Adoption Gate
 

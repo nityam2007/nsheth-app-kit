@@ -11,7 +11,15 @@ const config = defineConfig({
     dedupe: ['react', 'react-dom'],
     tsconfigPaths: true,
   },
-  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
+  plugins: [
+    devtools({
+      consolePiping: { enabled: false },
+      enhancedLogs: { enabled: false },
+    }),
+    tailwindcss(),
+    tanstackStart(),
+    viteReact(),
+  ],
 })
 
 export default config

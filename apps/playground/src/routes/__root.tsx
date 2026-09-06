@@ -1,3 +1,4 @@
+import { RouteError, RouteNotFound } from '../components/route-feedback'
 import {
   HeadContent,
   Scripts,
@@ -46,6 +47,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  errorComponent: RouteError,
+  notFoundComponent: RouteNotFound,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {

@@ -71,7 +71,9 @@ function PostDetail() {
           <p className="mt-2 text-sm text-tertiary">/blog/{post.slug}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          {post.status === 'PUBLISHED' ? (
+          {post.status === 'PUBLISHED' &&
+          post.publishedAt &&
+          post.publishedAt <= new Date().toISOString() ? (
             <Link
               className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-3.5 py-2.5 text-sm font-semibold text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover"
               to="/blog/$slug"

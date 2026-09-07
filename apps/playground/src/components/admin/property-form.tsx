@@ -1,3 +1,4 @@
+import { FormSection } from './workspace'
 import { useState } from 'react'
 import { useServerFn } from '@tanstack/react-start'
 import { Input } from '../base/input/input'
@@ -46,107 +47,127 @@ export function PropertyForm({
         return `/admin/properties/${property.slug}`
       }}
     >
-      <Input
-        name="name"
-        label="Property name"
-        isRequired
-        minLength={3}
-        maxLength={160}
-        defaultValue={initial?.name}
-        onChange={(value) => {
-          if (!edited) setSlug(slugify(value))
-        }}
-      />
-      <Input
-        name="slug"
-        label="URL slug"
-        isRequired
-        minLength={3}
-        maxLength={160}
-        pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-        value={slug}
-        onChange={(value) => {
-          setSlug(value)
-          setEdited(true)
-        }}
-      />
-      <TextArea
-        name="summary"
-        label="Summary"
-        isRequired
-        maxLength={300}
-        defaultValue={initial?.summary}
-      />
-      <TextArea
-        name="description"
-        label="Description"
-        isRequired
-        maxLength={100000}
-        defaultValue={initial?.description}
-        rows={8}
-      />
-      <Input
-        name="location"
-        label="Location"
-        isRequired
-        minLength={2}
-        maxLength={200}
-        defaultValue={initial?.location}
-      />
-      <Input
-        name="timezone"
-        label="IANA timezone"
-        isRequired
-        defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
-        hint="For example Asia/Kolkata or Europe/London. Arrival dates use the local day at this property."
-      />
-      <Input
-        name="address"
-        label="Street address"
-        maxLength={500}
-        defaultValue={initial?.address ?? ''}
-      />
-      <Input
-        name="checkInTime"
-        label="Check-in from (HH:MM)"
-        maxLength={5}
-        defaultValue={initial?.checkInTime ?? '14:00'}
-      />
-      <Input
-        name="checkOutTime"
-        label="Check-out by (HH:MM)"
-        maxLength={5}
-        defaultValue={initial?.checkOutTime ?? '11:00'}
-      />
-      <TextArea
-        name="policy"
-        label="House and cancellation rules"
-        maxLength={4000}
-        defaultValue={initial?.policy ?? ''}
-      />
-      <Input
-        name="cancelNoticeDays"
-        label="Cancellation notice (days before arrival)"
-        type="number"
-        min={0}
-        max={30}
-        isRequired
-        defaultValue={String(initial?.cancelNoticeDays ?? 1)}
-      />
-      <Input
-        name="amenities"
-        label="Amenities (comma separated)"
-        maxLength={1800}
-        defaultValue={initial?.amenities.join(', ')}
-      />
-      <SelectField
-        label="Visibility"
-        name="status"
-        defaultValue={initial?.status ?? 'DRAFT'}
+      <FormSection
+        title="Property identity"
+        description="Introduce the place and what makes a stay here useful."
       >
-        <option value="DRAFT">Draft</option>
-        <option value="PUBLISHED">Published</option>
-      </SelectField>
+        <Input
+          name="name"
+          label="Property name"
+          isRequired
+          minLength={3}
+          maxLength={160}
+          defaultValue={initial?.name}
+          onChange={(value) => {
+            if (!edited) setSlug(slugify(value))
+          }}
+        />
+        <Input
+          name="slug"
+          label="URL slug"
+          isRequired
+          minLength={3}
+          maxLength={160}
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          value={slug}
+          onChange={(value) => {
+            setSlug(value)
+            setEdited(true)
+          }}
+        />
+        <TextArea
+          name="summary"
+          label="Summary"
+          isRequired
+          maxLength={300}
+          defaultValue={initial?.summary}
+        />
+        <TextArea
+          name="description"
+          label="Description"
+          isRequired
+          maxLength={100000}
+          defaultValue={initial?.description}
+          rows={8}
+        />
+      </FormSection>
+      <FormSection
+        title="Location"
+        description="Help guests find the property and understand local dates."
+      >
+        <Input
+          name="location"
+          label="Location"
+          isRequired
+          minLength={2}
+          maxLength={200}
+          defaultValue={initial?.location}
+        />
+        <Input
+          name="timezone"
+          label="IANA timezone"
+          isRequired
+          defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
+          hint="For example Asia/Kolkata or Europe/London. Arrival dates use the local day at this property."
+        />
+        <Input
+          name="address"
+          label="Street address"
+          maxLength={500}
+          defaultValue={initial?.address ?? ''}
+        />
+      </FormSection>
+      <FormSection
+        title="Guest policies"
+        description="Set arrival, departure and cancellation expectations."
+      >
+        <Input
+          name="checkInTime"
+          label="Check-in from (HH:MM)"
+          maxLength={5}
+          defaultValue={initial?.checkInTime ?? '14:00'}
+        />
+        <Input
+          name="checkOutTime"
+          label="Check-out by (HH:MM)"
+          maxLength={5}
+          defaultValue={initial?.checkOutTime ?? '11:00'}
+        />
+        <TextArea
+          name="policy"
+          label="House and cancellation rules"
+          maxLength={4000}
+          defaultValue={initial?.policy ?? ''}
+        />
+        <Input
+          name="cancelNoticeDays"
+          label="Cancellation notice (days before arrival)"
+          type="number"
+          min={0}
+          max={30}
+          isRequired
+          defaultValue={String(initial?.cancelNoticeDays ?? 1)}
+        />
+      </FormSection>
+      <FormSection
+        title="Amenities & publication"
+        description="Describe what is included and choose visibility."
+      >
+        <Input
+          name="amenities"
+          label="Amenities (comma separated)"
+          maxLength={1800}
+          defaultValue={initial?.amenities.join(', ')}
+        />
+        <SelectField
+          label="Visibility"
+          name="status"
+          defaultValue={initial?.status ?? 'DRAFT'}
+        >
+          <option value="DRAFT">Draft</option>
+          <option value="PUBLISHED">Published</option>
+        </SelectField>
+      </FormSection>
     </ActionForm>
   )
 }

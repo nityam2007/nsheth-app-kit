@@ -20,6 +20,14 @@ function settings() {
     throw new Error('PUBLIC_ORIGIN must be the canonical HTTPS origin')
   return { clientId, clientSecret, origin: url.origin }
 }
+export function isGithubLoginConfigured() {
+  try {
+    settings()
+    return true
+  } catch {
+    return false
+  }
+}
 const oauthCookie = () =>
   process.env.NODE_ENV === 'production' ? '__Host-oauth-state' : 'oauth-state'
 function base64url(bytes: Uint8Array) {
@@ -152,6 +160,8 @@ export async function finishGithubLogin(request: Request) {
         where: { id: existing.id },
         data: {
           githubId: String(profile.id),
+          emailVerifiedAt: new Date(),
+          ...(!existing.emailVerifiedAt ? { passwordHash: null } : {}),
           email,
           name: profile.name ?? profile.login,
         },
@@ -159,6 +169,7 @@ export async function finishGithubLogin(request: Request) {
     : await db.user.create({
         data: {
           email,
+          emailVerifiedAt: new Date(),
           name: profile.name ?? profile.login,
           githubId: String(profile.id),
         },

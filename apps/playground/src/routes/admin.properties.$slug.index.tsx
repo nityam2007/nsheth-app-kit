@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { Route as Parent } from './admin.properties.$slug'
-import { RoomForm } from '../components/admin/room-form'
+import {
+  MetricStrip,
+  SectionPanel,
+  RecordTrail,
+} from '../components/admin/workspace'
 import { ActionForm, PageHeading } from '../components/workflow'
 import { deleteProperty } from '../hospitality.functions'
 
@@ -13,14 +17,21 @@ function Property() {
     destroy = useServerFn(deleteProperty)
   return (
     <section>
+      <RecordTrail href="/admin/properties" label="Properties" />
       <PageHeading
         eyebrow={`Hospitality · ${property.status}`}
         title={property.name}
         description={`${property.location} · ${property.timezone}`}
       />
-      <div className="mb-8 flex gap-6">
+      <div className="mb-8 flex flex-wrap gap-3">
+        <a
+          className="admin-primary-link"
+          href={'/admin/properties/' + property.slug + '/rooms'}
+        >
+          Manage rooms
+        </a>
         <Link
-          className="text-brand-secondary"
+          className="admin-secondary-link"
           to="/admin/properties/$slug/edit"
           params={{ slug: property.slug }}
         >
@@ -28,7 +39,7 @@ function Property() {
         </Link>
         {property.status === 'PUBLISHED' && (
           <Link
-            className="text-brand-secondary"
+            className="admin-secondary-link"
             to="/stays/$slug"
             params={{ slug: property.slug }}
           >
@@ -39,25 +50,42 @@ function Property() {
       <p className="mb-8 whitespace-pre-wrap text-tertiary">
         {property.description}
       </p>
-      <section className="max-w-3xl">
-        <h2 className="mb-5 text-xl font-semibold text-primary">Room types</h2>
-        {property.rooms.map((room) => (
-          <details
-            className="mb-5 rounded-xl border border-secondary p-5"
-            key={room.id}
-          >
-            <summary className="min-h-11 cursor-pointer font-semibold text-primary">
-              {room.name} · {room.inventory} rooms ·{' '}
-              {room.active ? 'Open' : 'Closed'}
-            </summary>
-            <RoomForm propertyId={property.id} room={room} />
-          </details>
-        ))}
-        <h2 className="my-6 text-xl font-semibold text-primary">
-          Add a room type
-        </h2>
-        <RoomForm propertyId={property.id} />
-      </section>
+      <MetricStrip
+        items={[
+          { label: 'Room types', value: property.rooms.length },
+          {
+            label: 'Total rooms',
+            value: property.rooms.reduce((n, r) => n + r.inventory, 0),
+          },
+          { label: 'Check-in', value: property.checkInTime },
+          { label: 'Check-out', value: property.checkOutTime },
+        ]}
+      />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <SectionPanel title="Location & amenities">
+          <p className="text-secondary">
+            {property.address || property.location}
+          </p>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {property.amenities.map((a) => (
+              <li
+                className="rounded-lg bg-secondary px-3 py-2 text-sm text-secondary"
+                key={a}
+              >
+                {a}
+              </li>
+            ))}
+          </ul>
+        </SectionPanel>
+        <SectionPanel title="Guest policy">
+          <p className="whitespace-pre-wrap text-tertiary">
+            {property.policy || 'No additional house rules.'}
+          </p>
+          <p className="mt-4 text-sm text-secondary">
+            Cancellation notice: {property.cancelNoticeDays} days before arrival
+          </p>
+        </SectionPanel>
+      </div>{' '}
       <section className="mt-12 border-t border-secondary pt-8">
         <p className="mb-4 text-tertiary">
           Properties with reservation history cannot be deleted. Unpublish them
@@ -69,7 +97,7 @@ function Property() {
             if (
               !window.confirm('Delete this property and its empty room types?')
             )
-              return
+              return false
             await destroy({ data: { id: property.id } })
             return '/admin/properties'
           }}

@@ -1,211 +1,105 @@
-import { moduleEnabled } from '../app.config'
-import { useQueryClient } from '@tanstack/react-query'
 import {
-  getOwnSessions,
-  revokeOwnSession,
-  getAccount,
-  signOut,
-  cancelOwnRequest,
-} from '../account.functions'
-import { errorStatus } from '../errors'
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+  createFileRoute,
+  Link,
+  Outlet,
+  redirect,
+  useLocation,
+} from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
+import { useQueryClient } from '@tanstack/react-query'
+import { getAccount, signOut } from '../account.functions'
+import { errorStatus } from '../errors'
 import { Container } from '../components/container'
-import { ActionForm, PageHeading } from '../components/workflow'
-import { Button } from '../components/base/buttons/button'
-import { money } from '../money'
+import { ActionForm } from '../components/workflow'
 
 export const Route = createFileRoute('/account')({
   loader: async () => {
     try {
-      const [account, sessions] = await Promise.all([
-        getAccount(),
-        getOwnSessions(),
-      ])
-      return { ...account, sessions }
+      return await getAccount()
     } catch (error) {
-      if (errorStatus(error) !== 401) throw error
-      throw redirect({ to: '/login' })
+      if (errorStatus(error) === 401) throw redirect({ to: '/login' })
+      throw error
     }
   },
-  component: Account,
+  component: AccountShell,
 })
-function Account() {
-  const queryClient = useQueryClient()
+function AccountShell() {
   const data = Route.useLoaderData(),
-    revoke = useServerFn(revokeOwnSession),
-    cancel = useServerFn(cancelOwnRequest),
-    logout = useServerFn(signOut)
+    logout = useServerFn(signOut),
+    query = useQueryClient()
+  const { pathname } = useLocation()
   return (
-    <Container className="py-12">
-      <PageHeading
-        eyebrow="Your account"
-        title={data.principal.email}
-        description="Your orders, appointments, stays, and enquiries associated with this verified email."
-      />
-      <div className="mb-10 flex flex-wrap items-center gap-6">
-        <Link to="/" className="text-brand-secondary">
-          Home
-        </Link>
-        {data.principal.permissions.length > 0 && (
-          <Link to="/admin" className="text-brand-secondary">
-            Open admin
+    <main className="min-h-svh bg-secondary">
+      <Container className="py-8 sm:py-12">
+        <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <Link
+            to="/"
+            className="inline-flex min-h-11 items-center font-semibold text-brand-secondary"
+          >
+            ← Return home
           </Link>
-        )}
-        <Button
-          color="secondary"
-          onPress={() => {
-            const url = URL.createObjectURL(
-              new Blob([JSON.stringify(data, null, 2)], {
-                type: 'application/json',
-              }),
-            )
-            const link = document.createElement('a')
-            link.href = url
-            link.download = 'my-account-data.json'
-            link.click()
-            setTimeout(() => URL.revokeObjectURL(url), 1000)
-          }}
-        >
-          Download my data
-        </Button>
-        <ActionForm
-          label="Sign out"
-          action={async () => {
-            await logout()
-            queryClient.clear()
-            return '/login'
-          }}
-        >
-          {null}
-        </ActionForm>
-      </div>
-      <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold text-primary">
-          Active sessions
-        </h2>
-        <ul className="grid gap-4">
-          {data.sessions.map((session) => (
-            <li
-              key={session.id}
-              className="flex flex-wrap items-center gap-5 text-tertiary"
-            >
-              <p>
-                {session.current ? 'This session' : 'Other session'} · started{' '}
-                {session.createdAt.toISOString().slice(0, 16)} UTC · expires{' '}
-                {session.expiresAt.toISOString().slice(0, 10)}
-              </p>
-              {!session.current && (
-                <ActionForm
-                  label="Revoke session"
-                  action={() => revoke({ data: { id: session.id } })}
-                >
-                  {null}
-                </ActionForm>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
-      <div className="grid gap-10 md:grid-cols-2">
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-primary">Orders</h2>
-          {data.orders.length ? (
-            data.orders.map((o) => (
-              <p
-                key={o.id}
-                className="mb-4 rounded-lg border border-secondary p-4 text-tertiary"
+          {data.principal.permissions.length > 0 && (
+            <Link to="/admin" className="admin-secondary-link">
+              Open admin workspace →
+            </Link>
+          )}
+        </header>
+        <div className="grid items-start gap-8 lg:grid-cols-[15rem_minmax(0,1fr)]">
+          <aside className="rounded-xl border border-secondary bg-primary p-5 lg:sticky lg:top-8">
+            <div className="mb-6 border-b border-secondary pb-5">
+              <span
+                aria-hidden="true"
+                className="mb-4 flex size-12 items-center justify-center rounded-full bg-brand-primary text-xl font-semibold text-brand-secondary"
               >
-                {o.lines.map((l) => `${l.quantity} × ${l.name}`).join(', ')} ·{' '}
-                {money(o.totalAmount)} · {o.status} ·{' '}
-                {o.paid ? 'Paid' : 'Unpaid'}
+                {data.principal.email[0].toUpperCase()}
+              </span>
+              <p className="font-semibold text-primary">Your account</p>
+              <p className="mt-1 break-all text-sm text-tertiary">
+                {data.principal.email}
               </p>
-            ))
-          ) : (
-            <p className="text-tertiary">No orders yet.</p>
-          )}
-        </section>
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-primary">
-            Appointments
-          </h2>
-          {data.bookings.length ? (
-            data.bookings.map((b) => (
-              <div key={b.id} className="mb-4 text-tertiary">
-                <p>
-                  {b.slot.service.name} · {b.slot.startsAt.toISOString()} ·{' '}
-                  {b.status}
-                </p>
-                <p className="my-2 break-all text-xs">Reference {b.id}</p>
-                {b.status !== 'CANCELLED' && b.cancelUntil && (
-                  <ActionForm
-                    label="Cancel appointment"
-                    action={() =>
-                      cancel({ data: { id: b.id, kind: 'booking' } })
-                    }
-                  >
-                    <p className="text-sm">
-                      Online cancellation before {b.cancelUntil.toISOString()}.
-                      No refund is processed here.
-                    </p>
-                  </ActionForm>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className="text-tertiary">No appointments yet.</p>
-          )}
-        </section>
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-primary">Stays</h2>
-          {data.reservations.length ? (
-            data.reservations.map((r) => (
-              <div key={r.id} className="mb-4 text-tertiary">
-                <p>
-                  {r.roomType.name} · {r.checkIn.toISOString().slice(0, 10)} →{' '}
-                  {r.checkOut.toISOString().slice(0, 10)} · {r.status}
-                </p>
-                <p className="my-2 break-all text-xs">Reference {r.id}</p>
-                {r.status !== 'CANCELLED' && r.cancelUntilDate && (
-                  <ActionForm
-                    label="Cancel reservation"
-                    action={() =>
-                      cancel({ data: { id: r.id, kind: 'reservation' } })
-                    }
-                  >
-                    <p className="text-sm">
-                      Online cancellation before {r.cancelUntilDate} (
-                      {r.cancellationTimezone}). No refund is processed here.
-                    </p>
-                  </ActionForm>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className="text-tertiary">No stays yet.</p>
-          )}
-        </section>
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-primary">Enquiries</h2>
-          {data.enquiries.length ? (
-            data.enquiries.map((e) => (
-              <p key={e.id} className="mb-4 text-tertiary">
-                {e.product.name} · {e.status}
-              </p>
-            ))
-          ) : (
-            <p className="text-tertiary">No enquiries yet.</p>
-          )}
-        </section>
-      </div>
-      {moduleEnabled('operations') && (
-        <p className="mt-10 text-tertiary">
-          Need a correction, export, or deletion?{' '}
-          <a className="text-brand-secondary underline" href="/privacy">
-            Submit a privacy request.
-          </a>
-        </p>
-      )}
-    </Container>
+            </div>
+            <nav aria-label="Account">
+              <ul className="grid gap-2">
+                {[
+                  ['/account', 'Activity'],
+                  ['/account/profile', 'Profile'],
+                  ['/account/security', 'Security & data'],
+                ].map(([href, label]) => (
+                  <li key={href}>
+                    <a
+                      href={href}
+                      aria-current={pathname === href ? 'page' : undefined}
+                      className={
+                        'flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold ' +
+                        (pathname === href
+                          ? 'bg-secondary text-primary'
+                          : 'text-tertiary hover:bg-secondary')
+                      }
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="mt-6 border-t border-secondary pt-5">
+              <ActionForm
+                label="Sign out"
+                action={async () => {
+                  await logout()
+                  query.clear()
+                  return '/login'
+                }}
+              >
+                {null}
+              </ActionForm>
+            </div>
+          </aside>
+          <div className="min-w-0">
+            <Outlet />
+          </div>
+        </div>
+      </Container>
+    </main>
   )
 }

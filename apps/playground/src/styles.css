@@ -54,3 +54,19 @@ details summary::-webkit-details-marker {
     transition-duration: 0.01ms !important;
   }
 }
+
+@layer components {
+  .admin-primary-link,
+  .admin-secondary-link {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-xs outline-brand transition focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  .admin-primary-link {
+    @apply bg-brand-solid text-white hover:bg-brand-solid_hover;
+  }
+  .admin-secondary-link {
+    @apply bg-primary text-secondary ring-1 ring-primary ring-inset hover:bg-primary_hover;
+  }
+  .admin-workspace :where(a, summary) {
+    @apply outline-brand focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+}

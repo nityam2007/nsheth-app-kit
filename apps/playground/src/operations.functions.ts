@@ -11,11 +11,13 @@ import { throttle } from './throttle.server'
 export const getEnquiries = createServerFn({ method: 'GET' })
   .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
-  .handler(({ context }) => {
+  .validator(z.object({ record: z.uuid().optional() }).optional())
+  .handler(({ context, data }) => {
     if (!hasPermission(context.principal, 'operations.read'))
       rejectRequest(403, 'Forbidden')
     return getPrisma()
       .enquiry.findMany({
+        where: data?.record ? { id: data.record } : undefined,
         include: { product: { select: { name: true } } },
         orderBy: { createdAt: 'desc' },
         take: 500,
@@ -92,11 +94,13 @@ export const submitPrivacyRequest = createServerFn({ method: 'POST' })
 export const getPrivacyRequests = createServerFn({ method: 'GET' })
   .middleware([moduleMiddleware('operations')])
   .middleware([identityMiddleware])
-  .handler(({ context }) => {
+  .validator(z.object({ record: z.uuid().optional() }).optional())
+  .handler(({ context, data }) => {
     if (!hasPermission(context.principal, 'operations.read'))
       rejectRequest(403, 'Forbidden')
     return getPrisma()
       .privacyRequest.findMany({
+        where: data?.record ? { id: data.record } : undefined,
         orderBy: { createdAt: 'desc' },
         take: 500,
       })

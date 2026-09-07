@@ -1,5 +1,6 @@
-import { requireRouteModule } from '../module-route'
 import { useState } from 'react'
+import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
+import { requireRouteModule } from '../module-route'
 import { Input } from '../components/base/input/input'
 import { HistoryList } from '../components/history-list'
 import {
@@ -8,107 +9,129 @@ import {
   getAdminBookings,
   updateBookingStatus,
 } from '../booking.functions'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
-import {
-  ActionForm,
-  EmptyState,
-  PageHeading,
-  SelectField,
-} from '../components/workflow'
+import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/bookings')({
+  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+    record: typeof search.record === 'string' ? search.record : undefined,
+  }),
   beforeLoad: () => requireRouteModule('booking'),
-  loader: () => getAdminBookings(),
+  loaderDeps: ({ search }) => ({ record: search.record }),
+  loader: ({ deps }) => getAdminBookings({ data: { record: deps.record } }),
   component: Bookings,
 })
 function Bookings() {
   const bookings = Route.useLoaderData(),
     update = useServerFn(updateBookingStatus)
-  const [search, setSearch] = useState('')
-  const filtered = bookings.filter((b) =>
-    `${b.id} ${b.name} ${b.email} ${b.status} ${b.slot.service.name}`
-      .toLowerCase()
-      .includes(search.toLowerCase()),
-  )
+  const { record } = Route.useSearch()
+  if (record && !bookings.some((item) => item.id === record)) throw notFound()
+  if (!record)
+    return (
+      <ObjectCollection
+        title="Appointments"
+        eyebrow="Schedule"
+        description="Customer appointments with a clear time, status and next action."
+        objects={bookings.map((b) => ({
+          id: b.id,
+          title: b.slot.service.name,
+          subtitle: b.name + ' · ' + b.email,
+          status: b.status,
+          href: '/admin/bookings?record=' + b.id,
+          meta: [
+            {
+              label: 'Starts (UTC)',
+              value: b.slot.startsAt
+                .toISOString()
+                .slice(0, 16)
+                .replace('T', ' '),
+            },
+            { label: 'Reference', value: b.id.slice(0, 8) },
+          ],
+        }))}
+      />
+    )
   return (
     <section>
+      <RecordTrail href="/admin/bookings" label="Appointments" />
       <PageHeading
         eyebrow="Booking"
-        title="Booking requests"
-        description="Pending requests reserve capacity until confirmed or cancelled. Latest 500 requests."
+        title={bookings.find((b) => b.id === record)!.slot.service.name}
+        description="Appointment details, capacity, rescheduling and follow-up."
       />
-      <div className="mb-6 max-w-md">
-        <Input
-          label="Search reference, guest, service or status"
-          value={search}
-          onChange={setSearch}
-        />
-      </div>
-      {!filtered.length && <EmptyState>No booking requests yet.</EmptyState>}
       <div className="grid gap-6">
-        {filtered.map((b) => (
-          <article
-            key={b.id}
-            className="rounded-xl border border-secondary bg-primary p-6"
-          >
-            <div className="mb-4 flex flex-wrap justify-between gap-4">
-              <div>
-                <h2 className="font-semibold text-primary">
-                  {b.slot.service.name}
-                </h2>
-                <p className="text-tertiary">
-                  {b.slot.startsAt.toISOString().replace('T', ' ').slice(0, 16)}{' '}
-                  UTC
-                </p>
+        {bookings
+          .filter((item) => item.id === record)
+          .map((b) => (
+            <article
+              key={b.id}
+              className="rounded-xl border border-secondary bg-primary p-6"
+            >
+              <div className="mb-4 flex flex-wrap justify-between gap-4">
+                <div>
+                  <h2 className="font-semibold text-primary">
+                    {b.slot.service.name}
+                  </h2>
+                  <p className="text-tertiary">
+                    {b.slot.startsAt
+                      .toISOString()
+                      .replace('T', ' ')
+                      .slice(0, 16)}{' '}
+                    UTC
+                  </p>
+                </div>
+                <span className="text-sm font-semibold text-brand-secondary">
+                  {b.status}
+                </span>
               </div>
-              <span className="text-sm font-semibold text-brand-secondary">
-                {b.status}
-              </span>
-            </div>
-            <p className="text-secondary">
-              {b.name} · <a href={`mailto:${b.email}`}>{b.email}</a>
-            </p>
-            <p className="my-4 whitespace-pre-wrap text-tertiary">{b.notes}</p>
-            <p className="mb-4 break-all text-xs text-tertiary">
-              Reference {b.id}
-            </p>
-            {b.status !== 'CANCELLED' && (
-              <ActionForm
-                label="Update request"
-                action={(form) =>
-                  update({
-                    data: {
-                      id: b.id,
-                      expectedVersion: b.version,
-                      note: String(form.get('note')),
-                      status:
-                        form.get('status') === 'CONFIRMED'
-                          ? 'CONFIRMED'
-                          : 'CANCELLED',
-                    },
-                  })
-                }
-              >
-                <Input
-                  name="note"
-                  label="Reason or confirmation note"
-                  minLength={5}
-                  maxLength={300}
-                  isRequired
-                />
-                <SelectField label="Next status" name="status">
-                  {b.status === 'REQUESTED' && (
-                    <option value="CONFIRMED">Confirm</option>
-                  )}
-                  <option value="CANCELLED">Cancel and release capacity</option>
-                </SelectField>
-              </ActionForm>
-            )}
-            {b.status !== 'CANCELLED' && <MoveBooking booking={b} />}
-            <HistoryList events={b.history} />
-          </article>
-        ))}
+              <p className="text-secondary">
+                {b.name} · <a href={`mailto:${b.email}`}>{b.email}</a>
+              </p>
+              <p className="my-4 whitespace-pre-wrap text-tertiary">
+                {b.notes}
+              </p>
+              <p className="mb-4 break-all text-xs text-tertiary">
+                Reference {b.id}
+              </p>
+              {b.status !== 'CANCELLED' && (
+                <ActionForm
+                  label="Update request"
+                  action={(form) =>
+                    update({
+                      data: {
+                        id: b.id,
+                        expectedVersion: b.version,
+                        note: String(form.get('note')),
+                        status:
+                          form.get('status') === 'CONFIRMED'
+                            ? 'CONFIRMED'
+                            : 'CANCELLED',
+                      },
+                    })
+                  }
+                >
+                  <Input
+                    name="note"
+                    label="Reason or confirmation note"
+                    minLength={5}
+                    maxLength={300}
+                    isRequired
+                  />
+                  <SelectField label="Next status" name="status">
+                    {b.status === 'REQUESTED' && (
+                      <option value="CONFIRMED">Confirm</option>
+                    )}
+                    <option value="CANCELLED">
+                      Cancel and release capacity
+                    </option>
+                  </SelectField>
+                </ActionForm>
+              )}
+              {b.status !== 'CANCELLED' && <MoveBooking booking={b} />}
+              <HistoryList events={b.history} />
+            </article>
+          ))}
       </div>
     </section>
   )

@@ -296,11 +296,13 @@ export const requestReservation = createServerFn({ method: 'POST' })
 export const getReservations = createServerFn({ method: 'GET' })
   .middleware([moduleMiddleware('hospitality')])
   .middleware([identityMiddleware])
-  .handler(({ context }) => {
+  .validator(z.object({ record: z.uuid().optional() }).optional())
+  .handler(({ context, data }) => {
     if (!hasPermission(context.principal, 'hospitality.read'))
       rejectRequest(403, 'Forbidden')
     return getPrisma()
       .reservation.findMany({
+        where: data?.record ? { id: data.record } : undefined,
         include: {
           roomType: { include: { property: { select: { name: true } } } },
         },

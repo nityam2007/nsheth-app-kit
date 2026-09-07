@@ -68,6 +68,7 @@ export const ModelName = {
   Post: 'Post',
   PostRevision: 'PostRevision',
   User: 'User',
+  AuthChallenge: 'AuthChallenge',
   Session: 'Session',
   Role: 'Role',
   Permission: 'Permission',
@@ -380,12 +381,25 @@ export const UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   githubId: 'githubId',
+  passwordHash: 'passwordHash',
+  emailVerifiedAt: 'emailVerifiedAt',
   disabledAt: 'disabledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AuthChallengeScalarFieldEnum = {
+  tokenHash: 'tokenHash',
+  userId: 'userId',
+  kind: 'kind',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthChallengeScalarFieldEnum = (typeof AuthChallengeScalarFieldEnum)[keyof typeof AuthChallengeScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

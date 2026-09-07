@@ -36,7 +36,7 @@ export const identityMiddleware = createMiddleware({ type: 'function' }).server(
         tokenHash: await hashSessionToken(token),
         expiresAt: { gt: new Date() },
         revokedAt: null,
-        user: { disabledAt: null },
+        user: { disabledAt: null, emailVerifiedAt: { not: null } },
       },
       select: {
         user: {
@@ -108,8 +108,12 @@ export const createDemoIdentitySession = createServerFn({
     })
     const user = await transaction.user.upsert({
       where: { email: DEMO_EMAIL },
-      update: {},
-      create: { email: DEMO_EMAIL, name: 'Demo Admin' },
+      update: { emailVerifiedAt: new Date() },
+      create: {
+        email: DEMO_EMAIL,
+        name: 'Demo Admin',
+        emailVerifiedAt: new Date(),
+      },
     })
 
     await transaction.rolePermission.createMany({

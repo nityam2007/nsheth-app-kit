@@ -1,3 +1,4 @@
+import { SiteHeader } from '../components/site-header'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container } from '../components/container'
 import { appConfig, publicModules, moduleEnabled } from '../app.config'
@@ -17,24 +18,7 @@ function Home() {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:p-4">
         Skip to content
       </a>
-      <header className="border-b border-secondary">
-        <Container className="flex min-h-20 flex-wrap items-center justify-between gap-4 py-4">
-          <Link to="/" className="text-lg font-semibold text-primary">
-            {appConfig.name}
-          </Link>
-          <nav
-            aria-label="Account navigation"
-            className="flex gap-6 text-sm font-semibold text-secondary"
-          >
-            <Link className="inline-flex min-h-11 items-center" to="/account">
-              Your account
-            </Link>
-            <Link className="inline-flex min-h-11 items-center" to="/admin">
-              Manage workspace
-            </Link>
-          </nav>
-        </Container>
-      </header>
+      <SiteHeader />
       <main id="main-content">
         <Container className="py-12 sm:py-16">
           <div className="mb-10 max-w-3xl">

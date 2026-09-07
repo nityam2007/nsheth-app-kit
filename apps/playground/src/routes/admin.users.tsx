@@ -1,89 +1,117 @@
-import { createFileRoute } from '@tanstack/react-router'
-
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { getAdminUsers } from '../admin.functions'
+import { Route as Admin } from './admin'
+import {
+  ObjectCollection,
+  WorkspaceHeading,
+  SectionPanel,
+  RecordTrail,
+  StatusBadge,
+} from '../components/admin/workspace'
 
 export const Route = createFileRoute('/admin/users')({
   loader: () => getAdminUsers(),
-  component: UsersResource,
+  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+    record: typeof search.record === 'string' ? search.record : undefined,
+  }),
+  component: People,
 })
-
-function UsersResource() {
-  const users = Route.useLoaderData()
-
+function People() {
+  const users = Route.useLoaderData(),
+    { record } = Route.useSearch(),
+    { principal } = Admin.useRouteContext()
+  if (!record)
+    return (
+      <ObjectCollection
+        eyebrow="People"
+        title="People"
+        description="The people behind your workspace. Open a profile to review their identity and access."
+        empty="Accounts appear here after registration or sign-in."
+        objects={users.map((u) => ({
+          id: u.id,
+          title: u.name ?? u.email,
+          subtitle: u.email,
+          status: u.disabledAt
+            ? 'DISABLED'
+            : u.emailVerifiedAt
+              ? 'VERIFIED'
+              : 'UNVERIFIED',
+          href: '/admin/users?record=' + u.id,
+          meta: [
+            { label: 'Role', value: u.roles.join(', ') || 'Unassigned' },
+            { label: 'Joined', value: u.createdAt },
+          ],
+        }))}
+      />
+    )
+  const user = users.find((u) => u.id === record)
+  if (!user) throw notFound()
   return (
-    <section aria-labelledby="users-title">
-      <header className="flex flex-col gap-5 border-b border-secondary pb-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold text-brand-secondary">Identity</p>
-          <h1
-            className="mt-2 text-display-sm font-semibold text-primary"
-            id="users-title"
-          >
-            People and access
-          </h1>
-        </div>
-        <span className="text-sm text-tertiary">{users.length} records</span>
-      </header>
-
-      <p className="mt-6 max-w-3xl text-md text-tertiary">
-        Users, assigned roles, and identity records available to this
-        administrator. This first resource is intentionally read-only.
-      </p>
-
-      <div
-        className="mt-8 overflow-x-auto rounded-xl bg-primary shadow-xs ring-1 ring-secondary focus:outline-2 focus:outline-offset-2 focus:outline-brand"
-        role="region"
-        aria-label="People and roles"
-        tabIndex={0}
-      >
-        <table className="w-full min-w-176 border-collapse text-left">
-          <thead className="border-b border-secondary bg-secondary">
-            <tr>
-              {['Person', 'Email', 'Roles', 'Created'].map((heading) => (
-                <th
-                  className="px-6 py-3 text-xs font-semibold text-tertiary"
-                  key={heading}
-                  scope="col"
-                >
-                  {heading}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-secondary">
-            {users.length ? (
-              users.map((user) => (
-                <tr className="hover:bg-primary_hover" key={user.id}>
-                  <th
-                    className="px-6 py-4 text-sm font-medium text-primary"
-                    scope="row"
-                  >
-                    {user.name ?? 'Unnamed user'}
-                  </th>
-                  <td className="px-6 py-4 text-sm text-tertiary">
-                    {user.email}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-tertiary">
-                    {user.roles.join(', ') || 'Unassigned'}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-tertiary">
-                    {user.createdAt}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  className="px-6 py-12 text-center text-sm text-tertiary"
-                  colSpan={4}
-                >
-                  No identity records yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+    <>
+      <RecordTrail href="/admin/users" label="People" />
+      <WorkspaceHeading
+        eyebrow="People"
+        title={user.name ?? user.email}
+        description={user.email}
+        action={
+          principal.permissions.includes('identity.write') ? (
+            <a
+              className="admin-primary-link"
+              href={'/admin/access?record=' + user.id}
+            >
+              Manage access
+            </a>
+          ) : undefined
+        }
+      />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <SectionPanel title="Identity">
+          <dl className="grid gap-5 text-sm">
+            <div>
+              <dt className="text-tertiary">Email</dt>
+              <dd className="mt-1 break-all font-medium text-primary">
+                {user.email}
+              </dd>
+            </div>
+            <div>
+              <dt className="mb-2 text-tertiary">Account status</dt>
+              <dd>
+                <StatusBadge
+                  value={
+                    user.disabledAt
+                      ? 'DISABLED'
+                      : user.emailVerifiedAt
+                        ? 'VERIFIED'
+                        : 'UNVERIFIED'
+                  }
+                />
+              </dd>
+            </div>
+            <div>
+              <dt className="text-tertiary">Joined</dt>
+              <dd className="mt-1 text-secondary">{user.createdAt}</dd>
+            </div>
+          </dl>
+        </SectionPanel>
+        <SectionPanel
+          title="Workspace access"
+          description="Permissions are enforced by the server on every request."
+        >
+          <ul className="flex flex-wrap gap-2">
+            {user.roles.map((role) => (
+              <li
+                className="rounded-lg bg-secondary px-3 py-2 text-sm font-medium text-secondary"
+                key={role}
+              >
+                {role}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 break-all text-xs text-tertiary">
+            Identity reference {user.id}
+          </p>
+        </SectionPanel>
       </div>
-    </section>
+    </>
   )
 }

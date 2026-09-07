@@ -247,11 +247,13 @@ export const requestBooking = createServerFn({ method: 'POST' })
 export const getAdminBookings = createServerFn({ method: 'GET' })
   .middleware([moduleMiddleware('booking')])
   .middleware([identityMiddleware])
-  .handler(({ context }) => {
+  .validator(z.object({ record: z.uuid().optional() }).optional())
+  .handler(({ context, data }) => {
     if (!hasPermission(context.principal, 'booking.read'))
       rejectRequest(403, 'Forbidden')
     return getPrisma()
       .bookingRequest.findMany({
+        where: data?.record ? { id: data.record } : undefined,
         include: {
           slot: {
             include: { service: { select: { name: true, slug: true } } },

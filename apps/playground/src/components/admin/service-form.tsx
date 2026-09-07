@@ -1,3 +1,4 @@
+import { FormSection } from './workspace'
 import { useState } from 'react'
 import { useServerFn } from '@tanstack/react-start'
 import { Input } from '../base/input/input'
@@ -42,107 +43,127 @@ export function ServiceForm({
         return `/admin/services/${service.slug}`
       }}
     >
-      <Input
-        name="name"
-        label="Service name"
-        isRequired
-        minLength={3}
-        maxLength={160}
-        defaultValue={initial?.name}
-        onChange={(value) => {
-          if (!edited) setSlug(slugify(value))
-        }}
-      />
-      <Input
-        name="slug"
-        label="URL slug"
-        isRequired
-        minLength={3}
-        maxLength={160}
-        pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-        value={slug}
-        onChange={(value) => {
-          setSlug(value)
-          setEdited(true)
-        }}
-      />
-      <TextArea
-        name="summary"
-        label="Summary"
-        isRequired
-        maxLength={300}
-        defaultValue={initial?.summary}
-      />
-      <TextArea
-        name="description"
-        label="Description"
-        isRequired
-        maxLength={100000}
-        defaultValue={initial?.description}
-        rows={8}
-      />
-      <Input
-        name="durationMinutes"
-        label="Duration in minutes"
-        type="number"
-        min={5}
-        max={1440}
-        isRequired
-        defaultValue={String(initial?.durationMinutes ?? 60)}
-      />
-      <Input
-        name="timezone"
-        label="IANA timezone"
-        maxLength={100}
-        defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
-      />
-      <Input
-        name="location"
-        label="Location or meeting instructions"
-        maxLength={300}
-        defaultValue={initial?.location ?? ''}
-      />
-      <TextArea
-        name="policy"
-        label="Booking policy"
-        maxLength={4000}
-        defaultValue={initial?.policy ?? ''}
-      />
-      <Input
-        name="minLeadHours"
-        label="Minimum lead time (hours)"
-        type="number"
-        min={0}
-        max={720}
-        isRequired
-        defaultValue={String(initial?.minLeadHours ?? 0)}
-      />
-      <Input
-        name="maxAdvanceDays"
-        label="Book up to (days ahead)"
-        type="number"
-        min={1}
-        max={3650}
-        isRequired
-        defaultValue={String(initial?.maxAdvanceDays ?? 365)}
-      />
-      <Input
-        name="cancelNoticeHours"
-        label="Cancellation notice (hours)"
-        type="number"
-        min={0}
-        max={720}
-        isRequired
-        defaultValue={String(initial?.cancelNoticeHours ?? 24)}
-      />
-      <SelectField
-        label="Visibility"
-        name="status"
-        defaultValue={initial?.status ?? 'DRAFT'}
+      <FormSection
+        title="Service identity"
+        description="Give customers a clear name, summary and description."
       >
-        <option value="DRAFT">Draft</option>
-        <option value="PUBLISHED">Published</option>
-      </SelectField>
+        <Input
+          name="name"
+          label="Service name"
+          isRequired
+          minLength={3}
+          maxLength={160}
+          defaultValue={initial?.name}
+          onChange={(value) => {
+            if (!edited) setSlug(slugify(value))
+          }}
+        />
+        <Input
+          name="slug"
+          label="URL slug"
+          isRequired
+          minLength={3}
+          maxLength={160}
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          value={slug}
+          onChange={(value) => {
+            setSlug(value)
+            setEdited(true)
+          }}
+        />
+        <TextArea
+          name="summary"
+          label="Summary"
+          isRequired
+          maxLength={300}
+          defaultValue={initial?.summary}
+        />
+        <TextArea
+          name="description"
+          label="Description"
+          isRequired
+          maxLength={100000}
+          defaultValue={initial?.description}
+          rows={8}
+        />
+      </FormSection>
+      <FormSection
+        title="Time & location"
+        description="Set the appointment length and where it takes place."
+      >
+        <Input
+          name="durationMinutes"
+          label="Duration in minutes"
+          type="number"
+          min={5}
+          max={1440}
+          isRequired
+          defaultValue={String(initial?.durationMinutes ?? 60)}
+        />
+        <Input
+          name="timezone"
+          label="IANA timezone"
+          maxLength={100}
+          defaultValue={initial?.timezone ?? 'Asia/Kolkata'}
+        />
+        <Input
+          name="location"
+          label="Location or meeting instructions"
+          maxLength={300}
+          defaultValue={initial?.location ?? ''}
+        />
+      </FormSection>
+      <FormSection
+        title="Booking rules"
+        description="Define lead time, booking horizon and cancellation policy."
+      >
+        <TextArea
+          name="policy"
+          label="Booking policy"
+          maxLength={4000}
+          defaultValue={initial?.policy ?? ''}
+        />
+        <Input
+          name="minLeadHours"
+          label="Minimum lead time (hours)"
+          type="number"
+          min={0}
+          max={720}
+          isRequired
+          defaultValue={String(initial?.minLeadHours ?? 0)}
+        />
+        <Input
+          name="maxAdvanceDays"
+          label="Book up to (days ahead)"
+          type="number"
+          min={1}
+          max={3650}
+          isRequired
+          defaultValue={String(initial?.maxAdvanceDays ?? 365)}
+        />
+        <Input
+          name="cancelNoticeHours"
+          label="Cancellation notice (hours)"
+          type="number"
+          min={0}
+          max={720}
+          isRequired
+          defaultValue={String(initial?.cancelNoticeHours ?? 24)}
+        />
+      </FormSection>
+      <FormSection
+        title="Publication"
+        description="Drafts are visible only to your team."
+      >
+        <SelectField
+          label="Visibility"
+          name="status"
+          defaultValue={initial?.status ?? 'DRAFT'}
+        >
+          <option value="DRAFT">Draft</option>
+          <option value="PUBLISHED">Published</option>
+        </SelectField>
+      </FormSection>
     </ActionForm>
   )
 }

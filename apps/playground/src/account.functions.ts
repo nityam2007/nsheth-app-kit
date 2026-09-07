@@ -265,3 +265,29 @@ export const revokeOwnSession = createServerFn({ method: 'POST' })
       rejectRequest(404, 'Session not found, or use Sign out for this session')
     return { ok: true }
   })
+
+export const getAccountProfile = createServerFn({ method: 'GET' })
+  .middleware([identityMiddleware])
+  .handler(({ context }) =>
+    getPrisma().user.findUniqueOrThrow({
+      where: { id: context.principal.userId },
+      select: {
+        name: true,
+        email: true,
+        emailVerifiedAt: true,
+        githubId: true,
+        createdAt: true,
+      },
+    }),
+  )
+export const updateAccountProfile = createServerFn({ method: 'POST' })
+  .middleware([identityMiddleware])
+  .validator(z.object({ name: z.string().trim().min(1).max(100) }))
+  .handler(async ({ context, data }) => {
+    requireSameOrigin()
+    await getPrisma().user.update({
+      where: { id: context.principal.userId },
+      data: { name: data.name },
+    })
+    return { ok: true }
+  })

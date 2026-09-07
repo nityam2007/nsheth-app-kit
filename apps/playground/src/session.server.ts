@@ -1,3 +1,4 @@
+import type { Prisma } from './generated/prisma/client'
 import { createSessionToken, hashSessionToken } from '@nsheth/identity'
 import { setCookie } from '@tanstack/react-start/server'
 import { getPrisma } from './db'
@@ -15,10 +16,13 @@ export function cookieOptions(maxAge: number) {
     path: '/',
   }
 }
-export async function issueSession(userId: string) {
+export async function issueSession(
+  userId: string,
+  database: Pick<Prisma.TransactionClient, 'session'> = getPrisma(),
+) {
   const token = createSessionToken(),
     seconds = 60 * 60 * 8
-  await getPrisma().session.create({
+  await database.session.create({
     data: {
       userId,
       tokenHash: await hashSessionToken(token),

@@ -1,3 +1,4 @@
+import { FormSection } from './workspace'
 import { ArticleBody } from '../article-body'
 import { errorMessage } from '../../errors'
 import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
@@ -91,128 +92,148 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
 
   return (
     <form
-      className="grid max-w-3xl gap-6 rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-8"
+      className="grid max-w-4xl gap-6"
       onChange={() => setIsDirty(true)}
       onSubmit={handleSubmit}
     >
-      <Input
-        isRequired
-        label="Title"
-        maxLength={160}
-        minLength={3}
-        name="title"
-        value={title}
-        onChange={(value) => {
-          setTitle(value)
-          if (!slugEdited) setSlug(slugify(value))
-        }}
-      />
-      <Input
-        hint="Generated from the title. Edit it only when the URL needs to differ."
-        isRequired
-        label="URL slug"
-        maxLength={160}
-        minLength={3}
-        name="slug"
-        pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-        value={slug}
-        onChange={(value) => {
-          setSlug(value)
-          setSlugEdited(true)
-        }}
-      />
-      <TextArea
-        defaultValue={initial?.excerpt}
-        isRequired
-        label="Excerpt"
-        maxLength={300}
-        name="excerpt"
-        rows={3}
-      />
-      <TextArea
-        value={body}
-        onChange={setBody}
-        isRequired
-        label="Body"
-        maxLength={100000}
-        name="body"
-        rows={16}
-      />
-      <p className="text-sm text-tertiary">
-        Separate blocks with blank lines. Use ## headings, ### subheadings, -
-        list items and &gt; quotations. HTML and inline markup are displayed as
-        text.
-      </p>
-      <Button color="secondary" onPress={() => setPreview(!preview)}>
-        {preview ? 'Hide preview' : 'Preview article'}
-      </Button>
-      {preview && (
-        <section
-          aria-label="Article preview"
-          className="border-y border-secondary py-6"
-        >
-          <ArticleBody body={body} />
-        </section>
-      )}
-      <Input
-        name="author"
-        label="Author or byline"
-        maxLength={120}
-        defaultValue={initial?.author}
-      />
-      <Input
-        name="coverUrl"
-        label="Cover image URL (HTTPS)"
-        type="url"
-        maxLength={2000}
-        defaultValue={initial?.coverUrl}
-      />
-      <Input
-        name="coverAlt"
-        label="Cover alternative text"
-        maxLength={200}
-        defaultValue={initial?.coverAlt}
-      />
-      <Input
-        name="tags"
-        label="Tags (comma separated)"
-        maxLength={600}
-        defaultValue={initial?.tags.join(', ')}
-      />
-      <Input
-        name="seoTitle"
-        label="Search title (optional)"
-        maxLength={70}
-        defaultValue={initial?.seoTitle}
-      />
-      <Input
-        name="seoDescription"
-        label="Search description (optional)"
-        maxLength={180}
-        defaultValue={initial?.seoDescription}
-      />
-      <Input
-        name="publishedAt"
-        label="Publication instant (UTC)"
-        placeholder="2030-01-01T09:00:00Z"
-        defaultValue={initial?.publishedAt}
-        hint="Leave empty to publish now. Use an ISO UTC timestamp to schedule; drafts remain hidden."
-      />
-      <label
-        className="grid gap-1.5 text-sm font-medium text-secondary"
-        htmlFor="post-status"
+      <FormSection
+        title="Writing"
+        description="Shape the article and preview its content."
       >
-        Publication state
-        <select
-          className="min-h-11 w-full rounded-lg bg-primary px-3.5 py-2.5 text-md text-primary shadow-xs ring-1 ring-primary ring-inset outline-hidden focus:ring-2 focus:ring-brand"
-          defaultValue={initial?.status ?? 'DRAFT'}
-          id="post-status"
-          name="status"
+        <Input
+          isRequired
+          label="Title"
+          maxLength={160}
+          minLength={3}
+          name="title"
+          value={title}
+          onChange={(value) => {
+            setTitle(value)
+            if (!slugEdited) setSlug(slugify(value))
+          }}
+        />
+        <Input
+          hint="Generated from the title. Edit it only when the URL needs to differ."
+          isRequired
+          label="URL slug"
+          maxLength={160}
+          minLength={3}
+          name="slug"
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          value={slug}
+          onChange={(value) => {
+            setSlug(value)
+            setSlugEdited(true)
+          }}
+        />
+        <TextArea
+          defaultValue={initial?.excerpt}
+          isRequired
+          label="Excerpt"
+          maxLength={300}
+          name="excerpt"
+          rows={3}
+        />
+        <TextArea
+          value={body}
+          onChange={setBody}
+          isRequired
+          label="Body"
+          maxLength={100000}
+          name="body"
+          rows={16}
+        />
+        <p className="text-sm text-tertiary">
+          Separate blocks with blank lines. Use ## headings, ### subheadings, -
+          list items and &gt; quotations. HTML and inline markup are displayed
+          as text.
+        </p>
+        <Button color="secondary" onPress={() => setPreview(!preview)}>
+          {preview ? 'Hide preview' : 'Preview article'}
+        </Button>
+        {preview && (
+          <section
+            aria-label="Article preview"
+            className="border-y border-secondary py-6"
+          >
+            <ArticleBody body={body} />
+          </section>
+        )}
+      </FormSection>
+      <FormSection
+        title="Attribution & cover"
+        description="Show who wrote it and choose its cover image."
+      >
+        <Input
+          name="author"
+          label="Author or byline"
+          maxLength={120}
+          defaultValue={initial?.author}
+        />
+        <Input
+          name="coverUrl"
+          label="Cover image URL (HTTPS)"
+          type="url"
+          maxLength={2000}
+          defaultValue={initial?.coverUrl}
+        />
+        <Input
+          name="coverAlt"
+          label="Cover alternative text"
+          maxLength={200}
+          defaultValue={initial?.coverAlt}
+        />
+        <Input
+          name="tags"
+          label="Tags (comma separated)"
+          maxLength={600}
+          defaultValue={initial?.tags.join(', ')}
+        />
+      </FormSection>
+      <FormSection
+        title="Search appearance"
+        description="Help readers find this article."
+      >
+        <Input
+          name="seoTitle"
+          label="Search title (optional)"
+          maxLength={70}
+          defaultValue={initial?.seoTitle}
+        />
+        <Input
+          name="seoDescription"
+          label="Search description (optional)"
+          maxLength={180}
+          defaultValue={initial?.seoDescription}
+        />
+      </FormSection>
+      <FormSection
+        title="Publication"
+        description="Save a draft, publish now or choose a future date."
+      >
+        <Input
+          name="publishedAt"
+          label="Publication instant (UTC)"
+          placeholder="2030-01-01T09:00:00Z"
+          defaultValue={initial?.publishedAt}
+          hint="Leave empty to publish now. Use an ISO UTC timestamp to schedule; drafts remain hidden."
+        />
+        <label
+          className="grid gap-1.5 text-sm font-medium text-secondary"
+          htmlFor="post-status"
         >
-          <option value="DRAFT">Draft</option>
-          <option value="PUBLISHED">Published</option>
-        </select>
-      </label>
+          Publication state
+          <select
+            className="min-h-11 w-full rounded-lg bg-primary px-3.5 py-2.5 text-md text-primary shadow-xs ring-1 ring-primary ring-inset outline-hidden focus:ring-2 focus:ring-brand"
+            defaultValue={initial?.status ?? 'DRAFT'}
+            id="post-status"
+            name="status"
+          >
+            <option value="DRAFT">Draft</option>
+            <option value="PUBLISHED">Published</option>
+          </select>
+        </label>
+      </FormSection>
       {error ? (
         <p
           className="m-0 text-sm text-error-primary"

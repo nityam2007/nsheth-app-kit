@@ -57,6 +57,8 @@ export const getAdminPosts = createServerFn({ method: 'GET' })
         createdAt: true,
         updatedAt: true,
         publishedAt: true,
+        coverUrl: true,
+        excerpt: true,
         author: true,
         tags: true,
       },

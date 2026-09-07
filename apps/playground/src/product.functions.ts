@@ -78,6 +78,8 @@ export const getAdminProducts = createServerFn({ method: 'GET' })
         createdAt: true,
         updatedAt: true,
         publishedAt: true,
+        imageUrl: true,
+        summary: true,
         sku: true,
         stock: true,
         category: true,

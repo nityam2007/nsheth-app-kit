@@ -309,11 +309,25 @@ model User {
   email     String     @unique
   name      String?
   githubId String? @unique
+  passwordHash String?
+  emailVerifiedAt DateTime?
+  authChallenges AuthChallenge[]
   disabledAt DateTime?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   sessions Session[]
   roles     UserRole[]
+}
+
+model AuthChallenge {
+  tokenHash String @id
+  userId String @db.Uuid
+  kind String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, kind])
+  @@index([expiresAt])
 }
 
 model Session {

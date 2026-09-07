@@ -29,6 +29,8 @@ export type UserMinAggregateOutputType = {
   email: string | null
   name: string | null
   githubId: string | null
+  passwordHash: string | null
+  emailVerifiedAt: Date | null
   disabledAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -39,6 +41,8 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   name: string | null
   githubId: string | null
+  passwordHash: string | null
+  emailVerifiedAt: Date | null
   disabledAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +53,8 @@ export type UserCountAggregateOutputType = {
   email: number
   name: number
   githubId: number
+  passwordHash: number
+  emailVerifiedAt: number
   disabledAt: number
   createdAt: number
   updatedAt: number
@@ -61,6 +67,8 @@ export type UserMinAggregateInputType = {
   email?: true
   name?: true
   githubId?: true
+  passwordHash?: true
+  emailVerifiedAt?: true
   disabledAt?: true
   createdAt?: true
   updatedAt?: true
@@ -71,6 +79,8 @@ export type UserMaxAggregateInputType = {
   email?: true
   name?: true
   githubId?: true
+  passwordHash?: true
+  emailVerifiedAt?: true
   disabledAt?: true
   createdAt?: true
   updatedAt?: true
@@ -81,6 +91,8 @@ export type UserCountAggregateInputType = {
   email?: true
   name?: true
   githubId?: true
+  passwordHash?: true
+  emailVerifiedAt?: true
   disabledAt?: true
   createdAt?: true
   updatedAt?: true
@@ -164,6 +176,8 @@ export type UserGroupByOutputType = {
   email: string
   name: string | null
   githubId: string | null
+  passwordHash: string | null
+  emailVerifiedAt: Date | null
   disabledAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -195,9 +209,12 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
   githubId?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   disabledAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  authChallenges?: Prisma.AuthChallengeListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   roles?: Prisma.UserRoleListRelationFilter
 }
@@ -207,9 +224,12 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   disabledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  authChallenges?: Prisma.AuthChallengeOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   roles?: Prisma.UserRoleOrderByRelationAggregateInput
 }
@@ -222,9 +242,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   disabledAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  authChallenges?: Prisma.AuthChallengeListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   roles?: Prisma.UserRoleListRelationFilter
 }, "id" | "email" | "githubId">
@@ -234,6 +257,8 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   disabledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -250,6 +275,8 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   githubId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   disabledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -260,9 +287,12 @@ export type UserCreateInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
 }
@@ -272,9 +302,12 @@ export type UserUncheckedCreateInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
 }
@@ -284,9 +317,12 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
 }
@@ -296,9 +332,12 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -308,6 +347,8 @@ export type UserCreateManyInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -318,6 +359,8 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -328,6 +371,8 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -338,6 +383,8 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   disabledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -348,6 +395,8 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   disabledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -358,6 +407,8 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   githubId?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   disabledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -366,6 +417,20 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserCreateNestedOneWithoutAuthChallengesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthChallengesInput, Prisma.UserUncheckedCreateWithoutAuthChallengesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthChallengesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuthChallengesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthChallengesInput, Prisma.UserUncheckedCreateWithoutAuthChallengesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthChallengesInput
+  upsert?: Prisma.UserUpsertWithoutAuthChallengesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthChallengesInput, Prisma.UserUpdateWithoutAuthChallengesInput>, Prisma.UserUncheckedUpdateWithoutAuthChallengesInput>
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -396,14 +461,89 @@ export type UserUpdateOneRequiredWithoutRolesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRolesInput, Prisma.UserUpdateWithoutRolesInput>, Prisma.UserUncheckedUpdateWithoutRolesInput>
 }
 
+export type UserCreateWithoutAuthChallengesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
+  disabledAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAuthChallengesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
+  disabledAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAuthChallengesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthChallengesInput, Prisma.UserUncheckedCreateWithoutAuthChallengesInput>
+}
+
+export type UserUpsertWithoutAuthChallengesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthChallengesInput, Prisma.UserUncheckedUpdateWithoutAuthChallengesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthChallengesInput, Prisma.UserUncheckedCreateWithoutAuthChallengesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthChallengesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthChallengesInput, Prisma.UserUncheckedUpdateWithoutAuthChallengesInput>
+}
+
+export type UserUpdateWithoutAuthChallengesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthChallengesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutSessionsInput = {
   id?: string
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeCreateNestedManyWithoutUserInput
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
 }
 
@@ -412,9 +552,12 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedCreateNestedManyWithoutUserInput
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -439,9 +582,12 @@ export type UserUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUpdateManyWithoutUserNestedInput
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
 }
 
@@ -450,9 +596,12 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedUpdateManyWithoutUserNestedInput
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -461,9 +610,12 @@ export type UserCreateWithoutRolesInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -472,9 +624,12 @@ export type UserUncheckedCreateWithoutRolesInput = {
   email: string
   name?: string | null
   githubId?: string | null
+  passwordHash?: string | null
+  emailVerifiedAt?: Date | string | null
   disabledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -499,9 +654,12 @@ export type UserUpdateWithoutRolesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -510,9 +668,12 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   githubId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disabledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authChallenges?: Prisma.AuthChallengeUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -522,11 +683,13 @@ export type UserUncheckedUpdateWithoutRolesInput = {
  */
 
 export type UserCountOutputType = {
+  authChallenges: number
   sessions: number
   roles: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  authChallenges?: boolean | UserCountOutputTypeCountAuthChallengesArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   roles?: boolean | UserCountOutputTypeCountRolesArgs
 }
@@ -539,6 +702,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthChallengesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuthChallengeWhereInput
 }
 
 /**
@@ -561,9 +731,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   name?: boolean
   githubId?: boolean
+  passwordHash?: boolean
+  emailVerifiedAt?: boolean
   disabledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  authChallenges?: boolean | Prisma.User$authChallengesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -574,6 +747,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   name?: boolean
   githubId?: boolean
+  passwordHash?: boolean
+  emailVerifiedAt?: boolean
   disabledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -584,6 +759,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   name?: boolean
   githubId?: boolean
+  passwordHash?: boolean
+  emailVerifiedAt?: boolean
   disabledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -594,13 +771,16 @@ export type UserSelectScalar = {
   email?: boolean
   name?: boolean
   githubId?: boolean
+  passwordHash?: boolean
+  emailVerifiedAt?: boolean
   disabledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "githubId" | "disabledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "githubId" | "passwordHash" | "emailVerifiedAt" | "disabledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  authChallenges?: boolean | Prisma.User$authChallengesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -611,6 +791,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    authChallenges: Prisma.$AuthChallengePayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     roles: Prisma.$UserRolePayload<ExtArgs>[]
   }
@@ -619,6 +800,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     name: string | null
     githubId: string | null
+    passwordHash: string | null
+    emailVerifiedAt: Date | null
     disabledAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1016,6 +1199,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  authChallenges<T extends Prisma.User$authChallengesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authChallengesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1051,6 +1235,8 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly githubId: Prisma.FieldRef<"User", 'String'>
+  readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerifiedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly disabledAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -1444,6 +1630,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.authChallenges
+ */
+export type User$authChallengesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuthChallenge
+   */
+  select?: Prisma.AuthChallengeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuthChallenge
+   */
+  omit?: Prisma.AuthChallengeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthChallengeInclude<ExtArgs> | null
+  where?: Prisma.AuthChallengeWhereInput
+  orderBy?: Prisma.AuthChallengeOrderByWithRelationInput | Prisma.AuthChallengeOrderByWithRelationInput[]
+  cursor?: Prisma.AuthChallengeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuthChallengeScalarFieldEnum | Prisma.AuthChallengeScalarFieldEnum[]
 }
 
 /**

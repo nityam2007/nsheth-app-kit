@@ -414,6 +414,7 @@ export const ModelName = {
   Post: 'Post',
   PostRevision: 'PostRevision',
   User: 'User',
+  AuthChallenge: 'AuthChallenge',
   Session: 'Session',
   Role: 'Role',
   Permission: 'Permission',
@@ -437,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "inventoryMovement" | "auditEvent" | "order" | "closedCheckoutKey" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "postRevision" | "user" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
+    modelProps: "service" | "availabilitySlot" | "property" | "roomType" | "reservation" | "bookingRequest" | "product" | "inventoryMovement" | "auditEvent" | "order" | "closedCheckoutKey" | "paymentEvent" | "orderLine" | "enquiry" | "post" | "postRevision" | "user" | "authChallenge" | "session" | "role" | "permission" | "oauthAttempt" | "requestThrottle" | "privacyRequest" | "userRole" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1699,6 +1700,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AuthChallenge: {
+      payload: Prisma.$AuthChallengePayload<ExtArgs>
+      fields: Prisma.AuthChallengeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuthChallengeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuthChallengeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        findFirst: {
+          args: Prisma.AuthChallengeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuthChallengeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        findMany: {
+          args: Prisma.AuthChallengeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>[]
+        }
+        create: {
+          args: Prisma.AuthChallengeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        createMany: {
+          args: Prisma.AuthChallengeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuthChallengeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>[]
+        }
+        delete: {
+          args: Prisma.AuthChallengeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        update: {
+          args: Prisma.AuthChallengeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        deleteMany: {
+          args: Prisma.AuthChallengeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuthChallengeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuthChallengeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>[]
+        }
+        upsert: {
+          args: Prisma.AuthChallengeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuthChallengePayload>
+        }
+        aggregate: {
+          args: Prisma.AuthChallengeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuthChallenge>
+        }
+        groupBy: {
+          args: Prisma.AuthChallengeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthChallengeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuthChallengeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuthChallengeCountAggregateOutputType> | number
+        }
+      }
+    }
     Session: {
       payload: Prisma.$SessionPayload<ExtArgs>
       fields: Prisma.SessionFieldRefs
@@ -2616,12 +2691,25 @@ export const UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   githubId: 'githubId',
+  passwordHash: 'passwordHash',
+  emailVerifiedAt: 'emailVerifiedAt',
   disabledAt: 'disabledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AuthChallengeScalarFieldEnum = {
+  tokenHash: 'tokenHash',
+  userId: 'userId',
+  kind: 'kind',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AuthChallengeScalarFieldEnum = (typeof AuthChallengeScalarFieldEnum)[keyof typeof AuthChallengeScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -3053,6 +3141,7 @@ export type GlobalOmitConfig = {
   post?: Prisma.PostOmit
   postRevision?: Prisma.PostRevisionOmit
   user?: Prisma.UserOmit
+  authChallenge?: Prisma.AuthChallengeOmit
   session?: Prisma.SessionOmit
   role?: Prisma.RoleOmit
   permission?: Prisma.PermissionOmit

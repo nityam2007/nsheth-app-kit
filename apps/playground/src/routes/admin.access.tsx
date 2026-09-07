@@ -1,82 +1,112 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { getAccessUsers, updateAccess } from '../account.functions'
 import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/access')({
+  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+    record: typeof search.record === 'string' ? search.record : undefined,
+  }),
   loader: () => getAccessUsers(),
   component: Access,
 })
 function Access() {
   const users = Route.useLoaderData(),
     update = useServerFn(updateAccess)
+  const { record } = Route.useSearch()
+  if (record && !users.some((item) => item.id === record)) throw notFound()
+  if (!record)
+    return (
+      <ObjectCollection
+        title="Team access"
+        eyebrow="People"
+        description="Roles and access controls for the people in your workspace."
+        objects={users.map((u) => ({
+          id: u.id,
+          title: u.name || u.email,
+          subtitle: u.email,
+          status: u.disabledAt ? 'DISABLED' : 'ACTIVE',
+          href: '/admin/access?record=' + u.id,
+          meta: [
+            { label: 'Role', value: u.roles.map((r) => r.role.key).join(', ') },
+          ],
+        }))}
+      />
+    )
   return (
     <section>
+      <RecordTrail href="/admin/access" label="Team access" />
       <PageHeading
         eyebrow="Identity"
-        title="Team access"
+        title={
+          users.find((u) => u.id === record)!.name ??
+          users.find((u) => u.id === record)!.email
+        }
         description="Users sign in first. Assign a role to give them a workspace. Changes revoke their current sessions; you cannot change your own access."
       />
-      <div className="grid gap-6 lg:grid-cols-2">
-        {users.map((u) => (
-          <article
-            key={u.id}
-            className="rounded-xl border border-secondary p-6"
-          >
-            <h2 className="mb-2 font-semibold text-primary">
-              {u.name ?? u.email}
-            </h2>
-            <p className="mb-5 text-sm text-tertiary">
-              {u.email} · {u.roles.map((r) => r.role.key).join(', ')}
-            </p>
-            <ActionForm
-              label="Update access"
-              action={(f) => {
-                const role = f.get('role')
-                return update({
-                  data: {
-                    userId: u.id,
-                    role:
-                      role === 'admin'
-                        ? 'admin'
-                        : role === 'staff'
-                          ? 'staff'
-                          : role === 'editor'
-                            ? 'editor'
-                            : 'customer',
-                    disabled: f.get('disabled') === 'true',
-                  },
-                })
-              }}
+      <div className="grid gap-6">
+        {users
+          .filter((item) => item.id === record)
+          .map((u) => (
+            <article
+              key={u.id}
+              className="rounded-xl border border-secondary bg-primary p-6 sm:p-8"
             >
-              <SelectField
-                name="role"
-                label="Role"
-                defaultValue={
-                  u.roles.find((r) => r.role.key !== 'customer')?.role.key ??
-                  'customer'
-                }
+              <h2 className="mb-2 font-semibold text-primary">
+                {u.name ?? u.email}
+              </h2>
+              <p className="mb-5 text-sm text-tertiary">
+                {u.email} · {u.roles.map((r) => r.role.key).join(', ')}
+              </p>
+              <ActionForm
+                label="Update access"
+                action={(f) => {
+                  const role = f.get('role')
+                  return update({
+                    data: {
+                      userId: u.id,
+                      role:
+                        role === 'admin'
+                          ? 'admin'
+                          : role === 'staff'
+                            ? 'staff'
+                            : role === 'editor'
+                              ? 'editor'
+                              : 'customer',
+                      disabled: f.get('disabled') === 'true',
+                    },
+                  })
+                }}
               >
-                <option value="customer">Customer — own activity only</option>
-                <option value="editor">Editor — content and catalogue</option>
-                <option value="staff">
-                  Staff — bookings, stays, orders, inbox
-                </option>
-                <option value="admin">
-                  Admin — all modules and team access
-                </option>
-              </SelectField>
-              <SelectField
-                name="disabled"
-                label="Account status"
-                defaultValue={String(Boolean(u.disabledAt))}
-              >
-                <option value="false">Active</option>
-                <option value="true">Disabled</option>
-              </SelectField>
-            </ActionForm>
-          </article>
-        ))}
+                <SelectField
+                  name="role"
+                  label="Role"
+                  defaultValue={
+                    u.roles.find((r) => r.role.key !== 'customer')?.role.key ??
+                    'customer'
+                  }
+                >
+                  <option value="customer">Customer — own activity only</option>
+                  <option value="editor">Editor — content and catalogue</option>
+                  <option value="staff">
+                    Staff — bookings, stays, orders, inbox
+                  </option>
+                  <option value="admin">
+                    Admin — all modules and team access
+                  </option>
+                </SelectField>
+                <SelectField
+                  name="disabled"
+                  label="Account status"
+                  defaultValue={String(Boolean(u.disabledAt))}
+                >
+                  <option value="false">Active</option>
+                  <option value="true">Disabled</option>
+                </SelectField>
+              </ActionForm>
+            </article>
+          ))}
       </div>
     </section>
   )

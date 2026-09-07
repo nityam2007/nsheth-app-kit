@@ -7,7 +7,7 @@ import { cx, sortCx } from '@/utils/cx'
 
 const styles = sortCx({
   common:
-    'group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    'group relative inline-flex min-h-11 h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand transition duration-100 ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
   sizes: {
     sm: 'gap-1 rounded-lg px-3 py-2 text-sm font-semibold',
     md: 'gap-1 rounded-lg px-3.5 py-2.5 text-sm font-semibold',

@@ -1,5 +1,6 @@
+import { SiteHeader } from '../components/site-header'
 import { requireRouteModule } from '../module-route'
-import { appConfig, moduleEnabled } from '../app.config'
+import { appConfig } from '../app.config'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
 import { Container } from '@/components/container'
@@ -28,26 +29,7 @@ function BlogLayout() {
       >
         Skip to content
       </a>
-      <header className="border-b border-secondary">
-        <Container className="flex min-h-18 items-center justify-between gap-6">
-          <Link className="text-lg font-semibold text-primary" to="/">
-            {appConfig.name}
-          </Link>
-          <nav className="flex items-center gap-5" aria-label="Blog navigation">
-            <Link className="text-sm font-semibold text-primary" to="/blog">
-              Notes
-            </Link>
-            {moduleEnabled('product') && (
-              <Link
-                className="text-sm font-semibold text-tertiary"
-                to="/catalogue"
-              >
-                Catalogue
-              </Link>
-            )}
-          </nav>
-        </Container>
-      </header>
+      <SiteHeader />
       <main id="blog-content">
         <Outlet />
       </main>

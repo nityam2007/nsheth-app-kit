@@ -103,6 +103,11 @@ export type PostRevision = Prisma.PostRevisionModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model AuthChallenge
+ * 
+ */
+export type AuthChallenge = Prisma.AuthChallengeModel
+/**
  * Model Session
  * 
  */

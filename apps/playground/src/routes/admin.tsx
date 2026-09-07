@@ -53,7 +53,7 @@ function AdminLayout() {
   }, [pathname])
 
   return (
-    <div className="min-h-svh bg-secondary lg:grid lg:grid-cols-[17.5rem_minmax(0,1fr)]">
+    <div className="admin-workspace min-h-svh bg-secondary lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
       <a
         className="fixed top-3 left-3 z-50 -translate-y-24 rounded-lg bg-brand-solid px-4 py-2.5 text-sm font-semibold text-white focus:translate-y-0 focus:outline-2 focus:outline-offset-2 focus:outline-brand"
         href="#admin-content"
@@ -88,7 +88,7 @@ function AdminLayout() {
             <Menu01 aria-hidden="true" className="size-6" />
           </button>
           <strong className="min-w-0 truncate text-sm font-semibold text-primary">
-            {activeModule?.label ?? 'Admin workspace'}
+            {activeModule?.label ?? 'Overview'}
           </strong>
           <Link
             className="flex size-11 items-center justify-center rounded-lg text-secondary outline-brand hover:bg-primary_hover focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -141,7 +141,7 @@ function AdminLayout() {
 
         <header className="hidden min-h-18 items-center justify-between gap-4 border-b border-secondary bg-primary px-8 lg:flex">
           <span className="text-sm font-semibold text-secondary">
-            {activeModule?.label ?? 'Admin workspace'}
+            {activeModule?.label ?? 'Overview'}
           </span>
           <Link
             className="text-sm font-semibold text-brand-secondary hover:text-brand-secondary_hover"
@@ -172,7 +172,12 @@ function AdminNavigation({
   pathname: string
   principal: Principal
 }) {
-  const groups = new Map<string, Array<AdminModule>>()
+  const groups = new Map<string, Array<AdminModule>>(
+    ['Sell', 'Schedule', 'Host', 'Publish', 'Inbox', 'People'].map((group) => [
+      group,
+      [],
+    ]),
+  )
   for (const module of modules) {
     const group = groups.get(module.group)
     if (group) group.push(module)
@@ -185,50 +190,71 @@ function AdminNavigation({
         className="min-h-0 flex-1 overflow-y-auto p-4"
         aria-label="Admin modules"
       >
+        <a
+          href="/admin"
+          onClick={onNavigate}
+          aria-current={pathname === '/admin' ? 'page' : undefined}
+          className={
+            'mb-6 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold ' +
+            (pathname === '/admin'
+              ? 'bg-secondary text-primary'
+              : 'text-tertiary hover:bg-secondary')
+          }
+        >
+          <Home01 className="size-5" aria-hidden="true" /> Overview
+        </a>
         <div className="grid gap-6">
-          {[...groups].map(([group, groupModules]) => (
-            <section key={group}>
-              <h2 className="mb-2 px-3 text-xs font-semibold text-quaternary">
-                {group}
-              </h2>
-              <ul className="grid gap-1">
-                {groupModules.map((module) => {
-                  const active =
-                    pathname === module.href ||
-                    pathname.startsWith(`${module.href}/`)
-                  return (
-                    <li key={module.id}>
-                      <a
-                        className={
-                          active
-                            ? 'flex min-h-11 items-center gap-3 rounded-lg bg-secondary px-3 py-2 text-sm font-semibold text-primary'
-                            : 'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-tertiary hover:bg-primary_hover hover:text-tertiary_hover'
-                        }
-                        href={module.href}
-                        aria-current={active ? 'page' : undefined}
-                        onClick={onNavigate}
-                      >
-                        <span
+          {[...groups]
+            .filter(([, items]) => items.length)
+            .map(([group, groupModules]) => (
+              <section key={group}>
+                <h2 className="mb-2 px-3 text-xs font-semibold text-quaternary">
+                  {group}
+                </h2>
+                <ul className="grid gap-1">
+                  {groupModules.map((module) => {
+                    const active =
+                      pathname === module.href ||
+                      pathname.startsWith(`${module.href}/`)
+                    return (
+                      <li key={module.id}>
+                        <a
                           className={
                             active
-                              ? 'flex size-8 items-center justify-center rounded-md bg-brand-primary text-brand-secondary'
-                              : 'flex size-8 items-center justify-center rounded-md text-quaternary'
+                              ? 'flex min-h-11 items-center gap-3 rounded-lg bg-secondary px-3 py-2 text-sm font-semibold text-primary'
+                              : 'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-tertiary hover:bg-primary_hover hover:text-tertiary_hover'
                           }
+                          href={module.href}
+                          aria-current={active ? 'page' : undefined}
+                          onClick={onNavigate}
                         >
-                          <ModuleIcon id={module.id} />
-                        </span>
-                        {module.label}
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
-            </section>
-          ))}
+                          <span
+                            className={
+                              active
+                                ? 'flex size-8 items-center justify-center rounded-md bg-brand-primary text-brand-secondary'
+                                : 'flex size-8 items-center justify-center rounded-md text-quaternary'
+                            }
+                          >
+                            <ModuleIcon id={module.id} />
+                          </span>
+                          {module.label}
+                        </a>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </section>
+            ))}
         </div>
       </nav>
 
       <div className="border-t border-secondary p-4">
+        <a
+          href="/account"
+          className="mb-3 flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-secondary hover:bg-secondary"
+        >
+          Account & security →
+        </a>
         <div className="flex min-w-0 items-center gap-3 rounded-lg px-2 py-2">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-primary text-sm font-semibold text-brand-secondary">
             {principal.email.charAt(0).toUpperCase()}

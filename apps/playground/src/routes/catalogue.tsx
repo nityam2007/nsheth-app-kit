@@ -1,4 +1,5 @@
-import { appConfig, moduleEnabled } from '../app.config'
+import { SiteHeader } from '../components/site-header'
+import { appConfig } from '../app.config'
 import { requireRouteModule } from '../module-route'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
@@ -29,29 +30,7 @@ function CatalogueLayout() {
       >
         Skip to content
       </a>
-      <header className="border-b border-secondary">
-        <Container className="flex min-h-18 items-center justify-between gap-6">
-          <Link className="text-lg font-semibold text-primary" to="/">
-            {appConfig.name}
-          </Link>
-          <nav
-            className="flex items-center gap-5"
-            aria-label="Catalogue navigation"
-          >
-            <Link
-              className="text-sm font-semibold text-primary"
-              to="/catalogue"
-            >
-              Catalogue
-            </Link>
-            {moduleEnabled('content') && (
-              <Link className="text-sm font-semibold text-tertiary" to="/blog">
-                Notes
-              </Link>
-            )}
-          </nav>
-        </Container>
-      </header>
+      <SiteHeader />
       <main id="catalogue-content">
         <Outlet />
       </main>

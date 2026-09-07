@@ -3,7 +3,7 @@ import type { AdminModule } from '@nsheth/admin'
 
 export const identityUsersModule = {
   id: 'identity-users',
-  group: 'Identity',
+  group: 'People',
   label: 'People',
   href: '/admin/users',
   permission: 'identity.read',
@@ -11,7 +11,7 @@ export const identityUsersModule = {
 
 export const contentPostsModule = {
   id: 'content-posts',
-  group: 'Content',
+  group: 'Publish',
   label: 'Posts',
   href: '/admin/posts',
   permission: 'content.read',
@@ -19,7 +19,7 @@ export const contentPostsModule = {
 
 export const productCatalogueModule = {
   id: 'product-catalogue',
-  group: 'Catalogue',
+  group: 'Sell',
   label: 'Products',
   href: '/admin/products',
   permission: 'product.read',
@@ -28,57 +28,57 @@ export const productCatalogueModule = {
 const registeredModules = [
   {
     id: 'operations-enquiries',
-    group: 'Operations',
+    group: 'Inbox',
     label: 'Enquiries',
     href: '/admin/enquiries',
     permission: 'operations.read',
   },
   {
     id: 'operations-privacy',
-    group: 'Operations',
+    group: 'Inbox',
     label: 'Privacy requests',
     href: '/admin/privacy',
     permission: 'operations.read',
   },
   {
     id: 'identity-access',
-    group: 'Identity',
+    group: 'People',
     label: 'Team access',
     href: '/admin/access',
     permission: 'identity.write',
   },
   {
     id: 'commerce-orders',
-    group: 'Commerce',
+    group: 'Sell',
     label: 'Orders',
     href: '/admin/orders',
     permission: 'commerce.read',
   },
   {
     id: 'hospitality-properties',
-    group: 'Hospitality',
+    group: 'Host',
     label: 'Properties',
     href: '/admin/properties',
     permission: 'hospitality.read',
   },
   {
     id: 'hospitality-reservations',
-    group: 'Hospitality',
+    group: 'Host',
     label: 'Reservations',
     href: '/admin/reservations',
     permission: 'hospitality.read',
   },
   {
     id: 'booking-services',
-    group: 'Booking',
+    group: 'Schedule',
     label: 'Services',
     href: '/admin/services',
     permission: 'booking.read',
   },
   {
     id: 'booking-requests',
-    group: 'Booking',
-    label: 'Requests',
+    group: 'Schedule',
+    label: 'Appointments',
     href: '/admin/bookings',
     permission: 'booking.read',
   },

@@ -1,3 +1,4 @@
+import { FormSection } from './workspace'
 import { StructuredRows } from '../structured-rows'
 import { errorMessage } from '../../errors'
 import { Link, useBlocker, useNavigate } from '@tanstack/react-router'
@@ -94,7 +95,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
       bypassBlocker.current = false
       setError(
         errorMessage(
-          error,
+          failure,
           'Could not save this product. Check the fields and slug.',
         ),
       )
@@ -105,52 +106,57 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
 
   return (
     <form
-      className="grid max-w-3xl gap-6 rounded-xl bg-primary p-5 shadow-xs ring-1 ring-secondary sm:p-8"
+      className="grid max-w-4xl gap-6"
       onChange={() => setIsDirty(true)}
       onSubmit={handleSubmit}
     >
-      <Input
-        isRequired
-        label="Name"
-        maxLength={160}
-        minLength={3}
-        name="name"
-        value={name}
-        onChange={(value) => {
-          setName(value)
-          if (!slugEdited) setSlug(slugify(value))
-        }}
-      />
-      <Input
-        hint="Generated from the name. Edit it only when the URL needs to differ."
-        isRequired
-        label="URL slug"
-        maxLength={160}
-        minLength={3}
-        name="slug"
-        pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-        value={slug}
-        onChange={(value) => {
-          setSlug(value)
-          setSlugEdited(true)
-        }}
-      />
-      <TextArea
-        defaultValue={initial?.summary}
-        isRequired
-        label="Summary"
-        maxLength={300}
-        name="summary"
-        rows={3}
-      />
-      <TextArea
-        defaultValue={initial?.description}
-        isRequired
-        label="Description"
-        maxLength={100000}
-        name="description"
-        rows={16}
-      />
+      <FormSection
+        title="Product story"
+        description="Give customers a clear name and description."
+      >
+        <Input
+          isRequired
+          label="Name"
+          maxLength={160}
+          minLength={3}
+          name="name"
+          value={name}
+          onChange={(value) => {
+            setName(value)
+            if (!slugEdited) setSlug(slugify(value))
+          }}
+        />
+        <Input
+          hint="Generated from the name. Edit it only when the URL needs to differ."
+          isRequired
+          label="URL slug"
+          maxLength={160}
+          minLength={3}
+          name="slug"
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          value={slug}
+          onChange={(value) => {
+            setSlug(value)
+            setSlugEdited(true)
+          }}
+        />
+        <TextArea
+          defaultValue={initial?.summary}
+          isRequired
+          label="Summary"
+          maxLength={300}
+          name="summary"
+          rows={3}
+        />
+        <TextArea
+          defaultValue={initial?.description}
+          isRequired
+          label="Description"
+          maxLength={100000}
+          name="description"
+          rows={16}
+        />
+      </FormSection>
       <fieldset className="grid gap-5 rounded-xl border border-secondary p-5">
         <legend className="px-2 font-semibold text-primary">
           Identity & classification

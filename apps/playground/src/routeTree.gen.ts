@@ -14,12 +14,19 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PaymentReturnRouteImport } from './routes/payment-return'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as StaysRouteImport } from './routes/stays'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as AccountIndexRouteImport } from './routes/account.index'
+import { Route as AccountProfileRouteImport } from './routes/account.profile'
+import { Route as AccountSecurityRouteImport } from './routes/account.security'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAccessRouteImport } from './routes/admin.access'
 import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
@@ -65,7 +72,9 @@ import { Route as AdminProductsSlugEditRouteImport } from './routes/admin.produc
 import { Route as AdminProductsSlugSaleRouteImport } from './routes/admin.products.$slug.sale'
 import { Route as AdminPropertiesSlugIndexRouteImport } from './routes/admin.properties.$slug.index'
 import { Route as AdminPropertiesSlugEditRouteImport } from './routes/admin.properties.$slug.edit'
+import { Route as AdminPropertiesSlugRoomsRouteImport } from './routes/admin.properties.$slug.rooms'
 import { Route as AdminServicesSlugIndexRouteImport } from './routes/admin.services.$slug.index'
+import { Route as AdminServicesSlugAvailabilityRouteImport } from './routes/admin.services.$slug.availability'
 import { Route as AdminServicesSlugEditRouteImport } from './routes/admin.services.$slug.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -93,6 +102,11 @@ const CatalogueRoute = CatalogueRouteImport.update({
   path: '/catalogue',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -106,6 +120,16 @@ const PaymentReturnRoute = PaymentReturnRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -122,6 +146,26 @@ const StaysRoute = StaysRouteImport.update({
   id: '/stays',
   path: '/stays',
   getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountIndexRoute = AccountIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountProfileRoute = AccountProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AccountRoute,
+} as any)
+const AccountSecurityRoute = AccountSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AccountRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -349,11 +393,23 @@ const AdminPropertiesSlugEditRoute = AdminPropertiesSlugEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AdminPropertiesSlugRoute,
 } as any)
+const AdminPropertiesSlugRoomsRoute =
+  AdminPropertiesSlugRoomsRouteImport.update({
+    id: '/rooms',
+    path: '/rooms',
+    getParentRoute: () => AdminPropertiesSlugRoute,
+  } as any)
 const AdminServicesSlugIndexRoute = AdminServicesSlugIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminServicesSlugRoute,
 } as any)
+const AdminServicesSlugAvailabilityRoute =
+  AdminServicesSlugAvailabilityRouteImport.update({
+    id: '/availability',
+    path: '/availability',
+    getParentRoute: () => AdminServicesSlugRoute,
+  } as any)
 const AdminServicesSlugEditRoute = AdminServicesSlugEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -362,16 +418,22 @@ const AdminServicesSlugEditRoute = AdminServicesSlugEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
+  '/account': typeof AccountRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
+  '/verify-email': typeof VerifyEmailRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
   '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -392,6 +454,7 @@ export interface FileRoutesByFullPath {
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
+  '/account/': typeof AccountIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
@@ -414,6 +477,8 @@ export interface FileRoutesByFullPath {
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
   '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
+  '/admin/properties/$slug/rooms': typeof AdminPropertiesSlugRoomsRoute
+  '/admin/services/$slug/availability': typeof AdminServicesSlugAvailabilityRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug/': typeof AdminProductsSlugIndexRoute
@@ -422,10 +487,15 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
   '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -442,6 +512,7 @@ export interface FileRoutesByTo {
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
+  '/account': typeof AccountIndexRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/catalogue': typeof CatalogueIndexRoute
@@ -460,6 +531,8 @@ export interface FileRoutesByTo {
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
   '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
+  '/admin/properties/$slug/rooms': typeof AdminPropertiesSlugRoomsRoute
+  '/admin/services/$slug/availability': typeof AdminServicesSlugAvailabilityRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug': typeof AdminProductsSlugIndexRoute
@@ -469,16 +542,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/account': typeof AccountRoute
+  '/account': typeof AccountRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/catalogue': typeof CatalogueRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/payment-return': typeof PaymentReturnRoute
   '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/stays': typeof StaysRouteWithChildren
+  '/verify-email': typeof VerifyEmailRoute
+  '/account/profile': typeof AccountProfileRoute
+  '/account/security': typeof AccountSecurityRoute
   '/admin/access': typeof AdminAccessRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/enquiries': typeof AdminEnquiriesRoute
@@ -499,6 +578,7 @@ export interface FileRoutesById {
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/cart': typeof ShopCartRoute
   '/stays/$slug': typeof StaysSlugRoute
+  '/account/': typeof AccountIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/catalogue/': typeof CatalogueIndexRoute
@@ -521,6 +601,8 @@ export interface FileRoutesById {
   '/admin/products/$slug/edit': typeof AdminProductsSlugEditRoute
   '/admin/products/$slug/sale': typeof AdminProductsSlugSaleRoute
   '/admin/properties/$slug/edit': typeof AdminPropertiesSlugEditRoute
+  '/admin/properties/$slug/rooms': typeof AdminPropertiesSlugRoomsRoute
+  '/admin/services/$slug/availability': typeof AdminServicesSlugAvailabilityRoute
   '/admin/services/$slug/edit': typeof AdminServicesSlugEditRoute
   '/admin/posts/$slug/': typeof AdminPostsSlugIndexRoute
   '/admin/products/$slug/': typeof AdminProductsSlugIndexRoute
@@ -535,12 +617,18 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/forgot-password'
     | '/login'
     | '/payment-return'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
     | '/services'
     | '/shop'
     | '/stays'
+    | '/verify-email'
+    | '/account/profile'
+    | '/account/security'
     | '/admin/access'
     | '/admin/bookings'
     | '/admin/enquiries'
@@ -561,6 +649,7 @@ export interface FileRouteTypes {
     | '/shop/$slug'
     | '/shop/cart'
     | '/stays/$slug'
+    | '/account/'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
@@ -583,6 +672,8 @@ export interface FileRouteTypes {
     | '/admin/products/$slug/edit'
     | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
+    | '/admin/properties/$slug/rooms'
+    | '/admin/services/$slug/availability'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
     | '/admin/products/$slug/'
@@ -591,10 +682,15 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/account'
+    | '/forgot-password'
     | '/login'
     | '/payment-return'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
+    | '/verify-email'
+    | '/account/profile'
+    | '/account/security'
     | '/admin/access'
     | '/admin/bookings'
     | '/admin/enquiries'
@@ -611,6 +707,7 @@ export interface FileRouteTypes {
     | '/shop/$slug'
     | '/shop/cart'
     | '/stays/$slug'
+    | '/account'
     | '/admin'
     | '/blog'
     | '/catalogue'
@@ -629,6 +726,8 @@ export interface FileRouteTypes {
     | '/admin/products/$slug/edit'
     | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
+    | '/admin/properties/$slug/rooms'
+    | '/admin/services/$slug/availability'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug'
     | '/admin/products/$slug'
@@ -641,12 +740,18 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blog'
     | '/catalogue'
+    | '/forgot-password'
     | '/login'
     | '/payment-return'
     | '/privacy'
+    | '/register'
+    | '/reset-password'
     | '/services'
     | '/shop'
     | '/stays'
+    | '/verify-email'
+    | '/account/profile'
+    | '/account/security'
     | '/admin/access'
     | '/admin/bookings'
     | '/admin/enquiries'
@@ -667,6 +772,7 @@ export interface FileRouteTypes {
     | '/shop/$slug'
     | '/shop/cart'
     | '/stays/$slug'
+    | '/account/'
     | '/admin/'
     | '/blog/'
     | '/catalogue/'
@@ -689,6 +795,8 @@ export interface FileRouteTypes {
     | '/admin/products/$slug/edit'
     | '/admin/products/$slug/sale'
     | '/admin/properties/$slug/edit'
+    | '/admin/properties/$slug/rooms'
+    | '/admin/services/$slug/availability'
     | '/admin/services/$slug/edit'
     | '/admin/posts/$slug/'
     | '/admin/products/$slug/'
@@ -698,16 +806,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccountRoute: typeof AccountRoute
+  AccountRoute: typeof AccountRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
   CatalogueRoute: typeof CatalogueRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   PaymentReturnRoute: typeof PaymentReturnRoute
   PrivacyRoute: typeof PrivacyRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   ShopRoute: typeof ShopRouteWithChildren
   StaysRoute: typeof StaysRouteWithChildren
+  VerifyEmailRoute: typeof VerifyEmailRoute
   ApiStripeRoute: typeof ApiStripeRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthGithubRoute: typeof AuthGithubRoute
@@ -750,6 +862,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogueRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -769,6 +888,20 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -791,6 +924,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/stays'
       preLoaderRoute: typeof StaysRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/': {
+      id: '/account/'
+      path: '/'
+      fullPath: '/account/'
+      preLoaderRoute: typeof AccountIndexRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/profile': {
+      id: '/account/profile'
+      path: '/profile'
+      fullPath: '/account/profile'
+      preLoaderRoute: typeof AccountProfileRouteImport
+      parentRoute: typeof AccountRoute
+    }
+    '/account/security': {
+      id: '/account/security'
+      path: '/security'
+      fullPath: '/account/security'
+      preLoaderRoute: typeof AccountSecurityRouteImport
+      parentRoute: typeof AccountRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -1107,11 +1268,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPropertiesSlugEditRouteImport
       parentRoute: typeof AdminPropertiesSlugRoute
     }
+    '/admin/properties/$slug/rooms': {
+      id: '/admin/properties/$slug/rooms'
+      path: '/rooms'
+      fullPath: '/admin/properties/$slug/rooms'
+      preLoaderRoute: typeof AdminPropertiesSlugRoomsRouteImport
+      parentRoute: typeof AdminPropertiesSlugRoute
+    }
     '/admin/services/$slug/': {
       id: '/admin/services/$slug/'
       path: '/'
       fullPath: '/admin/services/$slug/'
       preLoaderRoute: typeof AdminServicesSlugIndexRouteImport
+      parentRoute: typeof AdminServicesSlugRoute
+    }
+    '/admin/services/$slug/availability': {
+      id: '/admin/services/$slug/availability'
+      path: '/availability'
+      fullPath: '/admin/services/$slug/availability'
+      preLoaderRoute: typeof AdminServicesSlugAvailabilityRouteImport
       parentRoute: typeof AdminServicesSlugRoute
     }
     '/admin/services/$slug/edit': {
@@ -1123,6 +1298,21 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AccountRouteChildren {
+  AccountProfileRoute: typeof AccountProfileRoute
+  AccountSecurityRoute: typeof AccountSecurityRoute
+  AccountIndexRoute: typeof AccountIndexRoute
+}
+
+const AccountRouteChildren: AccountRouteChildren = {
+  AccountProfileRoute: AccountProfileRoute,
+  AccountSecurityRoute: AccountSecurityRoute,
+  AccountIndexRoute: AccountIndexRoute,
+}
+
+const AccountRouteWithChildren =
+  AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface AdminPostsSlugRouteChildren {
   AdminPostsSlugEditRoute: typeof AdminPostsSlugEditRoute
@@ -1187,11 +1377,13 @@ const AdminProductsRouteWithChildren = AdminProductsRoute._addFileChildren(
 
 interface AdminPropertiesSlugRouteChildren {
   AdminPropertiesSlugEditRoute: typeof AdminPropertiesSlugEditRoute
+  AdminPropertiesSlugRoomsRoute: typeof AdminPropertiesSlugRoomsRoute
   AdminPropertiesSlugIndexRoute: typeof AdminPropertiesSlugIndexRoute
 }
 
 const AdminPropertiesSlugRouteChildren: AdminPropertiesSlugRouteChildren = {
   AdminPropertiesSlugEditRoute: AdminPropertiesSlugEditRoute,
+  AdminPropertiesSlugRoomsRoute: AdminPropertiesSlugRoomsRoute,
   AdminPropertiesSlugIndexRoute: AdminPropertiesSlugIndexRoute,
 }
 
@@ -1215,11 +1407,13 @@ const AdminPropertiesRouteWithChildren = AdminPropertiesRoute._addFileChildren(
 )
 
 interface AdminServicesSlugRouteChildren {
+  AdminServicesSlugAvailabilityRoute: typeof AdminServicesSlugAvailabilityRoute
   AdminServicesSlugEditRoute: typeof AdminServicesSlugEditRoute
   AdminServicesSlugIndexRoute: typeof AdminServicesSlugIndexRoute
 }
 
 const AdminServicesSlugRouteChildren: AdminServicesSlugRouteChildren = {
+  AdminServicesSlugAvailabilityRoute: AdminServicesSlugAvailabilityRoute,
   AdminServicesSlugEditRoute: AdminServicesSlugEditRoute,
   AdminServicesSlugIndexRoute: AdminServicesSlugIndexRoute,
 }
@@ -1343,16 +1537,20 @@ const StaysRouteWithChildren = StaysRoute._addFileChildren(StaysRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccountRoute: AccountRoute,
+  AccountRoute: AccountRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
   CatalogueRoute: CatalogueRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   PaymentReturnRoute: PaymentReturnRoute,
   PrivacyRoute: PrivacyRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServicesRoute: ServicesRouteWithChildren,
   ShopRoute: ShopRouteWithChildren,
   StaysRoute: StaysRouteWithChildren,
+  VerifyEmailRoute: VerifyEmailRoute,
   ApiStripeRoute: ApiStripeRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthGithubRoute: AuthGithubRoute,

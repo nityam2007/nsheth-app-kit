@@ -334,10 +334,12 @@ export const placeOrder = createServerFn({ method: 'POST' })
 export const getOrders = createServerFn({ method: 'GET' })
   .middleware([moduleMiddleware('commerce')])
   .middleware([identityMiddleware])
-  .handler(async ({ context }) => {
+  .validator(z.object({ record: z.uuid().optional() }).optional())
+  .handler(async ({ context, data }) => {
     if (!hasPermission(context.principal, 'commerce.read'))
       rejectRequest(403, 'Forbidden')
     const orders = await getPrisma().order.findMany({
+      where: data?.record ? { id: data.record } : undefined,
       select: {
         id: true,
         name: true,

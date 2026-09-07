@@ -25,6 +25,18 @@ export function RouteError({ error }: { error: Error }) {
           'Please try again. If you just submitted a request, check for a reference before submitting it again.',
         )}
       </p>
+      {import.meta.env.DEV && !status && (
+        <details open className="mb-6 rounded-lg border border-secondary p-4">
+          <summary className="font-semibold text-secondary">
+            Development error details
+          </summary>
+          <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-sm text-tertiary">
+            {error instanceof Error
+              ? `${error.name}: ${error.message}`
+              : String(error)}
+          </pre>
+        </details>
+      )}
       {import.meta.env.DEV && status === 503 && (
         <p className="mb-6 text-sm text-tertiary">
           Local setup: run npm run doctor, start PostgreSQL, and apply the

@@ -1,10 +1,12 @@
 import {spawn} from 'node:child_process'
 import {resolve} from 'node:path'
 import {root,localDatabase,checkDatabase} from './local-database.mjs'
+import {assertDevelopmentPortFree} from './local-server.mjs'
 let database,child
 async function close(){child?.kill();await database?.close()}
 for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>{void close().then(()=>process.exit(0))})
 try{
+ if(!process.argv.includes('--check'))await assertDevelopmentPortFree()
  database=await localDatabase({start:true})
  await checkDatabase(database.env)
  if(!process.argv.includes('--check')){

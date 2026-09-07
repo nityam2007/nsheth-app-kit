@@ -1,3 +1,4 @@
+import { publicErrorAdapter } from './error-serialization'
 import {
   createStart,
   createMiddleware,
@@ -40,13 +41,20 @@ const safeErrors = createMiddleware({ type: 'function' }).server(
 const securityHeaders = createMiddleware().server(async ({ next }) => {
   const request = getRequest(),
     pathname = new URL(request.url).pathname
-  if (
+  const noStore =
+    process.env.NODE_ENV !== 'production' ||
     pathname.startsWith('/admin') ||
-    pathname === '/account' ||
+    pathname.startsWith('/account') ||
+    [
+      '/login',
+      '/register',
+      '/verify-email',
+      '/reset-password',
+      '/forgot-password',
+    ].includes(pathname) ||
     pathname.startsWith('/_serverFn/') ||
     pathname.startsWith('/auth/')
-  )
-    setResponseHeader('Cache-Control', 'private, no-store')
+  if (noStore) setResponseHeader('Cache-Control', 'private, no-store')
   // Bound actual streamed bytes as well as Content-Length before JSON/webhook parsing.
   if (request.method === 'POST' && request.body) {
     const limit = 1024 * 1024
@@ -79,22 +87,30 @@ const securityHeaders = createMiddleware().server(async ({ next }) => {
   const headers = new Headers(result.response.headers)
   headers.delete('X-App-Status')
   headers.set('X-Content-Type-Options', 'nosniff')
-  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  headers.set(
+    'Referrer-Policy',
+    ['/verify-email', '/reset-password'].includes(pathname)
+      ? 'no-referrer'
+      : 'strict-origin-when-cross-origin',
+  )
   headers.set('X-Frame-Options', 'DENY')
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
-  if (
-    pathname.startsWith('/admin') ||
-    pathname === '/account' ||
-    pathname.startsWith('/_serverFn/') ||
-    pathname.startsWith('/auth/')
-  )
-    headers.set('Cache-Control', 'private, no-store')
+  if (noStore) headers.set('Cache-Control', 'private, no-store')
+  // A route guard can recover from a server-function 401 by redirecting.
+  // Preserve the router's Response (including its navigation options) instead
+  // of turning that redirect back into an empty authentication error page.
+  if (isRedirect(result.response)) {
+    headers.forEach((value, name) => result.response.headers.set(name, value))
+    result.response.headers.delete('X-App-Status')
+    return result.response
+  }
   return new Response(result.response.body, {
     status: status >= 400 && status <= 599 ? status : result.response.status,
     headers,
   })
 })
 export const startInstance = createStart(() => ({
+  serializationAdapters: [publicErrorAdapter],
   functionMiddleware: [safeErrors],
   requestMiddleware: [
     securityHeaders,

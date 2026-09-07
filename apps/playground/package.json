@@ -20,7 +20,7 @@
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
-    "test": "node --import tsx --test src/publication.test.ts src/slug.test.ts src/payments.test.ts src/errors.test.ts src/request-origin.test.ts",
+    "test": "node --import tsx --test src/publication.test.ts src/slug.test.ts src/payments.test.ts src/errors.test.ts src/request-origin.test.ts src/password.test.ts",
     "build:cloudflare": "vite build --config vite.cloudflare.config.ts",
     "deploy:cloudflare": "wrangler deploy",
     "db:deploy": "dotenv -e .env.local -- prisma migrate deploy"
@@ -89,5 +89,5 @@
       "prisma"
     ]
   },
-  "version": "0.8.6"
+  "version": "0.9.0"
 }

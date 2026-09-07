@@ -1,3 +1,14 @@
+# 0.8.7 - Rebuild the admin workspace and email accounts (unreleased)
+
+- Replace admin tables and repeated inline forms with searchable object collections, selected-record screens, grouped sidebar navigation, an overview and permission-scoped recent activity.
+- Add dedicated service availability, room inventory, account activity, profile and security screens; group product, post, service and property editors into meaningful sections.
+- Add verified email registration, password login/reset, single-use challenges, throttling, customer-only registration and session revocation. Include local email previews, optional production email delivery and an additive database migration.
+- Preserve authentication redirects and serialize safe error status through TanStack's actual transport; refresh the development Prisma singleton when its generated client changes.
+- Unify public account navigation, fix hidden product save errors, enforce minimum button targets, and prevent development HTML caching.
+- Add repeatable local sample records and non-browser regression coverage for account flows, object rendering, private redirects and loopback conflicts.
+- Verification: formatting, lint, workspace types, 32 unit/component/socket tests, development auth/business workflows, and HTTP smoke at both origins pass.
+- Release verification remains pending: the restricted Windows session denies Vite's child-process launch during production builds. Do not treat HTTP/component checks as browser verification.
+
 # 0.8.6 - Support the Cloudflare development tunnel
 
 - Allow `dev3000.nsheth.in` through Vite and keep startup on port 3000.

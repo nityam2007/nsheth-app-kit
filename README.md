@@ -2,7 +2,7 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.8.6`
+**Current version:** `0.9.0` (unreleased workspace rebuild; production build verification pending)
 
 > **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
 
@@ -25,11 +25,12 @@ The existing application includes:
 - A responsive public blog under `/blog` that never returns drafts
 - Complete product list/new/detail/edit/guarded-delete management under `/admin/products`
 - A public catalogue under `/catalogue` with product-specific RFQ submissions
-- Responsive admin resource tables with search, status filters, direct edit actions, and generated slugs
+- Searchable admin object collections, selected-record screens, grouped navigation and permission-scoped overview activity
+- Dedicated service availability and room inventory screens, with sectioned product, post, service and property editors
 - Service CRUD, dated availability, capacity-safe public appointment requests, and an operator confirmation/cancellation queue at `/admin/bookings`
 - Multi-property hospitality at `/stays`, with room inventory, date-range availability, INR quotes, reservation requests, and operator controls
 - Storefront at `/shop`, collections and search, persistent cart, server-priced offline checkout, stock control, and `/admin/orders`
-- GitHub OAuth sign-in, account activity/export, team roles, session revocation, enquiry inbox, and privacy-request triage
+- Verified email registration, password login/recovery, optional GitHub OAuth, account activity/profile/security, team roles, session revocation, enquiry inbox and privacy-request triage
 - Optional Stripe card payments with signed webhook reconciliation; offline checkout works without provider credentials
 
 ## Quick Start
@@ -65,7 +66,9 @@ npm run dev
 
 Use **Run identity check** in the playground. In development, it creates a demo admin with identity, content, and product permissions, stores only a hash of the opaque session token, sets an HTTP-only cookie, and calls a protected server function. The server function independently verifies both the role and permission before returning identity data. That session also grants access to `/admin/posts` and `/admin/products`.
 
-The bootstrap endpoint is unavailable in production. GitHub OAuth is implemented; configure and verify it using [AUTH.md](docs/AUTH.md).
+The bootstrap endpoint is unavailable in production. Email accounts and optional GitHub OAuth are documented in [AUTH.md](docs/AUTH.md). Development email flows display local verification/recovery links; production requires configured delivery.
+
+Use `npm run seed:dev` for repeatable local sample records, `npm run test:auth` for account HTTP checks and `npm run test:frontend` for non-browser component checks. See the [admin rebuild plan and verification record](docs/ADMIN_REBUILD.md) for screen coverage and the restricted-session test commands.
 
 ## Repository
 
@@ -172,3 +175,5 @@ npm run compose -- --modules content,commerce --name "My project" --out ../my-pr
 ```
 
 See [the composition guide](docs/COMPOSITION.md) for configuration, file manifests, database boundaries and verification.
+
+Development fixes preserve authentication redirects, safe error status and regenerated Prisma clients. Startup and doctor check both loopback listeners. Production build verification is pending because this Windows session denies Vite child-process creation. The requested versioned commits are also blocked because this session cannot write `.git/index.lock`; all rebuild changes remain uncommitted.

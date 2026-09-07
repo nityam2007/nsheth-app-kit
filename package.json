@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -13,19 +13,22 @@
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "check": "npm run check --workspaces --if-present",
-    "test": "npm test --workspaces --if-present",
+    "test": "node --test scripts/local-server.test.mjs && npm test --workspaces --if-present",
     "build": "npm run build --workspace playground",
     "start": "node scripts/serve.mjs",
     "build:cloudflare": "npm run build:cloudflare --workspace playground",
     "test:integration": "node --import tsx scripts/integration.mts",
     "dev:local": "node scripts/dev-local.mjs",
-    "doctor": "node --import tsx scripts/doctor.mts",
+    "doctor": "node scripts/doctor.mts",
     "db:local": "node scripts/db-local.mjs",
-    "test:http": "node --import tsx scripts/http-smoke.mts",
+    "test:http": "node scripts/http-smoke.mts",
     "test:integration:local": "node scripts/integration-local.mjs",
     "dev:bare": "npm run dev --workspace playground",
     "compose": "node scripts/compose.mjs",
-    "setup": "node scripts/setup-local.mjs"
+    "setup": "node scripts/setup-local.mjs",
+    "test:frontend": "node --test scripts/frontend-render.test.mjs",
+    "test:auth": "node scripts/auth-http.mts",
+    "seed:dev": "node --env-file=apps/playground/.env.local --import tsx scripts/seed-dev.mts"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

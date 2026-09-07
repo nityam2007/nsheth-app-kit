@@ -2,7 +2,7 @@
 
 Use Node 24, npm, and PostgreSQL 17. Copy `apps/playground/.env.example` to `.env.local` and configure the database. Do not commit secrets.
 
-- `npm run doctor`: read-only connection and migration check with safe diagnostic output.
+- `npm run doctor`: read-only database/migration check and IPv4/IPv6 development-listener diagnostics with safe output.
 - `npm run setup`: starts bundled PostgreSQL, generates Prisma and applies checked-in migrations without resetting rows.
 - `npm run dev` (also `dev:local`): starts the Compose PostgreSQL service if needed, checks migrations, then starts Vite.
 - `npm run db:local -- deploy`: applies checked-in migrations through the same connection path; preserves existing rows.
@@ -21,6 +21,20 @@ Security overrides currently pin deepmerge-ts 8.0.2 and mysql2 3.24.3 beneath Pr
 
 Run `npm run dev` and point the Cloudflare Tunnel hostname `dev3000.nsheth.in` to `http://localhost:3000`. Open `https://dev3000.nsheth.in`. Vite allows this exact hostname and requires port 3000 to be free instead of silently switching ports. Localhost access continues to work.
 
+The managed launcher checks both `127.0.0.1:3000` and `[::1]:3000` before startup. A different application can occupy IPv4 while Vite successfully binds IPv6; then `localhost` can show different pages depending on the client. Stop or reconfigure the conflicting listener before running `npm run dev`. On Windows, inspect `netstat -ano -p tcp` and `netstat -ano -p tcpv6`, then use `Get-Process -Id <PID>` to identify the owner. Do not stop an unidentified process. `dev:bare` bypasses this preflight.
+
+Open `/admin` or `/account` to reach sign-in. In development, select **Use development admin**. GitHub sign-in is offered only when its server configuration is present. Anonymous page requests redirect to login; anonymous private API requests still return 401.
+
+For WSL diagnostics, run `wsl --list --verbose` and `wsl -d Ubuntu -- docker info`, followed by `npm run doctor`. A successful database query through a Windows `wslrelay` listener confirms the forwarded database path is working. `Wsl/EnumerateDistros/Service/E_ACCESSDENIED` from a restricted terminal does not establish that WSL or PostgreSQL is down; inspect WSL from a terminal with access. Do not reset the database or restart WSL solely because that inspection is denied.
+
 `apps/playground/src/request-origin.ts` holds the explicit HTTPS development origin, shared by Vite configuration and both server-function origin checks. This accounts for Cloudflare terminating HTTPS before forwarding HTTP locally. The exception applies only outside production, accepts only the configured tunnel or local port 3000 as the receiving host, and never trusts arbitrary forwarded headers. For a different development tunnel, update this constant and its regression tests. Production same-origin checks remain unchanged.
 
 Public pages, server-function requests, rejection of unrelated origins/hosts, and the live-reload WebSocket were verified with direct HTTP/WebSocket clients. GitHub OAuth, when configured, also needs `PUBLIC_ORIGIN=https://dev3000.nsheth.in` and the matching provider callback described in [AUTH.md](AUTH.md).
+
+Development HTML sends `Cache-Control: private, no-store`. Configure Cloudflare to bypass caching for this development hostname and purge any previously cached HTML after changing that rule. Existing cached entries can keep serving older markup alongside newer client modules. A fresh query string can diagnose an old cache entry; it is not a substitute for clearing the cache. Runtime error details are shown only in development and do not replace client verification.
+
+## Admin/account sample workspace
+
+After `npm run setup`, run `npm run seed:dev`. It creates named sample products, an article, a bookable service, a property/room and customer requests, preserving existing records. It refuses production or any database except local `nsheth_app_kit`. Register `customer@demo.local` through `/register` to see the sample activity after following the development email preview and choosing a password. For operator access, expand **Development access** on `/login` and select **Use development admin**.
+
+When regenerating Prisma during development, the app replaces its cached client if the generated constructor changes. Safe errors use an explicit TanStack serialization adapter so client navigation retains 401/403/503 status and validation feedback.

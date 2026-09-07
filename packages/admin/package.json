@@ -1,6 +1,6 @@
 {
   "name": "@nsheth/admin",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "license": "SEE LICENSE IN ../../LICENSE",
   "private": true,
   "type": "module",

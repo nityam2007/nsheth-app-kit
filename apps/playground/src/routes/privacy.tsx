@@ -1,5 +1,6 @@
+import { SiteShell } from '../components/site-shell'
 import { requireRouteModule } from '../module-route'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
 import { submitPrivacyRequest } from '../operations.functions'
@@ -16,11 +17,8 @@ function Privacy() {
   const submit = useServerFn(submitPrivacyRequest)
   const [reference, setReference] = useState('')
   return (
-    <main id="main-content">
+    <SiteShell>
       <Container className="max-w-3xl py-16">
-        <Link className="text-brand-secondary" to="/">
-          ← Home
-        </Link>
         <div className="mt-8">
           <PageHeading
             eyebrow="Your information"
@@ -91,6 +89,6 @@ function Privacy() {
           </ActionForm>
         )}
       </Container>
-    </main>
+    </SiteShell>
   )
 }

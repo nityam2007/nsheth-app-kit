@@ -2,11 +2,7 @@ import { hasPermission } from '@nsheth/identity'
 import { adminWorkflows } from '../admin-workflows'
 import { createFileRoute } from '@tanstack/react-router'
 import { getWorkspaceOverview, getWorkspaceActivity } from '../admin.functions'
-import {
-  MetricStrip,
-  SectionPanel,
-  WorkspaceHeading,
-} from '../components/admin/workspace'
+import { SectionPanel, WorkspaceHeading } from '../components/admin/workspace'
 
 export const Route = createFileRoute('/admin/')({
   loader: async () => {
@@ -32,28 +28,13 @@ function Dashboard() {
     <section>
       <WorkspaceHeading
         eyebrow="Workspace overview"
-        title="Your workspace"
-        description="Start a task, review incoming requests or continue setting up your business."
+        title="Overview"
+        description="Your requests, content and business settings."
         action={
           <a href="/" className="admin-secondary-link">
             View your site ↗
           </a>
         }
-      />
-      <MetricStrip
-        items={[
-          {
-            label: 'Needs attention',
-            value: attention.reduce((n, m) => n + m.pending, 0),
-            href: '#attention',
-            note: 'Drafts and incoming requests',
-          },
-          {
-            label: 'Records',
-            value: metrics.reduce((n, m) => n + m.total, 0),
-            note: 'Across the areas you can access',
-          },
-        ]}
       />
       {starters.length > 0 && (
         <section className="mb-8" aria-labelledby="start-task-title">
@@ -61,7 +42,7 @@ function Dashboard() {
             id="start-task-title"
             className="mb-4 text-xl font-semibold text-primary"
           >
-            What would you like to do?
+            Create new
           </h2>
           <ul className="grid gap-4 sm:grid-cols-2">
             {starters.map((m) => (
@@ -76,7 +57,7 @@ function Dashboard() {
                   {adminWorkflows[m.href]?.createLabel} →
                 </a>
                 <p className="mt-2 text-sm leading-6 text-tertiary">
-                  {adminWorkflows[m.href]?.steps}
+                  {adminWorkflows[m.href]?.description}
                 </p>
               </li>
             ))}

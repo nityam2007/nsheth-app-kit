@@ -28,7 +28,6 @@ export function StatusBadge({ value }: { value: string }) {
 }
 
 export function WorkspaceHeading({
-  eyebrow,
   title,
   description,
   action,
@@ -41,9 +40,6 @@ export function WorkspaceHeading({
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-5">
       <div className="min-w-0 max-w-2xl">
-        <p className="mb-2 text-sm font-medium text-brand-secondary">
-          {eyebrow}
-        </p>
         <h1 className="text-display-sm font-semibold tracking-tight text-primary sm:text-display-md">
           {title}
         </h1>
@@ -190,9 +186,12 @@ export function ObjectCollection({
         }
       />
       {guidance && (
-        <p className="mb-6 border-l-2 border-brand pl-4 text-sm leading-6 text-secondary">
-          {guidance}
-        </p>
+        <details className="mb-5 text-sm text-tertiary">
+          <summary className="inline-flex min-h-11 cursor-pointer items-center font-medium text-secondary">
+            How this works
+          </summary>
+          <p className="mt-2 max-w-3xl leading-6">{guidance}</p>
+        </details>
       )}
       <div className="mb-6 grid gap-4 rounded-xl border border-secondary bg-primary p-4 sm:grid-cols-[minmax(0,1fr)_12rem_auto]">
         <Input
@@ -233,10 +232,7 @@ export function ObjectCollection({
         </p>
       )}
       {objects.length > 0 && (
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-tertiary">
-            Open a record to review its details and available actions.
-          </p>
+        <div className="mb-4 flex flex-wrap items-center justify-end gap-3">
           <div className="flex gap-2" role="group" aria-label="Collection view">
             {(['list', 'cards'] as const).map((mode) => (
               <Button

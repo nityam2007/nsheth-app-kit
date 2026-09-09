@@ -1,10 +1,7 @@
-import { useRouter } from '@tanstack/react-router'
 import { errorMessage, errorStatus } from '../errors'
-import { Button } from './base/buttons/button'
 
 export function RouteError({ error }: { error: Error }) {
-  const router = useRouter(),
-    status = errorStatus(error)
+  const status = errorStatus(error)
   return (
     <section role="alert" className="mx-auto max-w-2xl px-6 py-16">
       <p className="text-sm font-semibold text-brand-secondary">
@@ -26,13 +23,13 @@ export function RouteError({ error }: { error: Error }) {
         )}
       </p>
       {import.meta.env.DEV && !status && (
-        <details open className="mb-6 rounded-lg border border-secondary p-4">
+        <details className="mb-6 rounded-lg border border-secondary p-4">
           <summary className="font-semibold text-secondary">
             Development error details
           </summary>
           <pre className="mt-3 overflow-x-auto whitespace-pre-wrap break-words text-sm text-tertiary">
             {error instanceof Error
-              ? `${error.name}: ${error.message}`
+              ? error.stack || `${error.name}: ${error.message}`
               : String(error)}
           </pre>
         </details>
@@ -44,7 +41,13 @@ export function RouteError({ error }: { error: Error }) {
         </p>
       )}
       <div className="flex flex-wrap items-center gap-5">
-        <Button onPress={() => void router.invalidate()}>Try again</Button>
+        <button
+          type="button"
+          className="admin-primary-link"
+          onClick={() => window.location.reload()}
+        >
+          Reload page
+        </button>
         <a
           className="inline-flex min-h-11 items-center text-brand-secondary"
           href="/"

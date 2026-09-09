@@ -1,4 +1,4 @@
-import { SiteHeader } from '../components/site-header'
+import { SiteShell } from '../components/site-shell'
 import { appConfig } from '../app.config'
 import { requireRouteModule } from '../module-route'
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
@@ -23,25 +23,9 @@ export const Route = createFileRoute('/catalogue')({
 
 function CatalogueLayout() {
   return (
-    <div className="grid min-h-svh grid-rows-[auto_1fr_auto] bg-primary">
-      <a
-        className="fixed top-3 left-3 z-50 -translate-y-24 rounded-lg bg-brand-solid px-4 py-2.5 text-sm font-semibold text-white focus:translate-y-0 focus:outline-2 focus:outline-offset-2 focus:outline-brand"
-        href="#catalogue-content"
-      >
-        Skip to content
-      </a>
-      <SiteHeader />
-      <main id="catalogue-content">
-        <Outlet />
-      </main>
-      <footer className="border-t border-secondary py-8">
-        <Container>
-          <span className="text-sm text-tertiary">
-            {appConfig.name} / Product catalogue
-          </span>
-        </Container>
-      </footer>
-    </div>
+    <SiteShell>
+      <Outlet />
+    </SiteShell>
   )
 }
 

@@ -42,4 +42,5 @@ jobs:
           npm run test:http
           npm run test:auth
           npm run test:hydration
+          npm run test:navigation
       - run: npm run build:cloudflare

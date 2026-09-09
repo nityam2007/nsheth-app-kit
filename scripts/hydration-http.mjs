@@ -9,8 +9,10 @@ const origin = process.env.TEST_URL ?? "http://localhost:3000";
 assert.ok(
   ["localhost", "127.0.0.1", "[::1]"].includes(new URL(origin).hostname),
 );
-const paths = process.argv.slice(2).length
-  ? process.argv.slice(2)
+const navigate = process.argv.includes("--navigate");
+const arguments_ = process.argv.slice(2).filter((arg) => arg !== "--navigate");
+const paths = arguments_.length
+  ? arguments_
   : [
       "/",
       "/login",
@@ -95,7 +97,7 @@ async function checkPage(path) {
   Object.assign(win, {
     fetch: (input, init) => {
       const url = new URL(
-        typeof input === "string" ? input : input.url,
+        typeof input === "string" ? input : (input.url ?? String(input)),
         origin,
       );
       assert.equal(
@@ -103,10 +105,14 @@ async function checkPage(path) {
         origin,
         "Client checks only call this local app",
       );
-      return fetch(url, {
-        ...init,
-        headers: { cookie, origin, ...init?.headers },
-      });
+      const request =
+        input instanceof Request
+          ? new Request(input, init)
+          : new Request(url, init);
+      const headers = new Headers(request.headers);
+      headers.set("cookie", cookie);
+      headers.set("origin", origin);
+      return fetch(new Request(request, { headers }));
     },
     Request,
     Response,
@@ -280,6 +286,101 @@ async function checkPage(path) {
       new URL(renderer).searchParams.get("v"),
       "React and React DOM use the same optimizer version",
     );
+    if (navigate) {
+      assert.ok(win.__TSR_ROUTER__, "Hydrated router is available");
+      const publicNavigation = win.document.querySelector(
+        'nav[aria-label="Site navigation"]',
+      )?.textContent;
+      let adminNavigation;
+      for (const target of paths.slice(1)) {
+        const homeCard =
+          win.location.pathname === "/" && target === "/stays"
+            ? win.document.querySelector('main a[href="/stays"]')
+            : null;
+        const link =
+          homeCard ??
+          [...win.document.querySelectorAll("a[href]")].find(
+            (anchor) =>
+              anchor.getAttribute("href") === target &&
+              !anchor.closest("dialog:not([open]), [hidden]") &&
+              (anchor.closest(
+                'header, aside, nav[aria-label="Admin modules"], nav[aria-label="Account"]',
+              ) ||
+                (path === "/" && target === "/stays")),
+          );
+        if (link) {
+          const event = new win.MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            button: 0,
+          });
+          link.dispatchEvent(event);
+          assert.equal(
+            event.defaultPrevented,
+            true,
+            `Link uses client navigation: ${target}`,
+          );
+        } else await win.__TSR_ROUTER__.navigate({ href: target });
+        await new Promise((resolve) => setTimeout(resolve, 700));
+        assert.equal(
+          errors.length,
+          0,
+          `No client navigation errors: ${target}`,
+        );
+        assert.equal(
+          win.document.querySelectorAll("main").length,
+          1,
+          `One main after navigating to ${target}`,
+        );
+        assert.equal(
+          win.document.querySelectorAll("h1").length,
+          1,
+          `One heading after navigating to ${target}`,
+        );
+        assert.doesNotMatch(
+          win.document.querySelector("main").textContent,
+          /Something needs attention|Unable to load this page/,
+          target,
+        );
+        assert.equal(
+          win.location.pathname + win.location.search,
+          target,
+          "Navigation reached its destination",
+        );
+        const nextNavigation = win.document.querySelector(
+          'nav[aria-label="Site navigation"]',
+        );
+        if (nextNavigation && publicNavigation)
+          assert.equal(
+            nextNavigation.textContent,
+            publicNavigation,
+            "Public navigation labels stay stable",
+          );
+        const nextAdminNavigation = win.document.querySelector(
+          'nav[aria-label="Admin modules"]',
+        )?.textContent;
+        if (nextAdminNavigation) {
+          adminNavigation ??= nextAdminNavigation;
+          assert.equal(
+            nextAdminNavigation,
+            adminNavigation,
+            "Admin sidebar labels stay stable",
+          );
+        }
+        const versions = new Set(
+          [...modules.keys()]
+            .filter((url) => /\/deps\//.test(url))
+            .map((url) => new URL(url).searchParams.get("v"))
+            .filter(Boolean),
+        );
+        assert.equal(
+          versions.size,
+          1,
+          "Lazy navigation keeps one optimized dependency version",
+        );
+        console.log("Navigation passed:", target);
+      }
+    }
     if (crawl)
       for (const anchor of win.document.querySelectorAll("main a[href]")) {
         const url = new URL(anchor.href);
@@ -306,7 +407,7 @@ async function checkPage(path) {
     win.close();
   }
 }
-for (const path of paths) await checkPage(path);
+for (const path of navigate ? paths.slice(0, 1) : paths) await checkPage(path);
 console.log(
-  `Verified ${paths.length} pages using Node VM and jsdom. HMR transport and layout APIs are stubbed; no browser or visual verification.`,
+  `${navigate ? `Verified ${paths.length - 1} client transitions in one hydrated session` : `Verified ${paths.length} pages`} using Node VM and jsdom. HMR transport and layout APIs are stubbed; no browser or visual verification.`,
 );

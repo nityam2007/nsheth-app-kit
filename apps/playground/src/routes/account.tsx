@@ -1,3 +1,4 @@
+import { SiteShell } from '../components/site-shell'
 import {
   createFileRoute,
   Link,
@@ -29,15 +30,9 @@ function AccountShell() {
     query = useQueryClient()
   const { pathname } = useLocation()
   return (
-    <main className="min-h-svh bg-secondary">
+    <SiteShell>
       <Container className="py-8 sm:py-12">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <Link
-            to="/"
-            className="inline-flex min-h-11 items-center font-semibold text-brand-secondary"
-          >
-            ← Return home
-          </Link>
           {data.principal.permissions.length > 0 && (
             <Link to="/admin" className="admin-secondary-link">
               Open admin workspace →
@@ -100,6 +95,6 @@ function AccountShell() {
           </div>
         </div>
       </Container>
-    </main>
+    </SiteShell>
   )
 }

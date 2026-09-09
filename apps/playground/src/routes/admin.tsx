@@ -44,10 +44,6 @@ function AdminLayout() {
   const { modules, principal } = Route.useRouteContext()
   const pathname = useLocation({ select: (location) => location.pathname })
   const mobileNavigation = useRef<HTMLDialogElement>(null)
-  const activeModule = modules.find(
-    (module) =>
-      pathname === module.href || pathname.startsWith(`${module.href}/`),
-  )
 
   useEffect(() => {
     if (mobileNavigation.current?.open) mobileNavigation.current.close()
@@ -89,9 +85,7 @@ function AdminLayout() {
             <Menu01 aria-hidden="true" className="size-6" />
           </button>
           <strong className="min-w-0 truncate text-sm font-semibold text-primary">
-            {activeModule
-              ? `${activeModule.group} / ${activeModule.label}`
-              : 'Workspace overview'}
+            Admin workspace
           </strong>
           <div className="ml-auto flex items-center gap-2">
             <QuickNavigation modules={modules} principal={principal} />
@@ -185,8 +179,8 @@ function AdminNavigation({
         className="min-h-0 flex-1 overflow-y-auto p-4"
         aria-label="Admin modules"
       >
-        <a
-          href="/admin"
+        <Link
+          to="/admin"
           onClick={onNavigate}
           aria-current={pathname === '/admin' ? 'page' : undefined}
           className={
@@ -196,8 +190,8 @@ function AdminNavigation({
               : 'text-tertiary hover:bg-secondary')
           }
         >
-          <Home01 className="size-5" aria-hidden="true" /> Start here
-        </a>
+          <Home01 className="size-5" aria-hidden="true" /> Overview
+        </Link>
         <div className="grid gap-6">
           {[...groups]
             .filter(([, items]) => items.length)
@@ -213,13 +207,13 @@ function AdminNavigation({
                       pathname.startsWith(`${module.href}/`)
                     return (
                       <li key={module.id}>
-                        <a
+                        <Link
                           className={
                             active
                               ? 'flex min-h-11 items-center gap-3 rounded-lg bg-secondary px-3 py-2 text-sm font-semibold text-primary'
                               : 'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-tertiary hover:bg-primary_hover hover:text-tertiary_hover'
                           }
-                          href={module.href}
+                          to={module.href}
                           aria-current={active ? 'page' : undefined}
                           onClick={onNavigate}
                         >
@@ -233,7 +227,7 @@ function AdminNavigation({
                             <ModuleIcon id={module.id} />
                           </span>
                           {module.label}
-                        </a>
+                        </Link>
                       </li>
                     )
                   })}
@@ -244,12 +238,12 @@ function AdminNavigation({
       </nav>
 
       <div className="border-t border-secondary p-4">
-        <a
-          href="/account"
+        <Link
+          to="/account"
           className="mb-3 flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-secondary hover:bg-secondary"
         >
           Account & security →
-        </a>
+        </Link>
         <div className="flex min-w-0 items-center gap-3 rounded-lg px-2 py-2">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-primary text-sm font-semibold text-brand-secondary">
             {principal.email.charAt(0).toUpperCase()}

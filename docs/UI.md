@@ -6,6 +6,8 @@ For 0.9.1, the owner supplied Atelier's React template under `AIDATA/atelier-ret
 
 Collections default to compact lists with an optional card view. Creation links use write permissions; attention links select the corresponding status. Every setup screen should explain the next meaningful action. Use actual record counts and current state; avoid decorative statistics and controls without a working destination.
 
+0.9.2 consolidates public/account chrome in `SiteShell`. Navigation names stay constant across pages; only the active indicator changes. The admin top bar identifies the workspace rather than repeating each page title. Keep task-specific actions visible and place longer workflow guidance in the collapsed “How this works” disclosure. Avoid repeating headings, totals or account entry points solely to fill space.
+
 ## Sources
 
 - Documentation: <https://www.untitledui.com/react/docs/introduction>

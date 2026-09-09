@@ -1,3 +1,10 @@
+# 0.9.2 - Stabilize client navigation and simplify shared layouts
+
+- Freeze development dependency discovery, explicitly prebundle React runtimes and remove the optional developer overlay/instrumentation.
+- Use client navigation for Home cards and shared menus. Reuse one public/account header and footer, keep the admin top bar stable, remove redundant totals/labels and collapse longer guidance.
+- Make route-error recovery independent of router hooks and reload the document instead of only invalidating loaders. Keep development stacks collapsed and production errors private.
+- Add a same-session click/navigation regression with real server-function requests, stable menu labels, single-page landmarks and a single dependency-version check.
+
 # 0.9.1 - Repair runtime, clarify workflows and rebuild local setup
 
 - Adapt Atelier's task hierarchy into a warmer admin workspace with permission-aware page search, task shortcuts, compact list/card views, status-filtered attention queues and real room counts. Add next-step guidance, correct breadcrumbs and sticky editor controls.

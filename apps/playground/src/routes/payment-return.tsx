@@ -1,15 +1,16 @@
+import { SiteShell } from '../components/site-shell'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Container } from '../components/container'
 import { PageHeading } from '../components/workflow'
 
 export const Route = createFileRoute('/payment-return')({
   component: () => (
-    <main id="main-content">
+    <SiteShell>
       <Container className="max-w-2xl py-20">
         <PageHeading
           eyebrow="Your order"
           title="Payment session ended"
-          description="Payment status is confirmed by the provider’s signed notification. Returning to this page does not by itself confirm payment."
+          description="Check your account for the latest payment status. Returning here does not confirm that payment succeeded."
         />
         <p className="mb-6 text-tertiary">
           Sign in with the same verified email used for checkout to view your
@@ -23,6 +24,6 @@ export const Route = createFileRoute('/payment-return')({
           View my orders →
         </Link>
       </Container>
-    </main>
+    </SiteShell>
   ),
 })

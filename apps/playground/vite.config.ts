@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import { devtools } from '@tanstack/devtools-vite'
 import tailwindcss from '@tailwindcss/vite'
 
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
@@ -21,7 +20,14 @@ const config = defineConfig({
     tsconfigPaths: true,
   },
   optimizeDeps: {
+    // Keep one dependency graph for the entire session. Lazy route visits must
+    // not regenerate shared React chunks while earlier chunks are still live.
+    noDiscovery: true,
     include: [
+      'react',
+      'react-dom/client',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       '@tanstack/history',
       '@tanstack/router-core',
       '@tanstack/router-core/isServer',
@@ -45,15 +51,7 @@ const config = defineConfig({
       'zod',
     ],
   },
-  plugins: [
-    devtools({
-      consolePiping: { enabled: false },
-      enhancedLogs: { enabled: false },
-    }),
-    tailwindcss(),
-    tanstackStart(),
-    viteReact(),
-  ],
+  plugins: [tailwindcss(), tanstackStart(), viteReact()],
 })
 
 export default config

@@ -2,6 +2,8 @@
 
 ## Active: Existing-module readiness
 
+0.9.2 addresses the owner's click-versus-reload report with a fixed dependency graph, removal of optional development instrumentation, hook-independent error recovery, shared public/account chrome and quieter admin screens. The [navigation follow-up](NAVIGATION_2026-09-09.md) records same-session click coverage and the limits of non-browser verification.
+
 0.9.1 completes the follow-up [runtime/security audit](AUDIT_2026-09-09.md): stabilize development React dependencies, add actual-module hydration checks, repair standalone content landmarks and session rotation, expose safe support references, patch the Cloudflare image dependency, and separate deployment build outputs. Production Node integration and Cloudflare builds now run successfully on this host. Keep new modules/templates paused; live provider delivery and visual checks remain separate acceptance work.
 
 The owner-requested Atelier UX pass adds explicit task entry points, permission-aware navigation search, actionable status queues and property/service setup guidance. The local database was recreated with authorization and all 13 migrations applied. The final production sweep passes 81 pages; development startup remains under the owner’s control. Source hot reload and a managed environment/configuration restart workflow share one startup command.

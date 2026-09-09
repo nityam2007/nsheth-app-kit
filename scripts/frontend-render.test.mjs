@@ -53,13 +53,26 @@ for (const isServer of [true, false])
       );
       assert.match(html, /Explore the catalogue/);
       assert.match(html, /Search products, brands or tags/);
-      assert.match(html, /Your account/);
+      assert.match(html, /href="\/account"/);
       assert.match(html, /Sample product/);
       assert.doesNotMatch(html, /Something needs attention/);
     },
   );
 const { ObjectCollection } =
   await import("../apps/playground/src/components/admin/workspace.tsx");
+test("page failure can render without a router context and offers a document reload", async () => {
+  const { RouteError } =
+    await import("../apps/playground/src/components/route-feedback.tsx");
+  const html = renderToString(
+    React.createElement(RouteError, {
+      error: new TypeError(
+        "Cannot read properties of null (reading 'useContext')",
+      ),
+    }),
+  );
+  assert.match(html, /Reload page/);
+  assert.doesNotMatch(html, /useContext|TypeError/);
+});
 test("object collections render labelled filters, useful record links and empty states", () => {
   const props = {
     eyebrow: "Sell",

@@ -18,9 +18,9 @@ export function SiteHeader() {
           className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold text-secondary"
         >
           {publicModules.map((m) => (
-            <a
+            <Link
               key={m.id}
-              href={m.href}
+              to={m.href}
               aria-current={
                 pathname === m.href || pathname.startsWith(m.href + '/')
                   ? 'page'
@@ -29,10 +29,10 @@ export function SiteHeader() {
               className="inline-flex min-h-11 items-center outline-brand hover:text-brand-secondary focus-visible:outline-2 aria-[current=page]:text-brand-secondary"
             >
               {m.label}
-            </a>
+            </Link>
           ))}
           <Link to="/account" className="admin-secondary-link">
-            Your account
+            Account
           </Link>
         </nav>
       </Container>

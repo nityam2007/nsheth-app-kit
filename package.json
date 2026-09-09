@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -30,7 +30,8 @@
     "test:hydration": "node --experimental-vm-modules scripts/hydration-http.mjs",
     "test:auth": "node scripts/auth-http.mts",
     "seed:dev": "node scripts/seed-local.mjs",
-    "db:reset:local": "node scripts/reset-local.mjs"
+    "db:reset:local": "node scripts/reset-local.mjs",
+    "test:navigation": "node --experimental-vm-modules scripts/hydration-http.mjs --navigate / /stays / /shop /catalogue /services /blog /admin /account /admin/posts /admin/properties /privacy /payment-return /"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

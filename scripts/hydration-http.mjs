@@ -342,6 +342,17 @@ async function checkPage(path) {
           /Something needs attention|Unable to load this page/,
           target,
         );
+        if (target.endsWith("/new")) {
+          assert.equal(
+            win.document.querySelectorAll("main form").length,
+            1,
+            `Creation form mounted: ${target}`,
+          );
+          assert.ok(
+            win.document.querySelector('main form button[type="submit"]'),
+            `Creation form has a submit action: ${target}`,
+          );
+        }
         assert.equal(
           win.location.pathname + win.location.search,
           target,

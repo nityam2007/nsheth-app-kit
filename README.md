@@ -2,11 +2,11 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.9.2`
+**Current version:** `0.9.3`
 
 > **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
 
-The [navigation follow-up](docs/NAVIGATION_2026-09-09.md) adds same-session click tests, a fixed development dependency graph, consistent public/account navigation and less repeated UI guidance.
+The [navigation follow-up](docs/NAVIGATION_2026-09-09.md) records the confirmed stale-tab React failure and adds creation-form navigation coverage alongside same-session click tests, a fixed development dependency graph, consistent public/account navigation and less repeated UI guidance.
 
 The [runtime and security audit](docs/AUDIT_2026-09-09.md) records the React cache fix, page hydration coverage, production workflow checks and remaining provider/visual verification limits.
 

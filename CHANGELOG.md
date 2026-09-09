@@ -1,3 +1,8 @@
+# 0.9.3 - Cover creation-form navigation and confirm stale-tab recovery
+
+- Use router links for collection creation actions and exercise product, post, property and service creation forms in the retained-session navigation check.
+- Record the owner-confirmed mixed React dependency versions and successful hard-refresh recovery; no further runtime or dependency changes are needed for that stale session.
+
 # 0.9.2 - Stabilize client navigation and simplify shared layouts
 
 - Freeze development dependency discovery, explicitly prebundle React runtimes and remove the optional developer overlay/instrumentation.

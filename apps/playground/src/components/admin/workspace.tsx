@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import { Input } from '../base/input/input'
 import { Button } from '../base/buttons/button'
@@ -179,9 +180,9 @@ export function ObjectCollection({
         description={description}
         action={
           createHref && (
-            <a className="admin-primary-link" href={createHref}>
+            <Link className="admin-primary-link" to={createHref}>
               + {createLabel}
-            </a>
+            </Link>
           )
         }
       />

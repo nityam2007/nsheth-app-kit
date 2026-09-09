@@ -2,6 +2,8 @@
 
 ## Active: Existing-module readiness
 
+0.9.3 confirms the follow-up product editor failure was a retained mixed-version React graph: the owner's hard refresh restored the editor. Creation actions now use router links and the retained-session regression includes all four creation forms. Avoid further speculative dependency configuration changes without a fresh failing trace.
+
 0.9.2 addresses the owner's click-versus-reload report with a fixed dependency graph, removal of optional development instrumentation, hook-independent error recovery, shared public/account chrome and quieter admin screens. The [navigation follow-up](NAVIGATION_2026-09-09.md) records same-session click coverage and the limits of non-browser verification.
 
 0.9.1 completes the follow-up [runtime/security audit](AUDIT_2026-09-09.md): stabilize development React dependencies, add actual-module hydration checks, repair standalone content landmarks and session rotation, expose safe support references, patch the Cloudflare image dependency, and separate deployment build outputs. Production Node integration and Cloudflare builds now run successfully on this host. Keep new modules/templates paused; live provider delivery and visual checks remain separate acceptance work.

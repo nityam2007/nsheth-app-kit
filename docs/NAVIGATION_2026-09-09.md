@@ -18,3 +18,11 @@ The fresh-session transition test passes. The originally reported null-hook exce
 Workspace types/lint/formatting, 40 unit/component tests, 63 independently hydrated pages, Node production integration (including 81 server-rendered pages), and the Cloudflare build pass. No database reset or additional development-server launch was performed for this follow-up. The owner's existing server handled configuration changes through its normal reload mechanism.
 
 When adding a CommonJS dependency used by the client, include it in Vite's explicit dependency list and run navigation/hydration checks. A tab retaining modules from before this change needs one document reload to acquire the updated graph.
+
+## Owner-confirmed follow-up — 0.9.3
+
+The owner supplied a product editor stack with React/useServerFn using `ea52532f` and React DOM using `c8b778cc`. Direct HTTP inspection found the current module graph consistently used `c8b778cc`, while the older optimized React URL returned 504. The owner confirmed that Ctrl+Shift+R restored New product. This confirms retained development modules in that session; it does not establish a new product validation or database failure, or prove which browser cache/HMR event retained the modules.
+
+Collection creation actions now use router Links. `test:navigation` exercises 19 transitions, including clicks from the four collections into their creation forms, and asserts each form and submit action mounted. Fresh product/post/property document hydration also passed. No additional optimizer changes, automatic reload loops, database resets or assistant-launched development servers were needed.
+
+For 0.9.3, all 19 transitions, seven component tests, workspace lint/types/formatting and the Node production build pass. These checks use Node VM/jsdom and direct HTTP, not a browser.

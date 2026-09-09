@@ -1,3 +1,4 @@
+import { QuickNavigation } from '../components/admin/quick-navigation'
 import { appConfig } from '../app.config'
 import { errorStatus } from '../errors'
 import {
@@ -78,9 +79,9 @@ function AdminLayout() {
       </aside>
 
       <div className="min-w-0">
-        <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-3 border-b border-secondary bg-primary px-4 lg:hidden">
+        <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-3 border-b border-secondary bg-primary px-4 lg:min-h-18 lg:px-8">
           <button
-            className="flex size-11 items-center justify-center rounded-lg text-secondary outline-brand hover:bg-primary_hover focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="flex size-11 items-center justify-center rounded-lg text-secondary outline-brand hover:bg-primary_hover focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
             type="button"
             aria-label="Open admin navigation"
             onClick={() => mobileNavigation.current?.showModal()}
@@ -88,15 +89,20 @@ function AdminLayout() {
             <Menu01 aria-hidden="true" className="size-6" />
           </button>
           <strong className="min-w-0 truncate text-sm font-semibold text-primary">
-            {activeModule?.label ?? 'Overview'}
+            {activeModule
+              ? `${activeModule.group} / ${activeModule.label}`
+              : 'Workspace overview'}
           </strong>
-          <Link
-            className="flex size-11 items-center justify-center rounded-lg text-secondary outline-brand hover:bg-primary_hover focus-visible:outline-2 focus-visible:outline-offset-2"
-            to="/"
-            aria-label="View site"
-          >
-            <Home01 aria-hidden="true" className="size-5" />
-          </Link>
+          <div className="ml-auto flex items-center gap-2">
+            <QuickNavigation modules={modules} principal={principal} />
+            <Link
+              className="flex size-11 items-center justify-center rounded-lg text-secondary outline-brand hover:bg-primary_hover focus-visible:outline-2 focus-visible:outline-offset-2"
+              to="/"
+              aria-label="View site"
+            >
+              <Home01 aria-hidden="true" className="size-5" />
+            </Link>
+          </div>
         </header>
 
         <dialog
@@ -139,17 +145,6 @@ function AdminLayout() {
           </div>
         </dialog>
 
-        <header className="hidden min-h-18 items-center justify-between gap-4 border-b border-secondary bg-primary px-8 lg:flex">
-          <span className="text-sm font-semibold text-secondary">
-            {activeModule?.label ?? 'Overview'}
-          </span>
-          <Link
-            className="text-sm font-semibold text-brand-secondary hover:text-brand-secondary_hover"
-            to="/"
-          >
-            View site
-          </Link>
-        </header>
         <main
           className="mx-auto w-full max-w-container p-4 sm:p-6 lg:p-8"
           id="admin-content"
@@ -195,13 +190,13 @@ function AdminNavigation({
           onClick={onNavigate}
           aria-current={pathname === '/admin' ? 'page' : undefined}
           className={
-            'mb-6 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold ' +
+            'mb-4 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold ' +
             (pathname === '/admin'
               ? 'bg-secondary text-primary'
               : 'text-tertiary hover:bg-secondary')
           }
         >
-          <Home01 className="size-5" aria-hidden="true" /> Overview
+          <Home01 className="size-5" aria-hidden="true" /> Start here
         </a>
         <div className="grid gap-6">
           {[...groups]

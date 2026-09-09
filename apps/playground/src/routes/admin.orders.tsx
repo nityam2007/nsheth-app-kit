@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { requireRouteModule } from '../module-route'
 import { createFileRoute, notFound } from '@tanstack/react-router'
@@ -12,7 +13,10 @@ import { Input } from '../components/base/input/input'
 import { money } from '../money'
 
 export const Route = createFileRoute('/admin/orders')({
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   beforeLoad: () => requireRouteModule('commerce'),
@@ -24,11 +28,14 @@ function Orders() {
   const orders = Route.useLoaderData(),
     update = useServerFn(updateOrder),
     paid = useServerFn(recordOfflinePayment)
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !orders.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/orders']?.steps}
         title="Orders"
         eyebrow="Sell"
         description="Customer orders, payment and fulfilment."

@@ -1,9 +1,11 @@
+import { hasPermission } from '@nsheth/identity'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { Route as Parent } from './admin.services.$slug'
 import { deleteAdminService } from '../booking.functions'
 import { ActionForm, PageHeading } from '../components/workflow'
 import {
+  NextStep,
   MetricStrip,
   SectionPanel,
   RecordTrail,
@@ -15,6 +17,13 @@ export const Route = createFileRoute('/admin/services/$slug/')({
 function Detail() {
   const service = Parent.useLoaderData()
   const destroy = useServerFn(deleteAdminService)
+  const canEdit = hasPermission(
+    Route.useRouteContext().principal,
+    'booking.write',
+  )
+  const hasSlots = service.slots.some(
+    (slot) => !slot.paused && new Date(slot.startsAt).getTime() > Date.now(),
+  )
   return (
     <section>
       <RecordTrail href="/admin/services" label="Services" />
@@ -23,6 +32,26 @@ function Detail() {
         title={service.name}
         description={service.summary}
       />
+      {canEdit && (!hasSlots || service.status === 'DRAFT') && (
+        <NextStep
+          title={
+            !hasSlots
+              ? 'Add upcoming appointment times'
+              : 'Publish your service when it is ready'
+          }
+          description={
+            !hasSlots
+              ? 'Choose the dates, times and capacity you want to offer. Guests can request appointments within your booking window after you publish.'
+              : 'Your upcoming times are configured. Review the details and change Publication to Published so customers can find this service.'
+          }
+          href={
+            '/admin/services/' +
+            service.slug +
+            (!hasSlots ? '/availability' : '/edit')
+          }
+          label={!hasSlots ? 'Add available times' : 'Review & publish'}
+        />
+      )}
       <div className="mb-8 flex flex-wrap gap-3">
         <a
           className="admin-primary-link"

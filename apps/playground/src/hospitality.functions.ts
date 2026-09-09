@@ -26,6 +26,7 @@ export const getAdminProperties = createServerFn({ method: 'GET' })
       rejectRequest(403, 'Forbidden')
     return getPrisma().property.findMany({
       orderBy: { name: 'asc' },
+      include: { _count: { select: { rooms: true } } },
       take: 500,
     })
   })

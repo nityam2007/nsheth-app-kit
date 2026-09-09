@@ -35,6 +35,16 @@ Development HTML sends `Cache-Control: private, no-store`. Configure Cloudflare 
 
 ## Admin/account sample workspace
 
+The 0.9.1 audit recreated local `nsheth_app_kit` with the owner's authorization. Fresh fixtures include two products, one article, a service with a future slot, a property with rooms, and incoming requests. Sign-in accounts are created through registration or development admin access.
+
+For an intentional future clean start, stop dev and run `npm run db:reset:local -- --yes`. This permanently drops only the local database named `nsheth_app_kit`, then generates Prisma, applies migrations and seeds examples. The command refuses production, remote hosts and other database names. `npm run setup` and `npm run seed:dev` remain non-resetting operations; the seed command now uses the managed Windows/WSL database connection too.
+
 After `npm run setup`, run `npm run seed:dev`. It creates named sample products, an article, a bookable service, a property/room and customer requests, preserving existing records. It refuses production or any database except local `nsheth_app_kit`. Register `customer@demo.local` through `/register` to see the sample activity after following the development email preview and choosing a password. For operator access, expand **Development access** on `/login` and select **Use development admin**.
 
 When regenerating Prisma during development, the app replaces its cached client if the generated constructor changes. Safe errors use an explicit TanStack serialization adapter so client navigation retains 401/403/503 status and validation feedback.
+
+## One startup, automatic updates
+
+`npm run dev` owns a supervisor and one database/Vite worker. React/TypeScript/CSS and imported workspace source changes use Vite's existing hot reload. Vite handles its own configuration reloads. Saving `.env.local`, package manifests/lockfile, `app.settings.json` or the database/startup worker files triggers a debounced worker restart with fresh settings. The previous worker and its children exit before a replacement starts; Ctrl+C closes the supervisor and its children. Changes to the supervisor itself (`dev-local.mjs`, `dev-watch.mjs`) require restarting the command. Install new dependencies before starting dev; schema changes still require explicit migration/generation commands.
+
+Development modules use `no-store` and known shared/lazy dependencies are prebundled to avoid mixing stale React module graphs. Reload a tab left open from an older version once. The supervisor's file-change and restart serialization tests run without Vite; live browser HMR behavior has not been verified. After the requested shutdown, a new owner-started VS Code session was detected; the audit did not launch dev.

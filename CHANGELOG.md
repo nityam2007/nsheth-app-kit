@@ -1,3 +1,15 @@
+# 0.9.1 - Repair runtime, clarify workflows and rebuild local setup
+
+- Adapt Atelier's task hierarchy into a warmer admin workspace with permission-aware page search, task shortcuts, compact list/card views, status-filtered attention queues and real room counts. Add next-step guidance, correct breadcrumbs and sticky editor controls.
+- Recreate the owner-authorized local database, apply all 13 migrations and seed fresh examples. Add a guarded local reset command and managed seeding; leave dev stopped for the owner.
+- Add single-command source hot reload plus debounced environment/package/startup-worker restarts, process-tree cleanup and duplicate-submit guards. Verify 81 production pages in-process and 63 client-hydrated pages against the subsequently owner-started dev session.
+
+- Prevent stale development module caching from mixing React versions; prebundle shared/lazy dependencies and test served client modules with Node VM/jsdom.
+- Check single-page landmarks across public/admin routes and linked screens; add missing landmarks to Privacy and Payment Return and correct the privacy sign-in description.
+- Batch development bootstrap queries and rotate only the current demo session, preserving independent tabs. Show safe support references without exposing internal errors.
+- Patch Sharp to 0.35.4 through the pinned Cloudflare tooling tree; `npm audit` reports zero known vulnerabilities. Forward email-delivery bindings in the Worker.
+- Build before local production integration tests and isolate Cloudflare output from the Node build. Record coverage and remaining limits in `docs/AUDIT_2026-09-09.md`.
+
 # 0.8.7 - Rebuild the admin workspace and email accounts (unreleased)
 
 - Replace admin tables and repeated inline forms with searchable object collections, selected-record screens, grouped sidebar navigation, an overview and permission-scoped recent activity.

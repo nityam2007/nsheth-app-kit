@@ -37,6 +37,6 @@ Untitled UI React is cloned at `reference/repos/github.com/untitleduico/react/`.
 
 - Browser use and browser tests are prohibited by repository policy. Verify via direct HTTP, server integration tests, unit tests, and source inspection. Legacy Playwright files are not an approved verification path.
 
-- `npm audit` currently reports four high-severity transitive advisories under the Prisma CLI toolchain. Its automated fix downgrades Prisma across a major version, so it was not applied. Recheck after Prisma publishes a compatible fix.
+- The 0.9.1 audit reports zero known vulnerabilities. Pin Miniflare at the workspace root so npm applies the shared Sharp 0.35.4 override through the Cloudflare tooling dependency tree. Without the root tooling pin, npm retained Sharp 0.35.2 under the linked playground workspace despite the override. Do not replace this with the audit command's suggested Cloudflare major downgrade.
 - npm may report pending install-script approvals for Prisma, esbuild, and `unrs-resolver`. Route and client generation currently succeed; review with `npm approve-scripts --allow-scripts-pending` if a clean-machine install blocks binaries.
 - `tsr generate` currently emits a non-fatal circular-dependency warning from its installed CLI package.

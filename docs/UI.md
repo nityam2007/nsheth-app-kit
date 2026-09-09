@@ -2,6 +2,10 @@
 
 Untitled UI React is the source of truth for application components, semantic tokens, spacing, focus states, and responsive behavior.
 
+For 0.9.1, the owner supplied Atelier's React template under `AIDATA/atelier-retro-style-admin-dashboard-template-2026-09-06-05-52-15-utc/template`. Its PageHead, shell navigation, dashboard task hierarchy and role tokens informed the warmer admin surfaces and clearer workflows. Application code adapts those patterns using existing Untitled controls; it does not import the template's router, fabricated metrics or demo actions. The vendor source stays local and ignored by Git.
+
+Collections default to compact lists with an optional card view. Creation links use write permissions; attention links select the corresponding status. Every setup screen should explain the next meaningful action. Use actual record counts and current state; avoid decorative statistics and controls without a working destination.
+
 ## Sources
 
 - Documentation: <https://www.untitledui.com/react/docs/introduction>

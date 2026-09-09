@@ -16,10 +16,12 @@ Import this repository with Root Directory `apps/playground`, the TanStack Start
 
 Run `npm run build:cloudflare`, then deploy with `npm run deploy:cloudflare --workspace playground`. Change the worker name and `PUBLIC_ORIGIN` in `apps/playground/wrangler.jsonc` first. Store secrets with Wrangler, not in tracked configuration. Configure a Hyperdrive binding named `HYPERDRIVE` (preferred), or a supported PostgreSQL `DATABASE_URL` secret. Add the binding's real ID to Wrangler configuration from your account.
 
+Cloudflare output is isolated under `apps/playground/dist/cloudflare/`; the Node build remains under `apps/playground/dist/client/` and `dist/server/`. Building for Workers no longer replaces Node's server/assets. Configure `AUTH_EMAIL_WEBHOOK` and `AUTH_EMAIL_SECRET` alongside the canonical origin when enabling password registration/recovery on Workers.
+
 The worker uses Node compatibility and request-scoped Prisma clients. A client stays alive until its response stream finishes and is then disconnected using `waitUntil`; PostgreSQL sockets are not reused across worker request contexts. Hyperdrive provides connection pooling outside the worker. Migrations run from Node/CI against the source database, not from a Worker.
 
 Cloudflare's local runtime may require a supported native workerd executable. A config/build check is not proof of live edge operation: verify the deployed worker against your database and provider callbacks.
 
 ## Release checks
 
-Run `npm run check`, `npm run lint`, `npm run typecheck`, `npm test`, and the deployment-specific build. Run `npm run test:integration` against a disposable PostgreSQL database after a Node build. Run Playwright browser tests with `TEST_URL` pointing to the development server. Schedule `node --import tsx scripts/maintenance.mts` daily. Complete the operator-specific items in `docs/PRIVACY.md` and test OAuth, Stripe, backup restore, and error monitoring on the actual host.
+Run `npm run check`, `npm run lint`, `npm run typecheck`, `npm test`, and the deployment-specific build. Run `npm run test:integration` against a disposable PostgreSQL database after a Node build, or `npm run test:integration:local` to build first and use the isolated local integration database. With development running, use `npm run test:http`, `npm run test:auth`, and `npm run test:hydration`. Repository policy prohibits browser tests; the Node VM/jsdom hydration check does not verify pixels or browser HMR. Schedule `node --import tsx scripts/maintenance.mts` daily. Complete the operator-specific items in `docs/PRIVACY.md` and test OAuth, Stripe, backup restore, and error monitoring on the actual host.

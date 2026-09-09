@@ -19,6 +19,9 @@ export function ServiceForm({
   return (
     <ActionForm
       guard
+      cancelHref={
+        initial ? '/admin/services/' + initial.slug : '/admin/services'
+      }
       label={initial ? 'Save service' : 'Create service'}
       action={async (form) => {
         const service = await save({
@@ -60,7 +63,7 @@ export function ServiceForm({
         />
         <Input
           name="slug"
-          label="URL slug"
+          label="Page address"
           isRequired
           minLength={3}
           maxLength={160}

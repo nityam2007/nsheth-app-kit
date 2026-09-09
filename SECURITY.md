@@ -4,8 +4,8 @@
 
 | Version | Supported |
 | ------- | --------- |
-| `0.1.x` | Yes       |
-| `<0.1`  | No        |
+| `0.9.x` | Yes       |
+| `<0.9`  | No        |
 
 Security fixes are applied to the latest release only while the project remains pre-1.0.
 

@@ -89,18 +89,23 @@ export const createDemoIdentitySession = createServerFn({
   requireSameOrigin()
 
   const token = createSessionToken()
+  const previousToken = getCookie(sessionCookieName())
+  const previousHash = previousToken
+    ? await hashSessionToken(previousToken)
+    : undefined
   const expiresAt = new Date(Date.now() + SESSION_SECONDS * 1000)
 
   await getPrisma().$transaction(async (transaction) => {
-    const permissions = await Promise.all(
-      DEMO_PERMISSIONS.map((permission) =>
-        transaction.permission.upsert({
-          where: { key: permission.key },
-          update: {},
-          create: permission,
-        }),
-      ),
-    )
+    await transaction.permission.createMany({
+      data: [...DEMO_PERMISSIONS],
+      skipDuplicates: true,
+    })
+    const permissions = await transaction.permission.findMany({
+      where: {
+        key: { in: DEMO_PERMISSIONS.map((permission) => permission.key) },
+      },
+      select: { id: true },
+    })
     const role = await transaction.role.upsert({
       where: { key: DEMO_ROLE },
       update: {},
@@ -128,10 +133,11 @@ export const createDemoIdentitySession = createServerFn({
       update: {},
       create: { userId: user.id, roleId: role.id },
     })
-    await transaction.session.updateMany({
-      where: { userId: user.id, revokedAt: null },
-      data: { revokedAt: new Date() },
-    })
+    if (previousHash)
+      await transaction.session.updateMany({
+        where: { tokenHash: previousHash, revokedAt: null },
+        data: { revokedAt: new Date() },
+      })
     await transaction.session.create({
       data: {
         tokenHash: await hashSessionToken(token),

@@ -56,6 +56,30 @@ details summary::-webkit-details-marker {
 }
 
 @layer components {
+  /* Warm paper and crisp surfaces, adapted from the supplied Atelier reference.
+     Controls continue to consume the application's semantic tokens. */
+  .admin-workspace {
+    --background-color-secondary: #f5f1e8;
+    --background-color-primary_hover: #f8f5ee;
+    --background-color-brand-primary: #e9f0e6;
+    --background-color-brand-secondary: #dce8d8;
+    --background-color-brand-solid: #365b43;
+    --background-color-brand-solid_hover: #274632;
+    --text-color-primary: #29271f;
+    --text-color-secondary: #454238;
+    --text-color-tertiary: #676155;
+    --text-color-quaternary: #71695c;
+    --text-color-brand-secondary: #365b43;
+    --text-color-brand-secondary_hover: #274632;
+    --border-color-primary: #aaa393;
+    --border-color-secondary: #d8d1c2;
+    --border-color-brand: #6d8b73;
+    --ring-color-primary: #aaa393;
+    --ring-color-secondary: #d8d1c2;
+    --ring-color-brand: #365b43;
+    --outline-color-brand: #365b43;
+    --shadow-xs: 1px 2px 0 #ded8cc;
+  }
   .admin-primary-link,
   .admin-secondary-link {
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-xs outline-brand transition focus-visible:outline-2 focus-visible:outline-offset-2;

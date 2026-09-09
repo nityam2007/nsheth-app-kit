@@ -1,5 +1,11 @@
 # Admin and account rebuild
 
+## Follow-up verification (0.9.1)
+
+The [2026-09-09 audit](AUDIT_2026-09-09.md) supersedes the build/permission blockers recorded below. Node production workflows and the Cloudflare build now pass. The client log identified mismatched optimized React versions; development assets now use `no-store` and dependency prebundling covers shared/lazy routes. `npm run test:hydration` checks the served application modules in Node VM/jsdom. It does not run a browser, render pixels, or test HMR transport.
+
+The owner-requested UX pass uses the supplied Atelier source for task hierarchy and warmer admin surfaces. It adds page/task search, clear workflow help, compact lists, permission-aware creation, status-filtered attention links, real room counts and setup guidance. The final production page sweep covers 81 routes/screens and the completed Node VM client crawl covers 63 pages; database reset and restart behavior are documented in LOCAL_DEVELOPMENT.md. A subsequently detected VS Code development session remains under the owner’s control; no dev server was launched by the audit after the stop instruction.
+
 ## Intent
 
 Rebuild the existing kit as an operator workspace with recognizable objects, useful overview screens and complete account entry points. Keep the existing domain modules; do not start the deferred templates. The owner has authorized replacing development data where migrations or fixtures require it. Production data is outside that authorization.

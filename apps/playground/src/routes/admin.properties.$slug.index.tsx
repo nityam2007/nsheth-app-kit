@@ -1,7 +1,9 @@
+import { hasPermission } from '@nsheth/identity'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { Route as Parent } from './admin.properties.$slug'
 import {
+  NextStep,
   MetricStrip,
   SectionPanel,
   RecordTrail,
@@ -15,6 +17,13 @@ export const Route = createFileRoute('/admin/properties/$slug/')({
 function Property() {
   const property = Parent.useLoaderData(),
     destroy = useServerFn(deleteProperty)
+  const canEdit = hasPermission(
+    Route.useRouteContext().principal,
+    'hospitality.write',
+  )
+  const hasRooms = property.rooms.some(
+    (room) => room.active && room.inventory > 0,
+  )
   return (
     <section>
       <RecordTrail href="/admin/properties" label="Properties" />
@@ -23,6 +32,26 @@ function Property() {
         title={property.name}
         description={`${property.location} · ${property.timezone}`}
       />
+      {canEdit && (!hasRooms || property.status === 'DRAFT') && (
+        <NextStep
+          title={
+            !hasRooms
+              ? 'Add rooms before accepting reservations'
+              : 'Publish your property when it is ready'
+          }
+          description={
+            !hasRooms
+              ? 'Add a room type with its nightly rate, guest capacity and available inventory. Guests need an active room type to request a stay.'
+              : 'Your rooms are configured. Review your property details and change Publication to Published so guests can find it.'
+          }
+          href={
+            '/admin/properties/' +
+            property.slug +
+            (!hasRooms ? '/rooms' : '/edit')
+          }
+          label={!hasRooms ? 'Add rooms & rates' : 'Review & publish'}
+        />
+      )}
       <div className="mb-8 flex flex-wrap gap-3">
         <a
           className="admin-primary-link"

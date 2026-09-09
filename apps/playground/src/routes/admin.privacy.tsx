@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { requireRouteModule } from '../module-route'
 import { TriageFields, triageData } from '../components/triage-fields'
@@ -11,7 +12,10 @@ import {
 import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/privacy')({
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   beforeLoad: () => requireRouteModule('operations'),
@@ -22,11 +26,14 @@ export const Route = createFileRoute('/admin/privacy')({
 function Requests() {
   const requests = Route.useLoaderData(),
     update = useServerFn(updatePrivacyRequest)
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !requests.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/privacy']?.steps}
         title="Privacy requests"
         eyebrow="Inbox"
         description="Review each request, assign responsibility and keep a record of follow-up."

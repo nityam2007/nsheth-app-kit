@@ -12,6 +12,8 @@ interface Bindings {
   ADMIN_EMAILS?: string
   STRIPE_SECRET_KEY?: string
   STRIPE_WEBHOOK_SECRET?: string
+  AUTH_EMAIL_WEBHOOK?: string
+  AUTH_EMAIL_SECRET?: string
 }
 export default {
   async fetch(
@@ -26,6 +28,8 @@ export default {
       'ADMIN_EMAILS',
       'STRIPE_SECRET_KEY',
       'STRIPE_WEBHOOK_SECRET',
+      'AUTH_EMAIL_WEBHOOK',
+      'AUTH_EMAIL_SECRET',
     ] as const) {
       if (env[key]) process.env[key] = env[key]
     }

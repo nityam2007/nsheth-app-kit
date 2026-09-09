@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { getAdminUsers } from '../admin.functions'
 import { Route as Admin } from './admin'
@@ -11,18 +12,24 @@ import {
 
 export const Route = createFileRoute('/admin/users')({
   loader: () => getAdminUsers(),
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   component: People,
 })
 function People() {
   const users = Route.useLoaderData(),
-    { record } = Route.useSearch(),
+    { record, status: collectionStatus } = Route.useSearch(),
     { principal } = Admin.useRouteContext()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/users']?.steps}
         eyebrow="People"
         title="People"
         description="The people behind your workspace. Open a profile to review their identity and access."

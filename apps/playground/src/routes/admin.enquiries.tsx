@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { requireRouteModule } from '../module-route'
 import { Route as AdminRoute } from './admin'
@@ -12,7 +13,10 @@ export const Route = createFileRoute('/admin/enquiries')({
   beforeLoad: () => requireRouteModule('operations'),
   loaderDeps: ({ search }) => ({ record: search.record }),
   loader: ({ deps }) => getEnquiries({ data: { record: deps.record } }),
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   component: Enquiries,
@@ -21,11 +25,14 @@ function Enquiries() {
   const { principal } = AdminRoute.useRouteContext()
   const update = useServerFn(updateEnquiry)
   const data = Route.useLoaderData()
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !data.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/enquiries']?.steps}
         title="Enquiries"
         eyebrow="Inbox"
         description="Product conversations, ownership and follow-up in one place."

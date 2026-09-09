@@ -21,6 +21,7 @@ function Availability() {
   return (
     <section>
       <RecordTrail
+        current="Available times"
         href={'/admin/services/' + service.slug}
         label={service.name}
       />

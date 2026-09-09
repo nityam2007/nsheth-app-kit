@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { requireRouteModule } from '../module-route'
 import { HistoryList } from '../components/history-list'
@@ -9,7 +10,10 @@ import { Input } from '../components/base/input/input'
 import { money } from '../money'
 
 export const Route = createFileRoute('/admin/reservations')({
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   beforeLoad: () => requireRouteModule('hospitality'),
@@ -20,11 +24,14 @@ export const Route = createFileRoute('/admin/reservations')({
 function Reservations() {
   const rows = Route.useLoaderData(),
     update = useServerFn(updateReservation)
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !rows.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/reservations']?.steps}
         title="Reservations"
         eyebrow="Host"
         description="Guest stays, room details, quotes and cancellation controls."

@@ -32,6 +32,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
   const [slugEdited, setSlugEdited] = useState(Boolean(initial))
   const [isDirty, setIsDirty] = useState(false)
   const bypassBlocker = useRef(false)
+  const submitting = useRef(false)
   const errorRef = useRef<HTMLParagraphElement>(null)
 
   useBlocker({
@@ -48,6 +49,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (submitting.current) return
     const formData = new FormData(event.currentTarget)
     const data: PostInput = {
       title: String(formData.get('title') ?? ''),
@@ -68,6 +70,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
     }
 
     setError('')
+    submitting.current = true
     setIsSaving(true)
 
     try {
@@ -86,6 +89,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
       bypassBlocker.current = false
       setError(errorMessage(failure))
     } finally {
+      submitting.current = false
       setIsSaving(false)
     }
   }
@@ -115,7 +119,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
         <Input
           hint="Generated from the title. Edit it only when the URL needs to differ."
           isRequired
-          label="URL slug"
+          label="Page address"
           maxLength={160}
           minLength={3}
           name="slug"
@@ -244,7 +248,7 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
           {error}
         </p>
       ) : null}
-      <div className="flex flex-col-reverse gap-3 sm:flex-row">
+      <div className="sticky bottom-3 z-10 flex flex-wrap items-center gap-3 rounded-xl border border-secondary bg-primary p-4 shadow-xs">
         <Link
           className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-3.5 py-2.5 text-sm font-semibold text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover"
           to={currentSlug ? '/admin/posts/$slug' : '/admin/posts'}
@@ -260,6 +264,13 @@ export function PostForm({ currentSlug, initial }: PostFormProps) {
         >
           {currentSlug ? 'Save changes' : 'Create post'}
         </Button>
+        <span className="text-sm text-tertiary">
+          {isSaving
+            ? 'Saving…'
+            : isDirty
+              ? 'Unsaved changes'
+              : 'Changes will be saved here.'}
+        </span>
       </div>
     </form>
   )

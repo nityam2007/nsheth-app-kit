@@ -2,9 +2,11 @@
 
 A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
 
-**Current version:** `0.9.0` (unreleased workspace rebuild; production build verification pending)
+**Current version:** `0.9.1`
 
 > **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
+
+The [runtime and security audit](docs/AUDIT_2026-09-09.md) records the React cache fix, page hydration coverage, production workflow checks and remaining provider/visual verification limits.
 
 ![NSheth App Kit social preview](<./Social Preview.png>)
 
@@ -25,7 +27,7 @@ The existing application includes:
 - A responsive public blog under `/blog` that never returns drafts
 - Complete product list/new/detail/edit/guarded-delete management under `/admin/products`
 - A public catalogue under `/catalogue` with product-specific RFQ submissions
-- Searchable admin object collections, selected-record screens, grouped navigation and permission-scoped overview activity
+- Task shortcuts, permission-aware page search, compact list/card collections, status-filtered queues and permission-scoped activity
 - Dedicated service availability and room inventory screens, with sectioned product, post, service and property editors
 - Service CRUD, dated availability, capacity-safe public appointment requests, and an operator confirmation/cancellation queue at `/admin/bookings`
 - Multi-property hospitality at `/stays`, with room inventory, date-range availability, INR quotes, reservation requests, and operator controls
@@ -50,7 +52,7 @@ npm run setup
 npm run dev
 ```
 
-The app runs at [http://localhost:3000](http://localhost:3000). `setup` starts the bundled local database, generates the client and applies checked-in migrations; it never resets data. `dev` checks the database and starts Vite, including managed Windows/WSL connectivity. Use `dev:bare` only with an already reachable database.
+The app runs at [http://localhost:3000](http://localhost:3000). Start dev once: source/CSS changes hot reload, and environment/package/startup-worker changes trigger a managed restart. `setup` starts the bundled local database, generates the client and applies checked-in migrations; it never resets data. `dev` checks the database and starts Vite, including managed Windows/WSL connectivity. Use `dev:bare` only with an already reachable database.
 
 The development server also supports [https://dev3000.nsheth.in](https://dev3000.nsheth.in) through the configured Cloudflare Tunnel to `http://localhost:3000`. See [local development](docs/LOCAL_DEVELOPMENT.md) for the host/origin configuration.
 
@@ -64,11 +66,13 @@ npm run doctor
 npm run dev
 ```
 
-Use **Run identity check** in the playground. In development, it creates a demo admin with identity, content, and product permissions, stores only a hash of the opaque session token, sets an HTTP-only cookie, and calls a protected server function. The server function independently verifies both the role and permission before returning identity data. That session also grants access to `/admin/posts` and `/admin/products`.
+Open `/admin`; on the sign-in page expand **Development access** and choose **Use development admin**. This creates a local operator session with access to the enabled modules. The server stores only a hash of the opaque token in the database and sends an HTTP-only cookie; protected functions independently enforce permissions.
 
 The bootstrap endpoint is unavailable in production. Email accounts and optional GitHub OAuth are documented in [AUTH.md](docs/AUTH.md). Development email flows display local verification/recovery links; production requires configured delivery.
 
-Use `npm run seed:dev` for repeatable local sample records, `npm run test:auth` for account HTTP checks and `npm run test:frontend` for non-browser component checks. See the [admin rebuild plan and verification record](docs/ADMIN_REBUILD.md) for screen coverage and the restricted-session test commands.
+For a deliberately empty local database, stop dev and run `npm run db:reset:local -- --yes` (permanently deletes local development data and rebuilds sample records). Use `npm run seed:dev` for repeatable local sample records without resetting, `npm run test:auth` for account HTTP checks and `npm run test:frontend` for non-browser component checks. See the [admin rebuild plan and verification record](docs/ADMIN_REBUILD.md) for screen coverage and the restricted-session test commands.
+
+With the development server running, `npm run test:hydration` executes its actual client modules in Node VM with jsdom and checks for duplicate content, hydration errors and mixed React instances. It follows local links to detail/edit screens without submitting their forms. This does not test visual layout or browser HMR. Development assets use `no-store`; after upgrading an already open session, reload once to discard older cached modules.
 
 ## Repository
 

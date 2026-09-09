@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { useState } from 'react'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { requireRouteModule } from '../module-route'
@@ -14,7 +15,10 @@ import { useServerFn } from '@tanstack/react-start'
 import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/bookings')({
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   beforeLoad: () => requireRouteModule('booking'),
@@ -25,11 +29,14 @@ export const Route = createFileRoute('/admin/bookings')({
 function Bookings() {
   const bookings = Route.useLoaderData(),
     update = useServerFn(updateBookingStatus)
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !bookings.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/bookings']?.steps}
         title="Appointments"
         eyebrow="Schedule"
         description="Customer appointments with a clear time, status and next action."

@@ -30,6 +30,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
   const [slugEdited, setSlugEdited] = useState(Boolean(initial))
   const [isDirty, setIsDirty] = useState(false)
   const bypassBlocker = useRef(false)
+  const submitting = useRef(false)
   const errorRef = useRef<HTMLParagraphElement>(null)
 
   useBlocker({
@@ -46,6 +47,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (submitting.current) return
     const formData = new FormData(event.currentTarget)
     const data: ProductInput = {
       name: String(formData.get('name') ?? ''),
@@ -74,6 +76,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
     }
 
     setError('')
+    submitting.current = true
     setIsSaving(true)
 
     try {
@@ -100,6 +103,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
         ),
       )
     } finally {
+      submitting.current = false
       setIsSaving(false)
     }
   }
@@ -129,7 +133,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
         <Input
           hint="Generated from the name. Edit it only when the URL needs to differ."
           isRequired
-          label="URL slug"
+          label="Page address"
           maxLength={160}
           minLength={3}
           name="slug"
@@ -265,7 +269,7 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
           {error}
         </p>
       ) : null}
-      <div className="flex flex-col-reverse gap-3 sm:flex-row">
+      <div className="sticky bottom-3 z-10 flex flex-wrap items-center gap-3 rounded-xl border border-secondary bg-primary p-4 shadow-xs">
         <Link
           className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-3.5 py-2.5 text-sm font-semibold text-secondary shadow-xs-skeuomorphic ring-1 ring-primary ring-inset hover:bg-primary_hover"
           to={currentSlug ? '/admin/products/$slug' : '/admin/products'}
@@ -281,6 +285,13 @@ export function ProductForm({ currentSlug, initial }: ProductFormProps) {
         >
           {currentSlug ? 'Save changes' : 'Create product'}
         </Button>
+        <span className="text-sm text-tertiary">
+          {isSaving
+            ? 'Saving…'
+            : isDirty
+              ? 'Unsaved changes'
+              : 'Changes will be saved here.'}
+        </span>
       </div>
     </form>
   )

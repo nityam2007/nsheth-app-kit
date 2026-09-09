@@ -20,7 +20,15 @@ export function errorMessage(
   error: unknown,
   fallback = 'Unable to complete this action. Please try again.',
 ) {
-  return errorStatus(error) && error instanceof Error ? error.message : fallback
+  if (!errorStatus(error) || !(error instanceof Error)) return fallback
+  const reference =
+    error.cause &&
+    typeof error.cause === 'object' &&
+    'reference' in error.cause &&
+    typeof error.cause.reference === 'string'
+      ? error.cause.reference
+      : undefined
+  return reference ? `${error.message} Reference: ${reference}.` : error.message
 }
 export function classifyFailure(error: unknown): {
   status: number

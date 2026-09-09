@@ -19,6 +19,9 @@ export function PropertyForm({
   return (
     <ActionForm
       guard
+      cancelHref={
+        initial ? '/admin/properties/' + initial.slug : '/admin/properties'
+      }
       label={initial ? 'Save property' : 'Create property'}
       action={async (form) => {
         const property = await save({
@@ -64,7 +67,7 @@ export function PropertyForm({
         />
         <Input
           name="slug"
-          label="URL slug"
+          label="Page address"
           isRequired
           minLength={3}
           maxLength={160}

@@ -1,3 +1,4 @@
+import { adminWorkflows, collectionSearch } from '../admin-workflows'
 import { ObjectCollection, RecordTrail } from '../components/admin/workspace'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
@@ -5,7 +6,10 @@ import { getAccessUsers, updateAccess } from '../account.functions'
 import { ActionForm, PageHeading, SelectField } from '../components/workflow'
 
 export const Route = createFileRoute('/admin/access')({
-  validateSearch: (search: Record<string, unknown>): { record?: string } => ({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { record?: string; status?: string } => ({
+    ...collectionSearch(search),
     record: typeof search.record === 'string' ? search.record : undefined,
   }),
   loader: () => getAccessUsers(),
@@ -14,11 +18,14 @@ export const Route = createFileRoute('/admin/access')({
 function Access() {
   const users = Route.useLoaderData(),
     update = useServerFn(updateAccess)
-  const { record } = Route.useSearch()
+  const { record, status: collectionStatus } = Route.useSearch()
   if (record && !users.some((item) => item.id === record)) throw notFound()
   if (!record)
     return (
       <ObjectCollection
+        key={collectionStatus}
+        initialStatus={collectionStatus}
+        guidance={adminWorkflows['/admin/access']?.steps}
         title="Team access"
         eyebrow="People"
         description="Roles and access controls for the people in your workspace."

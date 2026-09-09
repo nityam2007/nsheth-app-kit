@@ -1,3 +1,5 @@
+import { hasPermission } from '@nsheth/identity'
+import { adminWorkflows } from '../admin-workflows'
 import { createFileRoute } from '@tanstack/react-router'
 import { getWorkspaceOverview, getWorkspaceActivity } from '../admin.functions'
 import {
@@ -19,13 +21,19 @@ export const Route = createFileRoute('/admin/')({
 function Dashboard() {
   const { metrics, activity } = Route.useLoaderData(),
     attention = metrics.filter((m) => m.pending > 0)
+  const { principal } = Route.useRouteContext()
+  const starters = metrics.filter(
+    (m) =>
+      adminWorkflows[m.href]?.createLabel &&
+      hasPermission(principal, m.permission.replace('.read', '.write')),
+  )
   const groups = [...new Set(metrics.map((m) => m.group))]
   return (
     <section>
       <WorkspaceHeading
         eyebrow="Workspace overview"
-        title="Make room for good work."
-        description="Your content, customers and day-to-day operations, in one place."
+        title="Your workspace"
+        description="Start a task, review incoming requests or continue setting up your business."
         action={
           <a href="/" className="admin-secondary-link">
             View your site ↗
@@ -37,32 +45,63 @@ function Dashboard() {
           {
             label: 'Needs attention',
             value: attention.reduce((n, m) => n + m.pending, 0),
-            note: 'Drafts and open work across your modules',
+            href: '#attention',
+            note: 'Drafts and incoming requests',
           },
           {
-            label: 'Active areas',
-            value: groups.length,
-            note: 'Available for your role',
-          },
-          {
-            label: 'Managed objects',
+            label: 'Records',
             value: metrics.reduce((n, m) => n + m.total, 0),
-            note: 'Across your permitted collections',
-          },
-          {
-            label: 'Collections',
-            value: metrics.length,
-            note: 'Choose a collection to continue',
+            note: 'Across the areas you can access',
           },
         ]}
       />
+      {starters.length > 0 && (
+        <section className="mb-8" aria-labelledby="start-task-title">
+          <h2
+            id="start-task-title"
+            className="mb-4 text-xl font-semibold text-primary"
+          >
+            What would you like to do?
+          </h2>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {starters.map((m) => (
+              <li
+                key={m.id}
+                className="rounded-xl border border-secondary bg-primary p-5 shadow-xs"
+              >
+                <a
+                  className="inline-flex min-h-11 items-center text-lg font-semibold text-brand-secondary"
+                  href={m.href + '/new'}
+                >
+                  {adminWorkflows[m.href]?.createLabel} →
+                </a>
+                <p className="mt-2 text-sm leading-6 text-tertiary">
+                  {adminWorkflows[m.href]?.steps}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="grid gap-6">
           {groups.map((group) => (
             <SectionPanel
               key={group}
               title={group}
-              description={`Manage your ${group.toLowerCase()} workspace`}
+              description={
+                group === 'Sell'
+                  ? 'Create products, then manage orders.'
+                  : group === 'Schedule'
+                    ? 'Set up services, then manage appointment requests.'
+                    : group === 'Host'
+                      ? 'Set up rooms, then manage guest reservations.'
+                      : group === 'Publish'
+                        ? 'Write, review and publish articles.'
+                        : group === 'People'
+                          ? 'Manage accounts and team access.'
+                          : 'Review requests and record your follow-up.'
+              }
             >
               <ul className="divide-y divide-secondary">
                 {metrics
@@ -78,7 +117,8 @@ function Dashboard() {
                             {m.label}
                           </h3>
                           <p className="mt-1 text-sm text-tertiary">
-                            {m.total} {m.total === 1 ? 'record' : 'records'}
+                            {adminWorkflows[m.href]?.description} · {m.total}{' '}
+                            {m.total === 1 ? 'record' : 'records'}
                             {m.pending > 0
                               ? ` · ${m.pending} awaiting action`
                               : ''}
@@ -97,7 +137,7 @@ function Dashboard() {
             </SectionPanel>
           ))}
         </div>
-        <div className="grid gap-6">
+        <div className="grid gap-6" id="attention">
           <SectionPanel
             title="Needs your attention"
             description="A useful place to start today"
@@ -106,7 +146,15 @@ function Dashboard() {
               <ul className="grid gap-5">
                 {attention.map((m) => (
                   <li key={m.id}>
-                    <a href={m.href} className="flex items-start gap-3">
+                    <a
+                      href={
+                        m.href +
+                        (adminWorkflows[m.href]?.pendingStatus
+                          ? `?status=${adminWorkflows[m.href]?.pendingStatus}`
+                          : '')
+                      }
+                      className="flex min-h-11 items-start gap-3"
+                    >
                       <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-primary text-sm font-semibold text-brand-secondary">
                         {m.pending}
                       </span>
@@ -115,7 +163,9 @@ function Dashboard() {
                           {m.label}
                         </strong>
                         <span className="mt-1 block text-sm text-tertiary">
-                          Review open work →
+                          {adminWorkflows[m.href]?.pendingLabel ??
+                            'Review open work'}{' '}
+                          →
                         </span>
                       </span>
                     </a>
@@ -125,7 +175,7 @@ function Dashboard() {
             ) : (
               <p className="text-sm leading-6 text-tertiary">
                 You’re caught up. Open a collection to create something new or
-                review your existing objects.
+                review your existing records.
               </p>
             )}
           </SectionPanel>

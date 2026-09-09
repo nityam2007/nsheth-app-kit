@@ -1,6 +1,6 @@
 {
   "name": "nsheth-app-kit",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "workspaces": [
@@ -13,7 +13,7 @@
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "check": "npm run check --workspaces --if-present",
-    "test": "node --test scripts/local-server.test.mjs && npm test --workspaces --if-present",
+    "test": "node --test scripts/local-server.test.mjs scripts/reset-local.test.mjs scripts/dev-watch.test.mjs && npm test --workspaces --if-present",
     "build": "npm run build --workspace playground",
     "start": "node scripts/serve.mjs",
     "build:cloudflare": "npm run build:cloudflare --workspace playground",
@@ -22,24 +22,29 @@
     "doctor": "node scripts/doctor.mts",
     "db:local": "node scripts/db-local.mjs",
     "test:http": "node scripts/http-smoke.mts",
-    "test:integration:local": "node scripts/integration-local.mjs",
+    "test:integration:local": "npm run build && node scripts/integration-local.mjs",
     "dev:bare": "npm run dev --workspace playground",
     "compose": "node scripts/compose.mjs",
     "setup": "node scripts/setup-local.mjs",
     "test:frontend": "node --test scripts/frontend-render.test.mjs",
+    "test:hydration": "node --experimental-vm-modules scripts/hydration-http.mjs",
     "test:auth": "node scripts/auth-http.mts",
-    "seed:dev": "node --env-file=apps/playground/.env.local --import tsx scripts/seed-dev.mts"
+    "seed:dev": "node scripts/seed-local.mjs",
+    "db:reset:local": "node scripts/reset-local.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
     "dotenv": "17.4.2",
+    "jsdom": "30.0.1",
+    "miniflare": "5.20260903.0-alpha",
     "pg": "8.23.0",
+    "prisma": "7.10.0",
     "seroval": "1.6.4",
-    "tsx": "4.23.13",
-    "prisma": "7.10.0"
+    "tsx": "4.23.13"
   },
   "overrides": {
     "deepmerge-ts": "8.0.2",
-    "mysql2": "3.24.3"
+    "mysql2": "3.24.3",
+    "sharp": "0.35.4"
   }
 }

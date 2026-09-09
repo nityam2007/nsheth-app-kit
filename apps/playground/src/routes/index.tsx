@@ -23,7 +23,7 @@ function Home() {
         <Container className="py-12 sm:py-16">
           <div className="mb-10 max-w-3xl">
             <p className="mb-3 text-sm font-semibold text-brand-secondary">
-              Welcome
+              Find what you need
             </p>
             <h1 className="text-display-md font-semibold text-primary sm:text-display-lg">
               {appConfig.name}
@@ -41,7 +41,16 @@ function Home() {
                 >
                   <div className="flex items-center justify-between gap-5">
                     <h2 className="text-2xl font-semibold text-primary group-hover:text-brand-secondary">
-                      {module.label}
+                      {
+                        {
+                          content: 'Read the journal',
+                          product: 'Explore products & request a quote',
+                          commerce: 'Shop products',
+                          booking: 'Book an appointment',
+                          hospitality: 'Find a place to stay',
+                          operations: 'Contact the team',
+                        }[module.id]
+                      }
                     </h2>
                     <span
                       aria-hidden="true"
@@ -62,11 +71,37 @@ function Home() {
               Sign in to access your workspace.
             </p>
           )}
+          <section
+            className="mt-8 flex flex-wrap items-center justify-between gap-5 rounded-xl border border-secondary bg-secondary p-6"
+            aria-labelledby="account-help-title"
+          >
+            <div>
+              <h2
+                id="account-help-title"
+                className="text-lg font-semibold text-primary"
+              >
+                Already placed a request?
+              </h2>
+              <p className="mt-2 text-sm text-tertiary">
+                Sign in to see your orders, appointments and reservations in
+                your account.
+              </p>
+            </div>
+            <Link to="/account" className="admin-secondary-link">
+              Open your account →
+            </Link>
+          </section>
         </Container>
       </main>
       <footer className="border-t border-secondary">
         <Container className="flex flex-wrap justify-between gap-5 py-8 text-sm text-tertiary">
           <span>{appConfig.name}</span>
+          <Link
+            to="/admin"
+            className="inline-flex min-h-11 items-center font-semibold text-brand-secondary"
+          >
+            Manage your business →
+          </Link>
           {moduleEnabled('operations') && (
             <Link to="/privacy">Privacy & contact</Link>
           )}

@@ -49,6 +49,19 @@ test('the framework default drops custom error status; the app adapter retains i
   const wire = toCrossJSON(value, { plugins }),
     restored = fromCrossJSON(wire, { plugins })
   assert.equal(errorStatus(restored), 401)
-  assert.equal(errorMessage(restored), 'Unauthorized')
+  assert.equal(
+    errorMessage(restored),
+    'Unauthorized Reference: safe-reference.',
+  )
   assert.ok(!JSON.stringify(wire).includes('errors.test'))
+})
+
+test('untrusted errors cannot expose a reference or private diagnostic details', () => {
+  const error = new Error('private database detail', {
+    cause: { reference: 'private connection string' },
+  })
+  assert.equal(
+    errorMessage(error),
+    'Unable to complete this action. Please try again.',
+  )
 })

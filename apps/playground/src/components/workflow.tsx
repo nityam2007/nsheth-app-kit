@@ -36,6 +36,7 @@ export function ActionForm({
   success = 'Saved.',
   reset = false,
   guard = false,
+  cancelHref,
 }: {
   children: ReactNode
   action: (form: FormData) => Promise<unknown>
@@ -43,6 +44,7 @@ export function ActionForm({
   success?: string
   reset?: boolean
   guard?: boolean
+  cancelHref?: string
 }) {
   const router = useRouter()
   const [pending, setPending] = useState(false)
@@ -51,6 +53,7 @@ export function ActionForm({
   const [failed, setFailed] = useState(false)
   const feedback = useRef<HTMLParagraphElement>(null)
   const saved = useRef(false)
+  const submitting = useRef(false)
   useEffect(() => {
     if (message) feedback.current?.focus()
   }, [message])
@@ -71,6 +74,8 @@ export function ActionForm({
       }}
       onSubmit={async (event) => {
         event.preventDefault()
+        if (submitting.current) return
+        submitting.current = true
         const form = event.currentTarget
         setPending(true)
         setMessage('')
@@ -94,6 +99,7 @@ export function ActionForm({
             ),
           )
         } finally {
+          submitting.current = false
           setPending(false)
         }
       }}
@@ -101,25 +107,47 @@ export function ActionForm({
       <fieldset disabled={pending} className="grid min-w-0 gap-5">
         {children}
       </fieldset>
-      {message && (
-        <p
-          ref={feedback}
-          tabIndex={-1}
-          role={failed ? 'alert' : 'status'}
-          className={failed ? 'text-error-primary' : 'text-brand-secondary'}
-        >
-          {message}
-        </p>
-      )}
-      <div>
-        <Button
-          type="submit"
-          isLoading={pending}
-          isDisabled={pending}
-          showTextWhileLoading
-        >
-          {label}
-        </Button>
+      <div
+        className={
+          guard
+            ? 'sticky bottom-3 z-10 rounded-xl border border-secondary bg-primary p-4 shadow-xs'
+            : ''
+        }
+      >
+        {message && (
+          <p
+            ref={feedback}
+            tabIndex={-1}
+            role={failed ? 'alert' : 'status'}
+            className={failed ? 'text-error-primary' : 'text-brand-secondary'}
+          >
+            {message}
+          </p>
+        )}
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            type="submit"
+            isLoading={pending}
+            isDisabled={pending}
+            showTextWhileLoading
+          >
+            {label}
+          </Button>
+          {cancelHref && (
+            <a className="admin-secondary-link" href={cancelHref}>
+              Cancel
+            </a>
+          )}
+          {guard && (
+            <span className="text-sm text-tertiary">
+              {pending
+                ? 'Saving…'
+                : dirty
+                  ? 'Unsaved changes'
+                  : 'Changes will be saved here.'}
+            </span>
+          )}
+        </div>
       </div>
     </form>
   )

@@ -11,6 +11,7 @@ function Rooms() {
   return (
     <>
       <RecordTrail
+        current="Rooms & rates"
         href={'/admin/properties/' + property.slug}
         label={property.name}
       />

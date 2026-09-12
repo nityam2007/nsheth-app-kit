@@ -1,5 +1,7 @@
 # Project Rules
 
+> **Maintenance freeze — 12 September 2026:** No active development or maintenance is planned. Historical roadmaps and TODOs do not authorize further work. Resume only on an explicit owner request; see `docs/PLAN.md`. The rules below apply if work is explicitly resumed.
+
 1. Read this file, `README.md`, `docs/PLAN.md`, and only the task-relevant files before coding. Context first; do not load whole repositories or docs into context.
 2. Prepend every completed change to the top of `CHANGELOG.md`. Update `README.md`, `docs/PLAN.md`, and other affected docs in the same change.
 3. Use npm only. Keep the generated TanStack structure unless a documented need requires a change.

@@ -1,5 +1,7 @@
 # Admin and account rebuild
 
+> **Historical record:** Active development and maintenance stopped on 12 September 2026. This document is not an active backlog. See [the freeze decision](PLAN.md).
+
 ## Follow-up verification (0.9.1)
 
 The [2026-09-09 audit](AUDIT_2026-09-09.md) supersedes the build/permission blockers recorded below. Node production workflows and the Cloudflare build now pass. The client log identified mismatched optimized React versions; development assets now use `no-store` and dependency prebundling covers shared/lazy routes. `npm run test:hydration` checks the served application modules in Node VM/jsdom. It does not run a browser, render pixels, or test HMR transport.

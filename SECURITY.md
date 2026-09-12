@@ -2,12 +2,7 @@
 
 ## Supported Versions
 
-| Version | Supported |
-| ------- | --------- |
-| `0.9.x` | Yes       |
-| `<0.9`  | No        |
-
-Security fixes are applied to the latest release only while the project remains pre-1.0.
+No versions are supported as of 12 September 2026. The repository is frozen at application version 0.9.3; security fixes and dependency updates are not planned. Historical audits describe their verification date only. Anyone reusing the code must review and maintain it for their own deployment.
 
 ## Reporting a Vulnerability
 
@@ -23,8 +18,8 @@ Include:
 - the potential impact; and
 - any suggested mitigation, if known.
 
-Please avoid accessing other users' data, disrupting services, social engineering, denial-of-service testing, or destructive testing. Allow time for investigation and a coordinated fix before public disclosure.
+Please avoid accessing other users' data, disrupting services, social engineering, denial-of-service testing, or destructive testing. Private reports may still be submitted, but this frozen project makes no commitment to investigate, respond or release a fix.
 
 ## Scope
 
-Reports about application code, authentication, authorization, session handling, database access, and committed dependencies are in scope. General support requests and vulnerabilities that exist only in unsupported versions are out of scope.
+Private reports should identify the affected preserved application code or dependencies. There is no active support or remediation programme.

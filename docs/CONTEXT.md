@@ -1,3 +1,9 @@
-# Context Handoff
+# Context handoff
 
-**0.8.7 is unreleased and uncommitted.** The admin/account rebuild is implemented; read ADMIN_REBUILD.md for the screen map and remaining release verification. Local PostgreSQL has 13 migrations. The new account migration was applied transactionally over SQL with all previous checksums verified because Prisma CLI child-process launch was denied. All 32 unit/component/socket tests, local auth flows and development business-workflow integration pass. HTTP smoke at localhost and the tunnel passes; 61 linked admin/account screens return content. TanStack was dropping PublicError status; error-serialization.ts repairs the actual wire format. The development Prisma singleton now refreshes after client regeneration. Production build is blocked at Vite configuration loading by Windows spawn EPERM; production integration has therefore not run against this change. Keep it unreleased until those checks pass. No browser verification was performed (prohibited by repository policy).
+**Frozen as of 12 September 2026.** Last application version: 0.9.3, committed and pushed as `85774c2`. This repository is an experimental reference with no planned development, maintenance or security fixes.
+
+Read [PLAN.md](PLAN.md) before acting. Earlier roadmap/readiness documents are historical context, not pending tasks. Resume only when the owner explicitly requests work for a concrete use case.
+
+The last application change added creation-form client navigation and passed 19 Node VM/jsdom transitions, seven component tests, lint, types, formatting and a Node production build. The owner confirmed a hard refresh resolved the mixed React module error. These are historical results; no browser or visual verification was performed. See [the verification record](NAVIGATION_2026-09-09.md).
+
+The freeze itself changes documentation only. Preserve application code, data, package versions and licensing. Development server startup remains under the owner's control.

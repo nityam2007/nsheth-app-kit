@@ -1,3 +1,9 @@
+# 0.9.3 - Maintenance freeze (2026-09-12)
+
+- Freeze the repository as an unsupported experimental starter, cancel the active roadmap and stop planned maintenance, including security fixes.
+- Preserve application version 0.9.3, source, history, data and license terms. Update status, security policy and handoff instructions; future reuse must be justified by a concrete project.
+- Documentation-only change; no new runtime or security verification is claimed.
+
 # 0.9.3 - Cover creation-form navigation and confirm stale-tab recovery
 
 - Use router links for collection creation actions and exercise product, post, property and service creation forms in the retained-session navigation check.

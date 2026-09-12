@@ -1,10 +1,10 @@
 # NSheth App Kit
 
-A modular TanStack Start foundation for building portfolio, content, booking, hospitality, catalogue, and commerce applications without rebuilding the same UI, identity, and admin infrastructure for every project.
+An experimental TanStack Start starter containing reusable identity, admin, content, booking, hospitality and commerce code.
 
-**Current version:** `0.9.3`
+**Last application version:** `0.9.3`
 
-> **Project status:** Existing modules now have deeper customer/operator workflows, concurrency checks and copy contracts. See [readiness and boundaries](docs/MODULE_READINESS.md). New modules and templates remain paused. Browser use is prohibited.
+> **Frozen as of 12 September 2026.** Active development and maintenance have stopped. No further features, bug fixes, dependency updates or security fixes are planned. This repository is retained as an experimental reference, not a production-ready or supported product. See the [freeze decision](docs/PLAN.md) and [known boundaries](docs/MODULE_READINESS.md).
 
 The [navigation follow-up](docs/NAVIGATION_2026-09-09.md) records the confirmed stale-tab React failure and adds creation-form navigation coverage alongside same-session click tests, a fixed development dependency graph, consistent public/account navigation and less repeated UI guidance.
 
@@ -87,12 +87,12 @@ With the development server running, `npm run test:hydration` executes its actua
 | `packages/content`               | Publication states and post validation                    |
 | `packages/product`               | Product publication and RFQ enquiry validation            |
 | `packages/*`                     | Reserved ownership boundaries for optional domain modules |
-| `addons`                         | Future installable TanStack add-ons                       |
-| `templates`                      | Future composed application templates                     |
+| `addons`                         | Unfinished add-on placeholder                             |
+| `templates`                      | Unfinished template placeholder                           |
 | `deployments`                    | Cloudflare, Vercel, and Node/VPS targets                  |
 | `docs`                           | Architecture, plan, UI, scaffold, and handoff context     |
 
-Reserved directories are not prebuilt modules. Functionality is added only when a working vertical slice needs it.
+Reserved directories are unfinished placeholders. Their earlier roadmap is cancelled.
 
 ## Commands
 
@@ -129,16 +129,13 @@ Hotkeys and Pacer support workspace navigation and storefront search. Turborepo 
 - Domain code does not assume a persistent filesystem or long-lived server process.
 - Accessibility includes semantic HTML, keyboard operation, visible focus, practical touch targets, and reduced-motion support.
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction, [`docs/PRIVACY.md`](docs/PRIVACY.md) for the GDPR and India DPDP readiness guide, and [`docs/PLAN.md`](docs/PLAN.md) for current progress.
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for dependency direction, [`docs/PRIVACY.md`](docs/PRIVACY.md) for the GDPR and India DPDP readiness guide, and [`docs/PLAN.md`](docs/PLAN.md) for the freeze decision.
 
-## Roadmap
+## Maintenance and reuse
 
-1. Booking core, service booking, and hospitality
-2. Commerce, payments, and integrations
-3. Cloudflare, Vercel, and Node/VPS adapters
-4. Reusable add-ons and seven composed templates
+There is no active roadmap or maintenance commitment. Setup instructions and verification reports below describe the preserved implementation; they are not a guarantee that it remains compatible or secure over time.
 
-The project ships one working vertical slice per phase rather than scaffolding unused abstractions.
+Reuse individual parts only when they demonstrably save work on a specific project, subject to the existing license. Validate those parts in that project's environment. A small fresh implementation is equally valid; continuing this toolkit is not a prerequisite.
 
 ## License
 
@@ -153,7 +150,7 @@ This is a custom source-available license, not an OSI-approved open-source licen
 ## Documentation
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): ownership and dependency direction
-- [`docs/PLAN.md`](docs/PLAN.md): completed phases and next work
+- [`docs/PLAN.md`](docs/PLAN.md): freeze decision and conditions for reconsideration
 - [`docs/UI.md`](docs/UI.md): Untitled UI source and implementation rules
 - [`docs/SCAFFOLD.md`](docs/SCAFFOLD.md): generated setup and known tooling caveats
 - [`docs/PRIVACY.md`](docs/PRIVACY.md): GDPR and India DPDP implementation and deployment gate
@@ -168,7 +165,7 @@ Deployment instructions: [Node/VPS, Vercel, and Cloudflare](docs/DEPLOYMENT.md).
 
 Use `npm run doctor` for database/migration diagnostics and `npm run dev:local` for managed local PostgreSQL connectivity, including Windows/WSL. See [local development](docs/LOCAL_DEVELOPMENT.md). Browser use is prohibited for this repository.
 
-Product and commerce now include option SKUs, media/specifications, inventory history, checkout recovery and payment-aware fulfilment. See [scope and boundaries](docs/modules/PRODUCT_COMMERCE.md). Other existing modules remain under active hardening.
+Product and commerce now include option SKUs, media/specifications, inventory history, checkout recovery and payment-aware fulfilment. See [scope and boundaries](docs/modules/PRODUCT_COMMERCE.md). Active hardening has stopped.
 
 Booking and hospitality now include policy configuration, retry-safe requests, quote checks, appointment moves and customer cancellation. [Scope and acceptance](docs/modules/BOOKING_HOSPITALITY.md).
 
@@ -182,4 +179,4 @@ npm run compose -- --modules content,commerce --name "My project" --out ../my-pr
 
 See [the composition guide](docs/COMPOSITION.md) for configuration, file manifests, database boundaries and verification.
 
-Development fixes preserve authentication redirects, safe error status and regenerated Prisma clients. Startup and doctor check both loopback listeners. Production build verification is pending because this Windows session denies Vite child-process creation. The requested versioned commits are also blocked because this session cannot write `.git/index.lock`; all rebuild changes remain uncommitted.
+Historical verification and its limits are recorded in [the navigation follow-up](docs/NAVIGATION_2026-09-09.md). The final application change was committed and pushed as `85774c2` (0.9.3); no new application verification is claimed by this documentation-only freeze.

@@ -1,5 +1,7 @@
 # Existing-module readiness
 
+> **Historical record:** Active development and maintenance stopped on 12 September 2026. This document is not an active backlog. See [the freeze decision](PLAN.md).
+
 The 0.8.0 release demonstrated integrations and basic workflows. It did not establish product readiness. A reusable block must cover customer and operator journeys, realistic data, lifecycle rules, failure states, authorization, and integration instructions. The owner's 75% target means reducing common project work; it is not a promise of a universal completion percentage.
 
 ## Delivery order
